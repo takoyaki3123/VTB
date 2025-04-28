@@ -3,9 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// users
 Route::get('/', function () {
     return Inertia::render('home');
 })->name('home');
+Route::get('/group/{id}', function ($id) {
+    return Inertia::render('group', ['id' => $id]);
+})->name('group');
+
+// admins
 Route::get('/homeManage', function () {
     return Inertia::render('manage/homeManage');
 })->name('homeManage');

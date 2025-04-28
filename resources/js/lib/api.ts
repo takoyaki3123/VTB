@@ -48,10 +48,7 @@ const baseApi = (urlCode: string, data: object) => {
 }
 
 export interface uploadRes {
-    data: {
-        [x: string|number]: any;
-        msg: string
-    }
+    data: any
 }
 const uploadApi = (urlCode: string,data: object) => {
  return new Promise<uploadRes>((resolve,reject) => {

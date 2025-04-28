@@ -16,7 +16,7 @@ class GroupModel extends Model
         'utime',
     ];
     protected $primaryKey = 'id';
-    protected $dateFormat = 'Y-m-d i:H:s';
+    protected $dateFormat = 'Y-m-d H:i:s';
     const CREATED_AT = 'ctime';
     const UPDATED_AT = 'utime';
     protected $table = 'Group';

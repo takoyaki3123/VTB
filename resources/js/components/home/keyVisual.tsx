@@ -1,8 +1,11 @@
-import React from "react";
+import React, { Fragment } from "react";
 const KeyVisual = ({backgroundPath = '',imgPath = ''}: {backgroundPath:string, imgPath: string}) => {
     return (
         <div className="keyVisualContainer" style={{backgroundImage : `url(${backgroundPath})`, backgroundSize: `cover`}}>
-            <img className="keyVisual" src={imgPath}/>
+            {imgPath?
+            <img className="keyVisual" src={imgPath}/>:
+            <Fragment/>
+            }
         </div>
     );
 }

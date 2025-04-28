@@ -1,0 +1,44 @@
+.keyVisualContainer {
+    width:100vw;
+    max-height:500px;
+    height:auto;
+    position:relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    .keyVisual {
+        max-width: 100%;
+        height:auto;
+        max-height:500px;
+        object-fit: cover;
+    }
+    .keyVisual {
+        animation-name: VisualIn;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease;
+    }
+    @keyframes VisualIn {
+        0% {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0px);
+            opacity: 1;
+        }
+    }
+}
+.carousel-inner {
+    max-height:400px;
+    .carousel-item {
+        .carousel-item-container {
+            position:relative;
+            width:fit-content;
+            margin:0 auto;
+            img {
+                max-height:400px;
+            }
+        }
+    }
+}

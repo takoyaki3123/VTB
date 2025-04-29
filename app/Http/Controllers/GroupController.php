@@ -15,8 +15,21 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
-        $groupList = GroupModel::with('thumbnail')->where('id', '!=', '0')->get(['group.id', 'group.name', 'imgCollect.name as imgName'])->toArray();
+        //　IDは関連する為に必要
+        //　laravelの関連は一つのselectが終わってからもう一つのselectを行う
+        //　故にgropuのidを捜索（？）の必要がある
+        $groupList = GroupModel::with(['thumbnail' => function ($query) {
+            $query->select(['id','name as imgName']);
+        }])
+            ->where('id', '!=', '0')
+            ->get(['id', 'name', 'img_id'])
+            ->map(function ($group) {
+                $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
+                unset($group->thumbnail);
+                unset($group->id);
+                return $group;
+            })
+            ->toArray();
         return $groupList;
     }
 

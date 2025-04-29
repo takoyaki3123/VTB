@@ -20,7 +20,7 @@ class ImgCollectModel extends Model
     const UPDATED_AT = null;
     protected $table = 'ImgCollect';
 
-    public function thumbnail(): BelongsTo{
+    public function group(): BelongsTo{
         return $this->belongsTo(GroupModel::class, 'img_id', 'id');
     }
     // public function keyVisualImg(): BelongsTo{

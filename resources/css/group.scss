@@ -42,3 +42,12 @@
         }
     }
 }
+.card-img-container {
+    max-width: 100%;
+    max-height: 15rem;
+    overflow: hidden;
+}
+.card-img-container img {
+    max-width:100%;
+    height: auto;
+}

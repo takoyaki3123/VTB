@@ -10,6 +10,9 @@ Route::get('/', function () {
 Route::get('/group/{id}', function ($id) {
     return Inertia::render('group', ['id' => $id]);
 })->name('group');
+Route::get('/groupList', function () {
+    return Inertia::render('groupList');
+})->name('groupList');
 
 // admins
 Route::get('/homeManage', function () {

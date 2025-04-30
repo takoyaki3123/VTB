@@ -26,7 +26,6 @@ class GroupController extends Controller
             ->map(function ($group) {
                 $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
                 unset($group->thumbnail);
-                unset($group->id);
                 return $group;
             })
             ->toArray();

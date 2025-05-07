@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ManagerPage;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,12 +16,21 @@ Route::get('/groupList', function () {
 })->name('groupList');
 
 // admins
-Route::get('/homeManage', function () {
-    return Inertia::render('manage/homeManage');
-})->name('homeManage');
-Route::get('/groupManage', function () {
-    return Inertia::render('manage/groupManage');
-})->name('groupManage');
+Route::middleware(['manageSetting', 'managePage'])->group(function () {
+    Route::get('/homeManage', function () {
+        return Inertia::render('manage/homeManage');
+    });
+    Route::get('/groupManage', function () {
+        return Inertia::render('manage/groupManage');
+    });
+});
+Route::middleware(['manageSetting'])->group(function() {
+
+    Route::get('/managerLogin', function () {
+        return Inertia::render('manage/login');
+    })->name('managerlogin');
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');

@@ -1,19 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
+import '../../../css/common.scss'
 
 interface LoginForm {
     email: string;
     password: string;
     remember: boolean;
+    [key: string]: any;
 }
 
 interface LoginProps {
@@ -23,8 +23,8 @@ interface LoginProps {
 
 export default function Login({ status, canResetPassword }: LoginProps) {
     const { data, setData, post, processing, errors, reset } = useForm<LoginForm>({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember: false,
     });
 
@@ -36,20 +36,48 @@ export default function Login({ status, canResetPassword }: LoginProps) {
     };
 
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
+        <div className='container-half mx-auto'>
             <Head title="Log in" />
-
             <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="grid gap-6">
+                <div className="container-half mx-auto">
+                    {/* <img className="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"/> */}
+                    <h1 className="h3 mb-3 fw-normal text-center">管理者ログイン</h1>
+
+                    <div className="form-floating py-1">
+                        <Input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} required className="form-control" id="email" placeholder="name@example.com"/>
+                        <InputError message={errors.email} />
+                        <label htmlFor="acct">アカウント</label>
+                    </div>
+                    <div className="form-floating py-1">
+                        <Input type="password" value={data.password} onChange={(e) => setData('password', e.target.value)} className="form-control" id="ps" placeholder="Password"/>
+                        <InputError message={errors.password} />
+                        <label htmlFor="ps">パスワード</label>
+                        {canResetPassword && (
+                            <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
+                                Forgot password?
+                            </TextLink>
+                        )}
+                    </div>
+                    {/* <div className="flex items-center space-x-3">
+                        <input type="checkbox" id="remember" name="remember" tabIndex={3} className='form-check-input' />
+                        <Label htmlFor="remember" className='form-check-label'>Remember me</Label>
+                    </div> */}
+                    <button className="w-100 btn btn-lg btn-primary" type="submit" disabled={processing}>
+                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                        ログイン
+                    </button>
+                </div>
+            
+                {/* <div className="grid gap-6">
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email address</Label>
                         <Input
                             id="email"
-                            type="email"
+                            type="text"
                             required
                             autoFocus
                             tabIndex={1}
-                            autoComplete="email"
+                            autoComplete="text"
                             value={data.email}
                             onChange={(e) => setData('email', e.target.value)}
                             placeholder="email@example.com"
@@ -95,10 +123,10 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     <TextLink href={route('register')} tabIndex={5}>
                         Sign up
                     </TextLink>
-                </div>
+                </div> */}
             </form>
 
             {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
-        </AuthLayout>
+        </div>
     );
 }

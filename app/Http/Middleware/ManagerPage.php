@@ -16,12 +16,12 @@ class ManagerPage
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Log::debug ('my session value: ' . json_encode(session()->all()));
-        
-        // dd($request->header('Cookie'));
-        // if (empty(session('user'))) {
-        //     return redirect('/managerLogin');
-        // }
+        Log::debug ('my session value: ' . json_encode(session()->all()));
+        Log::debug ('request session user: ' . $request->session()->get('user'));
+        dd($request->header('Cookie'));
+        if (empty(session('user'))) {
+            return redirect('/managerLogin');
+        }
         return $next($request);
     }
 }

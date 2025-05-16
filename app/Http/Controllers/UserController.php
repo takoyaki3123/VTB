@@ -25,9 +25,7 @@ class UserController extends Controller
             $post = $request->post()['body'];
     
             $acct = User::where([['email', '=', $post['acct']],['password', '=', $post['ps']]])->first();
-            // session(['user' => $acct['name']]);
-            $request->session()->put('user', $acct['name']);
-            $request->session()->save();
+            session(['user' => $acct['name']]);
             return $acct;
         }
     }

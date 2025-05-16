@@ -5,13 +5,12 @@ import { baseApi, uploadRes } from "@/lib/api";
 import { Head } from "@inertiajs/react";
 import { Fragment, useEffect, useState } from "react";
 import '../../css/group.scss';
-
+import '../../css/common.scss';
 const GroupList = () => {
     const [groupList, setGroupList] = useState<any>([]);
     const init = () => {
         baseApi('getGroupListWithImg',{})
         .then((res: uploadRes) => {
-            console.log(res.data);
             setGroupList([...res.data]);
         });
     }
@@ -22,18 +21,21 @@ const GroupList = () => {
 
     return (
         <Fragment>
-            <Head title="皆のVTB">
-            </Head>
+            <Head title={"皆のVTB"}></Head>
             <Navbar/>
-            <div className="row">
-                {groupList.map((group: {[key:string]:any})=>
-                    <div className="col-sm-4">
-                        <a href={"/group/" + group.id}>
-                            <Card imgName={group.imgName} title={group.name}/>
-                        </a>
-                    </div>
-                )}
-
+            <div className="container">
+                <div className="row mt-4">
+                    {groupList.length > 0 ? groupList.map((item: {[key:string]:any}) => (
+                        <div className="col-sm-4 card-maxHeight my-2">
+                            <Card title={item.name} imgName={item.imgName} class="h-100"/>
+                        </div>
+                    )) : <Fragment/>}
+                    {groupList.length > 0 ? groupList.map((item: {[key:string]:any}) => (
+                        <div className="col-sm-4 card-maxHeight my-2">
+                            <Card title={item.name} imgName={item.imgName} class="h-100"/>
+                        </div>
+                    )) : <Fragment/>}
+                </div>
             </div>
         </Fragment>
     );

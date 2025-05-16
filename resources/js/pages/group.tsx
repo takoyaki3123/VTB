@@ -6,7 +6,7 @@ import '../../css/home.scss'
 import Footer from '@/components/common/footer';
 import { useEffect, useState } from 'react';
 import { baseApi, uploadRes } from '@/lib/api';
-import Editor from '@/components/ui/editor';
+import Editor from '@/components/common/editor';
 import PropTypes from "prop-types";
 function Group(props: {id: string}) {
     // データーをとる

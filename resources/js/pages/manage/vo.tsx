@@ -27,9 +27,10 @@ export interface GroupVO {
     character: {id?: number | null, name?: string | null; type?: string | null; size?: number | null } | null;
     visual: {id?: number | null, name?: string | null; type?: string | null; size?: number | null } | null;
     desc: string;
+    link: string;
 }
 export const groupVO: GroupVO = {
-    id: 3,
+    id: 0,
     name: '',
     background: {
         id: 0,
@@ -50,4 +51,5 @@ export const groupVO: GroupVO = {
         size: 0,
     },
     desc: '',
+    link: '#',
 }

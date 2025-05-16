@@ -14,14 +14,29 @@ Route::get('/group/{id}', function ($id) {
 Route::get('/groupList', function () {
     return Inertia::render('groupList');
 })->name('groupList');
+Route::prefix('apply')->group(function () {
+    Route::get('/group', function () {
+        return Inertia::render('applyGroup');
+    });
+    Route::get('/member', function () {
+        return Inertia::render('applyMember');
+    });
+})->name('applyPage');
+
 
 // admins
 Route::middleware(['manageSetting', 'managePage'])->group(function () {
     Route::get('/homeManage', function () {
         return Inertia::render('manage/homeManage');
     });
+    Route::get('/groupListManage', function () {
+        return Inertia::render('manage/groupListManage');
+    });
     Route::get('/groupManage', function () {
         return Inertia::render('manage/groupManage');
+    });
+    Route::get('/applyGroupManage', function () {
+        return Inertia::render('manage/applyGroupManage');
     });
 });
 Route::middleware(['manageSetting'])->group(function() {

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Exception\HandleException;
 use App\Models\GroupModel;
 use App\Models\KeyVisualModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class GroupController extends Controller
@@ -21,7 +23,7 @@ class GroupController extends Controller
         $groupList = GroupModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
         }])
-            ->where('id', '!=', '0')
+            ->where([['id', '!=', '0'], ['status', '=', '1']])
             ->get(['id', 'name', 'img_id'])
             ->map(function ($group) {
                 $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
@@ -29,17 +31,17 @@ class GroupController extends Controller
                 return $group;
             })
             ->toArray();
-        return $groupList;
+        return new HandleException(200, $groupList, '');
     }
 
     /**
-     * 
+     * Display a listing of the resource without img
      */
     public function showList()
     {
         //
-        $groupList = GroupModel::where('id', '!=', '0')->get(['id', 'name'])->toArray();
-        return $groupList;
+        $groupList = GroupModel::where([['id', '!=', '0'], ['status', '=', '1']])->get(['id', 'name'])->toArray();
+        return new HandleException(200, $groupList, '');
     }
     /**
      * Store a newly created resource in storage.
@@ -61,14 +63,14 @@ class GroupController extends Controller
             ->join('imgCollect as img', 'k.img_id', '=', 'img.id') // main background in group page
             ->join('imgCollect as img2', 'k.img2_id', '=', 'img2.id') // character img infront of background in group page
             ->join('imgCollect as group_img', 'g.img_id', '=', 'group_img.id') // keyvisual in home page
-            ->where('g.id', '=', $post['body']['group_id'])
+            ->where([['g.id', '=', $post['body']['group_id']], ['g.status', '=', '1']])
             ->get(['g.name', 'g.desc', 'g.id', 'img.name as background', 'img2.name as character', 'img2.name as groupImg'])->toArray();
         if(count($GroupData) > 0) {
             $GroupData[0]->bgPath = Storage::url("image/" . $GroupData[0]->background);
             $GroupData[0]->characterPath = Storage::url("image/" . $GroupData[0]->character);
-            return $GroupData[0];
+            return  new HandleException(200, $GroupData[0], '');
         }
-        return [];
+        return new HandleException(200, [], '');
     }
 
     /**
@@ -92,7 +94,7 @@ class GroupController extends Controller
 
         $group->desc = $post['body']['desc'];
         $group->save();
-        return true;
+        return  new HandleException(200, [], '');
     }
 
     /**
@@ -101,5 +103,72 @@ class GroupController extends Controller
     public function destroy(GroupModel $groupModel)
     {
         //
+    }
+
+
+    public function apply(Request $request)
+    {
+        $groupData = $request->post()['body'];
+        Log::debug(json_encode($groupData));
+        if (isset($groupData['id']) && $groupData['id'] != 0) {
+            $group = GroupModel::find($groupData['id']);
+            $group->name = $groupData['name'];
+            $group->desc = $groupData['desc'];
+            $group->link = $groupData['link'] ?: '';
+            $group->status = '0';
+            $group->img_id = $groupData['visual']['id'];
+            $group->save();
+            return new HandleException(200, $group, '');
+        } else {
+            $group = GroupModel::firstOrCreate([
+                'name' => $groupData['name'],
+                'desc' => $groupData['desc'],
+                'link' => $groupData['link'] ?: '',
+                'apply_user' => session('user'),
+                'status' => '0',
+                'img_id' => $groupData['visual']['id'],
+            ]);
+            if ($group->wasRecentlyCreated) {
+                return new HandleException(200, [], '');
+            } else {
+                return new HandleException(400, [], '既に存在しているグループです！');
+            }
+        }
+    }
+
+    public function applyList() {
+        $groupList = GroupModel::with(['thumbnail' => function ($query) {
+            $query->select(['id','name as imgName']);
+        }])
+            ->where([['id', '!=', '0'], ['status', '=', '0']])
+            ->get(['id', 'name', 'desc', 'link', 'img_id', 'ctime'])
+            ->map(function ($group) {
+                $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
+                unset($group->thumbnail);
+                return $group;
+            })
+            ->toArray();
+        return new HandleException(200, $groupList, '');
+    }
+
+    public function approve(Request $request)
+    {
+        $post = $request->post();
+        $groupID = $post['body']['id'];
+        $group = GroupModel::find($groupID);
+        $group->status = '1';
+        $group->save();
+        return new HandleException(200, $group, '');
+    }
+
+    public function reject(Request $request)
+    {
+        $post = $request->post();
+        $groupID = $post['body']['id'];
+        $group = GroupModel::find($groupID);
+        $group->status = '-1';
+        $group->rejectReason = $post['body']['rejectReason'];
+        $group->save();
+        return new HandleException(200, $group, '');
     }
 }

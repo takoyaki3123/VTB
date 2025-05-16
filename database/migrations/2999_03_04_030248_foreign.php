@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('img_id')->constrained('ImgCollect', 'id');
         });
         Schema::table('Group', function (Blueprint $table) {
-            //$table->foreignId('column name')->constrained('target table name', 'target column name');
             $table->foreignId('img_id')->constrained('ImgCollect', 'id');
         });
         Schema::table('KeyVisual', function (Blueprint $table) {
@@ -40,8 +39,13 @@ return new class extends Migration
         });
         Schema::table('Group', function (Blueprint $table) {
             // {tablename}_{foreign key name}_foreign
-            $table->dropForeign('group_key_id_foreign');
             $table->dropForeign('group_img_id_foreign');
+        });
+        Schema::table('KeyVisual', function (Blueprint $table) {
+            // {tablename}_{foreign key name}_foreign
+            $table->dropForeign('keyvisual_group_id_unique');
+            $table->dropForeign('keyvisual_img2_id_foreign');
+            $table->dropForeign('keyvisual_img_id_foreign');
         });
     }
 };

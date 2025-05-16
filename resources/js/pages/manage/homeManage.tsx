@@ -7,7 +7,7 @@ import Footer from '@/components/common/footer';
 import { Button } from '@/components/ui/button';
 import { useEffect, useRef, useState } from 'react';
 import { HomeVO } from './vo';
-import { Uploader } from '@/components/ui/uploader';
+import { Uploader } from '@/components/common/uploader';
 import { baseApi, uploadRes } from '@/lib/api';
 
 // 只修改主視覺

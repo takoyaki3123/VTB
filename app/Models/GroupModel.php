@@ -12,6 +12,10 @@ class GroupModel extends Model
         'img_id',
         'name',
         'desc',
+        'link',
+        'apply_user',
+        'status',
+        'rejectReason',
         'ctime',
         'utime',
     ];

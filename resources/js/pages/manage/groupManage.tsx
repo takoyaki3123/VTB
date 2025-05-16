@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import KeyVisual from "@/components/home/keyVisual";
-import { Uploader } from "@/components/ui/uploader";
+import { Uploader } from "@/components/common/uploader";
 import { baseApi, uploadRes } from "@/lib/api";
 import '../../../css/group.scss'
 import { useEffect, useRef, useState } from "react";
 import { groupVO } from "./vo";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import Editor from "@/components/ui/editor";
+import Editor from "@/components/common/editor";
 
 const GroupManage = () => {
     const [vo, setVo] = useState<typeof groupVO>({ ...groupVO });
@@ -129,7 +129,7 @@ const GroupManage = () => {
                     <Uploader setImgId={(id) => setImgId(id, 2)} className="form-control" id="keyCharacter" ref={characterRef} refChange={() => characterChange()} />
                 </div>
                 <div className="input-group mb-3">
-                    <label className="input-group-text" htmlFor="keyBackground">簡介</label>
+                    <label className="input-group-text" htmlFor="keyBackground">紹介文</label>
                     <Editor value={vo.desc} show={true} setValue={descChange} />
                 </div>
                 <Button type="button" className="btn btn-primary" onClick={() => update()}>確認</Button>

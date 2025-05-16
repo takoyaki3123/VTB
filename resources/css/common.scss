@@ -8,3 +8,28 @@
         padding: 1rem;
     }
 }
+.card-img-container {
+    max-width: 100%;
+    max-height: 10rem;
+    overflow: hidden;
+    img {
+        max-width:100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
+}
+.mx-height-15v {
+    max-height: 15vh;
+}
+.mx-height-25v {
+    max-height: 25vh;
+}
+.mx-height-35v {
+    max-height: 35vh;
+}
+.mx-height-45v {
+    max-height: 45vh;
+}
+.mx-height-55v {
+    max-height: 55vh;
+}

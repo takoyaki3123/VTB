@@ -4,9 +4,9 @@ import { Fragment } from "react/jsx-runtime";
 
 const Card = (props:{imgName: string, title?: string, content?: string, class?: string}) => {
     return (
-        <div className={"card mx-1 my-2 " + props.class}>
+        <div className={"card " + props.class}>
             <div className="card-img-container">
-                <img src={"/storage/image/" + props.imgName} className="card-img-top" alt="..."></img>
+                <img src={"/storage/image/" + props.imgName} className="card-img-top img-fluid" alt="..."></img>
             </div>
             <div className="card-body">
                 { (props.title) ? <h5 className="card-title">{props.title}</h5> : <Fragment></Fragment> }

@@ -12,6 +12,8 @@ Route::post('/getHome', [KeyVisualController::class, 'show']);
 Route::post('/getGroup', [GroupController::class, 'show']);
 Route::post('/getGroupList', [GroupController::class, 'showList']);
 Route::post('/getGroupListWithImg', [GroupController::class, 'index']);
+Route::post('/applyNewGroup', [GroupController::class, 'apply']);
+Route::post('/getApplyGroup', [GroupController::class, 'applyList']);
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');

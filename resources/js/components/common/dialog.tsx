@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { ReactNode } from "react";
+import { Modal } from "bootstrap";
+import $ from "jquery";
+const DialogContainer = (props: {id: string, scrollAble: boolean,  children: ReactNode, className?: string, onClose?: () => void}) => {
 
-const DialogContainer = (props: {id: string, scrollAble: boolean,  children: ReactNode, className?: string}) => {
+    $('#' + props.id).on('hidden.bs.modal', function () {
+        if (props.onClose) {
+            props.onClose();
+        }
+    });
     return (
         <div className={"modal " + (props.className ?? '')} id={props.id} data-bs-backdrop="static">
             <div className={"modal-dialog  modal-dialog-centered" + (props.scrollAble ? ' modal-dialog-scrollable' : '')}>
@@ -50,4 +57,20 @@ const DialogButton = (props: {target:string, text: string, className: string, on
         </button>
     )
 }
+export function dialogAction (id: string, action: string) {
+    const dialogTag = document.getElementById(id);
+    if (dialogTag) {
+        const dialog = Modal.getOrCreateInstance(dialogTag);
+        
+        switch(action) {
+            case 'show':
+                dialog.show();
+                break;
+            case 'hide':
+                dialog.hide();
+                break;
+        }
+    }
+};
+
 export {DialogContainer, DialogHeader, DialogBody, DialogFooter, DialogButton, DialogCloseButton};

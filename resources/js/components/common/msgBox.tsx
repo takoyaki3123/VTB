@@ -27,8 +27,7 @@ const MsgBox = (props: {msg: string, header?: {headerChild: ReactNode}, footer?:
 export function msgBoxAction (action: string) {
     const msgBoxTag = document.getElementById('messageBox');
     if (msgBoxTag) {
-        const msgBoxDialog = new Modal(msgBoxTag);
-        console.log(msgBoxTag);
+        const msgBoxDialog = Modal.getOrCreateInstance(msgBoxTag);
         
         switch(action) {
             case 'show':

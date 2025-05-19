@@ -14,6 +14,8 @@ Route::post('/getGroupList', [GroupController::class, 'showList']);
 Route::post('/getGroupListWithImg', [GroupController::class, 'index']);
 Route::post('/applyNewGroup', [GroupController::class, 'apply']);
 Route::post('/getApplyGroup', [GroupController::class, 'applyList']);
+Route::post('/approveGroup', [GroupController::class, 'approve']);
+Route::post('/rejectGroup', [GroupController::class, 'reject']);
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');

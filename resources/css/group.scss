@@ -29,6 +29,8 @@
         }
     }
 }
+
+// card
 .carousel-inner {
     max-height:400px;
     .carousel-item {
@@ -52,4 +54,15 @@
 .card-img-container img {
     max-width:100%;
     height: auto;
+}
+
+// apply
+.apply-img {
+    max-width: 100%;
+    height: auto;
+}
+
+// reject
+.reject-textarea {
+    width: 100%;
 }

@@ -158,7 +158,7 @@ class GroupController extends Controller
         $group = GroupModel::find($groupID);
         $group->status = '1';
         $group->save();
-        return new HandleException(200, $group, '');
+        return new HandleException(200, [], '');
     }
 
     public function reject(Request $request)
@@ -166,9 +166,9 @@ class GroupController extends Controller
         $post = $request->post();
         $groupID = $post['body']['id'];
         $group = GroupModel::find($groupID);
-        $group->status = '-1';
+        $group->status = 2;
         $group->rejectReason = $post['body']['rejectReason'];
         $group->save();
-        return new HandleException(200, $group, '');
+        return new HandleException(200, [], '');
     }
 }

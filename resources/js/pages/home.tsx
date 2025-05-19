@@ -13,8 +13,10 @@ export default function Home() {
     // 2.グループ関連
 
     const init = () => {
-        baseApi('getHome', {})
+        baseApi('getHome', {group_id: 0})
         .then((res: uploadRes) => {
+            console.log(res);
+            
             setBg(res.data.background);
             setCharacter(res.data.character);
         });

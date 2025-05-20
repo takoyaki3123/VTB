@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckLogin;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ManagerPage;
 use Illuminate\Foundation\Application;
@@ -22,8 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->prependToGroup('manageSetting', [
             \Illuminate\Session\Middleware\StartSession::class,
         ]);
-        $middleware->appendToGroup('managePage', [
-            ManagerPage::class,
+        $middleware->appendToGroup('CheckLogin', [
+            CheckLogin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

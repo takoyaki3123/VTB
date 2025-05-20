@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -25,7 +24,6 @@ class UserController extends Controller
             $post = $request->post()['body'];
     
             $acct = User::where([['email', '=', $post['acct']],['password', '=', $post['ps']]])->first();
-            session(['user' => $acct['name']]);
             return $acct;
         }
     }

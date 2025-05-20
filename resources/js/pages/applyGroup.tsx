@@ -65,7 +65,7 @@ const ApplyGroup = () => {
                     <Uploader setImgId={(id) => setImgId(id)} className="form-control" id="keyCharacter" ref={groupImgRef} refChange={() => setImgVo()} />
                     <label className="input-group-text" htmlFor="keyCharacter">宣伝画像</label>
                 </div>
-                <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>ログイン</button>
+                <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>申請</button>
             </div>
             <MsgBox msg={msg} footer={{"footerChild" : footerChild}}/>
         </Fragment>

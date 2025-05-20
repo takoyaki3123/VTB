@@ -57,7 +57,6 @@ class GroupController extends Controller
     public function show(Request $request)
     {
         $post = $request->post();
-
         $GroupData = DB::table('Group as g')
             ->join('KeyVisual as k', 'k.group_id', '=', 'g.id')
             ->join('imgCollect as img', 'k.img_id', '=', 'img.id') // main background in group page
@@ -68,7 +67,7 @@ class GroupController extends Controller
         if(count($GroupData) > 0) {
             $GroupData[0]->bgPath = Storage::url("image/" . $GroupData[0]->background);
             $GroupData[0]->characterPath = Storage::url("image/" . $GroupData[0]->character);
-            return  new HandleException(200, $GroupData[0], '');
+            return  new HandleException(200, (array)$GroupData[0], '');
         }
         return new HandleException(200, [], '');
     }

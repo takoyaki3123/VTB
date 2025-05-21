@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name'); // not contain path
             $table->string('size'); // maybe kb
             $table->string('type'); // png jpg jpeg...
-            $table->timestamp('ctime')->useCurrent();
+            $table->dateTime('ctime')->useCurrent();
         });
     }
 

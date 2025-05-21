@@ -123,7 +123,7 @@ class GroupController extends Controller
                 'name' => $groupData['name'],
                 'desc' => $groupData['desc'],
                 'link' => $groupData['link'] ?: '',
-                'apply_user' => session('user'),
+                'apply_user' => $request->user()['id'],
                 'status' => '0',
                 'img_id' => $groupData['visual']['id'],
             ]);
@@ -135,7 +135,7 @@ class GroupController extends Controller
         }
     }
 
-    public function applyList() {
+    public function applyGroupList() {
         $groupList = GroupModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
         }])

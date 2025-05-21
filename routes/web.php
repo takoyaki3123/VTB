@@ -34,6 +34,9 @@ Route::middleware(['CheckLogin'])->group(function () {
         Route::get('/member', function () {
             return Inertia::render('applyMember');
         });
+        Route::get('/list', function () {
+            return Inertia::render('applyList');
+        });
     })->name('applyPage');
 });
 Route::middleware(['manageSetting'])->group(function() {

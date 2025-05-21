@@ -129,8 +129,8 @@ const GroupManage = () => {
                     <Uploader setImgId={(id) => setImgId(id, 2)} className="form-control" id="keyCharacter" ref={characterRef} refChange={() => characterChange()} />
                 </div>
                 <div className="input-group mb-3">
-                    <label className="input-group-text" htmlFor="keyBackground">紹介文</label>
-                    <Editor value={vo.desc} show={true} setValue={descChange} />
+                    <label className="input-group-text" htmlFor="desc">紹介文</label>
+                    <Editor value={vo.desc} show={true} setValue={descChange} id="desc"/>
                 </div>
                 <Button type="button" className="btn btn-primary" onClick={() => update()}>確認</Button>
             </div>

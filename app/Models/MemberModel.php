@@ -3,17 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class GroupModel extends Model
+class MemberModel extends Model
 {
     //
     protected $fillable = [
         'img_id',
+        'group_id',
         'name',
         'desc',
-        'link',
+        'streamUrl',
+        'socialUrl',
         'apply_user',
         'status',
         'rejectReason',
@@ -24,16 +26,13 @@ class GroupModel extends Model
     protected $dateFormat = 'Y-m-d H:i:s';
     const CREATED_AT = 'ctime';
     const UPDATED_AT = 'utime';
-    protected $table = 'Group';
+    protected $table = 'Member';
 
+
+    public function belongGroup(): BelongsTo{
+        return $this->belongsTo(GroupModel::class, 'id', 'group_id');
+    }
     public function thumbnail(): HasOne{
         return $this->hasOne(ImgCollectModel::class, 'id', 'img_id');
-    }
-    public function groupMember(): HasMany{
-        return $this->hasMany(MemberModel::class, 'group_id', 'id');
-    }
-    public function groupKeyVisual(): HasOne
-    {
-        return $this->hasOne(KeyVisualModel::class);
     }
 }

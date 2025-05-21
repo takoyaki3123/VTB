@@ -16,8 +16,8 @@ return new class extends Migration
             // img id 背景
             // img2 id 前のキャラクター
             // group id, 0 will be home key visual
-            $table->timestamp('ctime')->useCurrent();
-            $table->timestamp('utime')->useCurrent()->useCurrentOnUpdate();
+            $table->dateTime('ctime')->useCurrent();
+            $table->dateTime('utime')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

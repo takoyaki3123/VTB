@@ -27,7 +27,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/applyNewMember', [MemberController::class, 'apply']);
 });
 
-Route::get('/user', function (Request $request) {
+Route::post('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 Route::middleware(['manageSetting'])->group(function () {

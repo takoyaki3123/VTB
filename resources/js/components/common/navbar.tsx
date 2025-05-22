@@ -1,4 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { baseApi } from "@/lib/api";
+import { Fragment, useEffect, useState } from "react";
+
 const Navbar = () => {
+    const [user, setUser] = useState<any | null>(null);
+    const getUser = () => {
+        baseApi('user', {})
+        .then((res) => {
+            setUser(res.data);
+        })
+    }
+    useEffect(() => {
+        getUser();
+    },[])
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
@@ -24,15 +38,17 @@ const Navbar = () => {
                                 <li><a className="dropdown-item" href="#">多すぎって全部はできない！</a></li>
                             </ul>
                         </li>
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                個人ページ
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="/apply/list">申請リスト</a></li>
-                                <li><a className="dropdown-item" href="#">個人情報</a></li>
-                            </ul>
-                        </li>
+                        {user != null ? 
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    個人ページ
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li><a className="dropdown-item" href="/apply/list">申請リスト</a></li>
+                                    <li><a className="dropdown-item" href="#">個人情報</a></li>
+                                </ul>
+                            </li>
+                        : <Fragment/>}
                         <li className="nav-item">
                             <a className="nav-link" href="#">追加したい情報</a>
                         </li>

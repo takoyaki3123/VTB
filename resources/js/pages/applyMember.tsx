@@ -6,7 +6,7 @@ import { Uploader } from "@/components/common/uploader";
 import { Head } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
-import { memberVO } from "./manage/vo";
+import { memberVO } from "./vo";
 import { baseApi } from "@/lib/api";
 import { DialogCloseButton } from "@/components/common/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";

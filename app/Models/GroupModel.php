@@ -30,7 +30,7 @@ class GroupModel extends Model
         return $this->hasOne(ImgCollectModel::class, 'id', 'img_id');
     }
     public function groupMember(): HasMany{
-        return $this->hasMany(MemberModel::class, 'group_id', 'id');
+        return $this->hasMany(MemberModel::class, 'id', 'group_id');
     }
     public function groupKeyVisual(): HasOne
     {

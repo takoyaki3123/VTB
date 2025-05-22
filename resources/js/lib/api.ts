@@ -2,6 +2,9 @@
 import axios from "axios";
 
 const isLocal = document.location.hostname === '127.0.0.1' || document.location.hostname === 'localhost';
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 const request = axios.create({
     timeout: 120000,
 });
@@ -18,7 +21,6 @@ interface SettingResult {
     };
 }
 const setting = (urlCode: string, data: object) => {
-    console.log("setting");
     return new Promise<SettingResult>((resolve) => {
         const header = { method: "post", url: "/api/" + urlCode, data: data };
         const bodyData = { body: {} };
@@ -31,7 +33,7 @@ const setting = (urlCode: string, data: object) => {
 const baseApi = (urlCode: string, data: object) => {
     return new Promise<uploadRes>((resolve, reject) => {
         setting(urlCode, data).then((res: SettingResult) => {
-            request.post(res.headers.url, res.body).then((res) => {
+            request.post(res.headers.url, res.body, res.headers).then((res) => {
                 resolve(res)
             })
                 .catch((err) => {
@@ -76,6 +78,15 @@ const isError = (res: { msg: string; }) => {
     return res.msg ? true : false;
 }
 
+async function getCsrfToken() {
+    try {
+        await axios.get('/sanctum/csrf-cookie');
+        console.log('CSRF cookie set');
+    } catch (error) {
+        console.error('Error fetching CSRF cookie', error);
+    }
+}
+getCsrfToken();
 export {
     baseApi,
     uploadApi,

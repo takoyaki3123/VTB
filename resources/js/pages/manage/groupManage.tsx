@@ -4,7 +4,7 @@ import { Uploader } from "@/components/common/uploader";
 import { baseApi, uploadRes } from "@/lib/api";
 import '../../../css/group.scss'
 import { useEffect, useRef, useState } from "react";
-import { groupVO } from "./vo";
+import { groupVO } from "../vo";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Editor from "@/components/common/editor";

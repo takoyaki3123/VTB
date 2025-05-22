@@ -29,8 +29,8 @@ class MemberModel extends Model
     protected $table = 'Member';
 
 
-    public function belongGroup(): BelongsTo{
-        return $this->belongsTo(GroupModel::class, 'id', 'group_id');
+    public function groupMember(): BelongsTo{
+        return $this->belongsTo(GroupModel::class, foreignKey: 'group_id', ownerKey: 'id');
     }
     public function thumbnail(): HasOne{
         return $this->hasOne(ImgCollectModel::class, 'id', 'img_id');

@@ -95,15 +95,13 @@ class MemberController extends Controller
                 $member->save();
                 return new HandleException(200, [], '');
             } else {
-                $group = MemberModel::firstOrCreate([
-                    'name' => $memberData['name'],
+                $group = MemberModel::firstOrCreate(['name' => $memberData['name'], 'group_id' => $memberData['group_id']],[
                     'desc' => $memberData['desc'],
                     'streamUrl' => $memberData['streamUrl'] ?: '',
                     'socialUrl' => $memberData['socialUrl'] ?: '',
                     'status' => '0',
                     'apply_user' => $request->user()['id'] ?? 0,
                     'img_id' => $memberData['avatar']['id'],
-                    'group_id' => $memberData['group_id'],
                 ]);
                 if ($group->wasRecentlyCreated) {
                     return new HandleException(200, [], '');

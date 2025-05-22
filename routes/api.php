@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ImgCollectController;
 use App\Http\Controllers\KeyVisualController;
@@ -14,13 +15,17 @@ Route::post('/getGroup', [GroupController::class, 'show']);
 Route::post('/getGroupList', [GroupController::class, 'showList']);
 Route::post('/getGroupListWithImg', [GroupController::class, 'index']);
 
-Route::post('/applyNewGroup', [GroupController::class, 'apply']);
-Route::post('/getApplyGroup', [GroupController::class, 'applyGroupList']);
 Route::post('/approveGroup', [GroupController::class, 'approve']);
 Route::post('/rejectGroup', [GroupController::class, 'reject']);
-Route::post('/getApplyList', [GroupController::class, 'applyList']);
 
-Route::post('/applyNewMember', [MemberController::class, 'apply']);
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/applyNewGroup', [GroupController::class, 'apply']);
+    Route::post('/getApplyGroup', [GroupController::class, 'applyGroupList']);
+    Route::post('/getApplyList', [ApplyController::class, 'getApplyList']);
+    Route::post('/applyNewMember', [MemberController::class, 'apply']);
+});
 
 Route::get('/user', function (Request $request) {
     return $request->user();

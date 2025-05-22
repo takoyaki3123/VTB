@@ -24,6 +24,15 @@ const Navbar = () => {
                                 <li><a className="dropdown-item" href="#">多すぎって全部はできない！</a></li>
                             </ul>
                         </li>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                個人ページ
+                            </a>
+                            <ul className="dropdown-menu">
+                                <li><a className="dropdown-item" href="/apply/list">申請リスト</a></li>
+                                <li><a className="dropdown-item" href="#">個人情報</a></li>
+                            </ul>
+                        </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">追加したい情報</a>
                         </li>

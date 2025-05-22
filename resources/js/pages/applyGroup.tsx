@@ -5,7 +5,7 @@ import { Uploader } from "@/components/common/uploader";
 import { Head } from "@inertiajs/react";
 import { useRef, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
-import { groupVO } from "./manage/vo";
+import { groupVO } from "./vo";
 import { baseApi } from "@/lib/api";
 import '../../css/common.scss'
 import MsgBox, { msgBoxAction } from "@/components/common/msgBox";

@@ -61,24 +61,30 @@ const ApplyList = () => {
         baseApi('getApplyList', {})
         .then((res) => {
             console.log(res);
-            const groupTab:ReactNode = <ListContainer>
-                {
-                    res.data.group.map((groupData: { [key: string]: any; }, index: number) => {
-                        return (
-                            <div key={index} onClick={() => {setGroup(groupData);dialogAction(groupDialogID, 'show');}}>
-                                <ListItemAction>
-                                    <div className="row">
-                                        <div className="col">{groupData.name}</div>
-                                        <div className="col">{groupData.ctime}</div>
-                                        <div className="col">{statusCompare[groupData.status]}</div>
-                                    </div>
-                                </ListItemAction>
-                            </div>
-                        )
-                    })
-                }
-            </ListContainer>;
-            const memberTab:ReactNode = <ListContainer>
+            const groupTab:ReactNode = 
+            <div className="d-flex flex-wrap justify-content-center">
+                <ListContainer className="w-100">
+                    {
+                        res.data.group.map((groupData: { [key: string]: any; }, index: number) => {
+                            return (
+                                <div key={index} onClick={() => {setGroup(groupData);dialogAction(groupDialogID, 'show');}}>
+                                    <ListItemAction>
+                                        <div className="row">
+                                            <div className="col">{groupData.name}</div>
+                                            <div className="col">{groupData.ctime}</div>
+                                            <div className="col">{statusCompare[groupData.status]}</div>
+                                        </div>
+                                    </ListItemAction>
+                                </div>
+                            )
+                        })
+                    }
+                </ListContainer>
+                <a className="btn btn-primary my-2" target="_blank" href="/apply/group">申請</a>
+            </div>;
+            const memberTab:ReactNode = 
+            <div className="d-flex flex-wrap justify-content-center">
+                <ListContainer className="w-100">
                 {
                     res.data.member.map((memberData: { [key: string]: any; }, index: number) => {
                         return (
@@ -94,7 +100,9 @@ const ApplyList = () => {
                         )
                     })
                 }
-            </ListContainer>;
+                </ListContainer>
+                <a className="btn btn-primary my-2" target="_blank" href="/apply/member">申請</a>
+            </div>;
             
             setTabContent([
                 {id: 'groupTab', title: 'グループ', children: groupTab},

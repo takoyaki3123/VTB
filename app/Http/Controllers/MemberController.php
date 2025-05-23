@@ -77,7 +77,6 @@ class MemberController extends Controller
             'streamUrl' => ['required'],
             'socialUrl' => ['required'],
         ]);
-        Log::debug('result for validate: '. $validate->fails() ? 'true' : 'false');
         if ($validate->fails()) {
             return new HandleException(400, [], '資料に問題がありました！');
         } else {
@@ -113,7 +112,8 @@ class MemberController extends Controller
     }
 
 
-    public function applyMemberList() {
+    public function applyMemberList()
+    {
         $groupList = MemberModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
         }])
@@ -126,5 +126,52 @@ class MemberController extends Controller
             })
             ->toArray();
         return new HandleException(200, $groupList, '');
+    }
+    
+    public function approve(Request $request)
+    {
+        $post = $request->post();
+        $validate = Validator::make($post['body'], [
+            'id' => ['required', 'integer'],
+        ]);
+        if ($validate->fails()) {
+            return new HandleException(400, [], '資料に問題がありました！');
+        }
+
+        $memberID = $post['body']['id'];
+        $member = MemberModel::find($memberID);
+        if (!empty($member)) {
+            if ($member->status != 0) {
+                return new HandleException(400, [], '資料に問題がありました！');
+            }
+            $member->status = '1';
+            $member->save();
+            return new HandleException(200, [], '');
+        }
+        return new HandleException(400, [], 'メンバーを見つかりませんでした');
+    }
+
+    public function reject(Request $request)
+    {
+        $post = $request->post();
+        $validate = Validator::make($post['body'], [
+            'id' => ['required', 'integer'],
+            'rejectReason' => ['required', 'string'],
+        ]);
+        if ($validate->fails()) {
+            return new HandleException(400, [], '資料に問題がありました！');
+        }
+        $memberID = $post['body']['id'];
+        $member = MemberModel::find($memberID);
+        if (!empty($member)) {
+            if ($member->status != 0) {
+                return new HandleException(400, [], '資料に問題がありました！');
+            }
+            $member->status = 2;
+            $member->rejectReason = $post['body']['rejectReason'];
+            $member->save();
+            return new HandleException(200, [], '');
+        }
+        return new HandleException(400, [], 'メンバーを見つかりませんでした');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\CheckAdmin;
+use App\Http\Middleware\CheckLogin;
 use App\Http\Middleware\ManagerPage;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,7 +16,7 @@ Route::get('/groupList', function () {
     return Inertia::render('groupList');
 })->name('groupList');
 
-Route::middleware(['CheckLogin'])->group(function () {
+Route::middleware([CheckAdmin::class])->group(function () {
     Route::get('/homeManage', function () {
         return Inertia::render('manage/homeManage');
     });
@@ -27,6 +29,13 @@ Route::middleware(['CheckLogin'])->group(function () {
     Route::get('/applyGroupManage', function () {
         return Inertia::render('manage/applyGroupManage');
     });
+    Route::get('/applyMemberManage', function () {
+        return Inertia::render('manage/applyMemberManage');
+    });
+})->name('managePage');
+
+
+Route::middleware([CheckLogin::class])->group(function () {
     Route::prefix('apply')->group(function () {
         Route::get('/group', function () {
             return Inertia::render('applyGroup');

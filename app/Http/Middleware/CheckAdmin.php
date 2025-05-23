@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckLogin
+class CheckAdmin
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,11 @@ class CheckLogin
     {
         Log::debug ('my user value in middleware: ' .json_encode(Auth::user()));
         if (!empty($request->user())) {
-            return $next($request);
+            if ($request->user()['name'] != 'administrator') {
+                return redirect('/');
+            } else {
+                return $next($request);
+            }
         }
         return redirect(('/login'));
     }

@@ -7,6 +7,8 @@ const Navbar = () => {
     const getUser = () => {
         baseApi('user', {})
         .then((res) => {
+            console.log(res.data);
+            
             setUser(res.data);
         })
     }
@@ -49,9 +51,17 @@ const Navbar = () => {
                                 </ul>
                             </li>
                         : <Fragment/>}
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">追加したい情報</a>
-                        </li>
+                        {user != null && (user.name == 'admin' || user.name == 'administrator') ?
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    管理
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li><a className="dropdown-item" href="/applyGroupManage">グループ申請管理</a></li>
+                                    <li><a className="dropdown-item" href="/applyMemberManage">メンバー申請管理</a></li>
+                                </ul>
+                            </li>
+                        : <Fragment/>}
                     </ul>
                 </div>
             </div>

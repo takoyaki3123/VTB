@@ -37,9 +37,39 @@ class MemberController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(MemberModel $memberModel)
+    public function show(Request $request)
     {
         //
+        $member = MemberModel::with(['thumbnail' => function ($query) {
+            $query->select(['id','name as imgName']);
+        }])->where([['group_id', '=', $request->post()['body']['group_id']], ['status', '=', '1']])
+            ->get(['id', 'name', 'img_id'])
+            ->map(function ($memberData) {
+                $memberData['imgName'] = $memberData->thumbnail ? $memberData->thumbnail->imgName : null;
+                unset($memberData->thumbnail);
+                return $memberData;
+            })
+            ->toArray();
+        return $member;
+    }
+
+    /**
+     * Display the list in specified group.
+     */
+    public function showList(Request $request)
+    {
+        //
+        $memberList = MemberModel::with(['thumbnail' => function ($query) {
+            $query->select(['id','name as imgName']);
+        }])->where([['group_id', '=', $request->post()['body']['group_id']], ['status', '=', '1']])
+            ->get(['id', 'name', 'img_id'])
+            ->map(function ($member) {
+                $member['imgName'] = $member->thumbnail ? $member->thumbnail->imgName : null;
+                unset($member->thumbnail);
+                return $member;
+            })
+            ->toArray();
+        return $memberList;
     }
 
     /**

@@ -28,17 +28,7 @@ const Navbar = () => {
                             <a className="nav-link" aria-current="page" href="#">VTBとは</a>
                         </li>
                         <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                グループ
-                            </a>
-                            <ul className="dropdown-menu">
-                                <li><a className="dropdown-item" href="#">VSPO</a></li>
-                                <li><a className="dropdown-item" href="#">HOLOLIVE</a></li>
-                                <li><a className="dropdown-item" href="#">にじさんじ</a></li>
-                                <li><a className="dropdown-item" href="#">のりプロ</a></li>
-                                <li><a className="dropdown-item" href="#">あおきり高校</a></li>
-                                <li><a className="dropdown-item" href="#">多すぎって全部はできない！</a></li>
-                            </ul>
+                            <a className="nav-link" href="/groupList">グループ</a>
                         </li>
                         {user != null ? 
                             <li className="nav-item dropdown">

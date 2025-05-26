@@ -16,6 +16,7 @@ Route::post('/getHome', [KeyVisualController::class, 'show']);
 Route::post('/getGroup', [GroupController::class, 'show']);
 Route::post('/getGroupList', [GroupController::class, 'showList']);
 Route::post('/getGroupListWithImg', [GroupController::class, 'index']);
+Route::post('/getMemberList', [MemberController::class, 'showList']);
 
 Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
     // グループ申請の通過と拒否

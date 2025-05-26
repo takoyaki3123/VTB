@@ -27,12 +27,9 @@ const GroupList = () => {
                 <div className="row mt-4">
                     {groupList.length > 0 ? groupList.map((item: {[key:string]:any}) => (
                         <div className="col-sm-4 card-maxHeight my-2">
-                            <Card title={item.name} imgName={item.imgName} class="h-100"/>
-                        </div>
-                    )) : <Fragment/>}
-                    {groupList.length > 0 ? groupList.map((item: {[key:string]:any}) => (
-                        <div className="col-sm-4 card-maxHeight my-2">
-                            <Card title={item.name} imgName={item.imgName} class="h-100"/>
+                            <a href={ "/group/" + item.id}>
+                                <Card title={item.name} imgName={item.imgName} class="h-100"/>
+                            </a>
                         </div>
                     )) : <Fragment/>}
                 </div>

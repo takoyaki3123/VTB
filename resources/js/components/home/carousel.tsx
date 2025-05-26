@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import * as bootstrap from 'bootstrap';
 interface Group {
     name: string,
-    imgPath: string,
+    imgName: string,
+    [key: string]: any,
 }
 const Carousel = ({ groups = [] }: { groups: Array<Group> }) => {
     useEffect(()=>{
@@ -18,10 +20,10 @@ const Carousel = ({ groups = [] }: { groups: Array<Group> }) => {
             <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div className="carousel-inner">
                     {groups.map((group: Group, i: number) => (
-                        <div key={i} className={i == 0 ? "carousel-item active" : "carousel-item"}>
-                            <div className="carousel-item-container">
-                                <img src={group.imgPath} className="d-block w-100" alt="..." />
-                                <span>{group.name}</span>
+                        <div key={i} className={(i == 0 ? "carousel-item active" : "carousel-item")}>
+                            <div className="carousel-item-container d-flex justify-content-center flex-wrap">
+                                <img src={"storage/image/" + group.imgName} className="d-block w-100" alt="..." />
+                                <p className="mx-auto">{group.name}</p>
                             </div>
                         </div>
                     ))}
@@ -39,3 +41,4 @@ const Carousel = ({ groups = [] }: { groups: Array<Group> }) => {
     );
 }
 export default Carousel;
+export type { Group };

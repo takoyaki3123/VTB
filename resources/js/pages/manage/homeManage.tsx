@@ -2,13 +2,14 @@ import Navbar from '@/components/common/navbar';
 import KeyVisual from '@/components/home/keyVisual';
 import { Head } from '@inertiajs/react';
 import '../../../css/home.scss'
-import Carousel from '@/components/home/carousel';
+import Carousel, { Group } from '@/components/home/carousel';
 import Footer from '@/components/common/footer';
 import { Button } from '@/components/ui/button';
 import { useEffect, useRef, useState } from 'react';
 import { HomeVO } from '../vo';
 import { Uploader } from '@/components/common/uploader';
 import { baseApi, uploadRes } from '@/lib/api';
+import { shuffle } from '@/lib/utils';
 
 // 只修改主視覺
 // 輪播是所有group都播
@@ -19,9 +20,7 @@ const HomeManage = () => {
     const characterRef = useRef<HTMLInputElement>(null);
     const [bg, setBg] = useState("");
     const [character, setCharacter] = useState("");
-    // const keyVisual = {'background': {name: 'DSr2Qw-XkAExk2N.jpg', imgPath: 'https://pbs.twimg.com/media/'}, 'character': {name: 'top_talents_hololive.png', imgPath: 'https://hololivepro.com/wp-content/themes/hololive_production/images/'}};
-    const groups = [{ name: 'test', imgPath: 'https://hololivepro.com/wp-content/themes/hololive_production/images/top_talents_hololive.png' },
-    { name: 'test2', imgPath: 'https://hololivepro.com/wp-content/themes/hololive_production/images/top_talents_hololive.png' }];
+    const [groups, setGroups] = useState<Array<Group>>([]);
     const backgroundChange = () => {
         if (backgroundRef.current!.files) {
             const file = backgroundRef.current!.files[0];
@@ -34,12 +33,26 @@ const HomeManage = () => {
             setVo({ ...vo, background: { ...vo.background, name: file.name, type: file.type, size: file.size } });
         }
     }
+
+    const getGroup = () => {
+        baseApi('getGroupListWithImg', {})
+        .then((res: uploadRes) => {
+            const showGroup = shuffle(res.data);
+            setGroups(showGroup.slice(0,3));
+        });
+    }
+
+    const getKeyVisual = () => {
+        baseApi('getHome', {group_id: 0})
+        .then((res: uploadRes) => {
+            setBg(res.data.background);
+            setCharacter(res.data.character);
+        });
+    }
+
     const init = () => {
-        baseApi('getHome', { 'group_id': '0' })
-            .then((res: uploadRes) => {
-                setBg(res.data.background);
-                setCharacter(res.data.character);
-            });
+        getKeyVisual();
+        getGroup();
     }
     const upload = () => {
         baseApi('updateHome', { ...vo })
@@ -69,6 +82,7 @@ const HomeManage = () => {
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
+            <Navbar />
             <div className='manageContainer'>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">背景</label>
@@ -80,7 +94,8 @@ const HomeManage = () => {
                 </div>
                 <Button type="button" className="btn btn-primary" onClick={() => upload()}>確認</Button>
             </div>
-            <Navbar />
+            <hr/>
+            <h5>實際顯示內容</h5>
             <KeyVisual backgroundPath={"/storage/image/" + bg} imgPath={"/storage/image/" + character} />
             <div className='container'>
                 <Carousel groups={groups} />

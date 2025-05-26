@@ -1,30 +1,42 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import Navbar from '@/components/common/navbar';
 import KeyVisual from '@/components/home/keyVisual';
 import { Head } from '@inertiajs/react';
 import '../../css/home.scss'
-import Carousel from '@/components/home/carousel';
+import Carousel, { Group } from '@/components/home/carousel';
 import Footer from '@/components/common/footer';
 import { useEffect, useState } from 'react';
 import { baseApi, uploadRes } from '@/lib/api';
+import { shuffle } from '@/lib/utils';
 export default function Home() {
+    const [bg,setBg] = useState("");
+    const [character,setCharacter] = useState("");
+    const [groups, setGroups] = useState<Array<Group>>([]);
     // データーをとる
     // 1.キービジョン
     // 2.グループ関連
 
-    const init = () => {
+    const getGroup = () => {
+        baseApi('getGroupListWithImg', {})
+        .then((res: uploadRes) => {
+            const showGroup = shuffle(res.data);
+            setGroups(showGroup.slice(0,3));
+        });
+    }
+
+    const getKeyVisual = () => {
         baseApi('getHome', {group_id: 0})
         .then((res: uploadRes) => {
-            console.log(res);
-            
             setBg(res.data.background);
             setCharacter(res.data.character);
         });
     }
-    const [bg,setBg] = useState("");
-    const [character,setCharacter] = useState("");
-    const groups = [{name: 'test',imgPath: 'https://hololivepro.com/wp-content/themes/hololive_production/images/top_talents_hololive.png'},
-                    {name: 'test2',imgPath: 'https://hololivepro.com/wp-content/themes/hololive_production/images/top_talents_hololive.png'}];
+
+    const init = () => {
+        getKeyVisual();
+        getGroup();
+    }
     
     useEffect(()=>{
         init();

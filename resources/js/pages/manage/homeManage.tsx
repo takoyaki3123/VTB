@@ -1,7 +1,6 @@
 import Navbar from '@/components/common/navbar';
 import KeyVisual from '@/components/home/keyVisual';
 import { Head } from '@inertiajs/react';
-import '../../../css/home.scss'
 import Carousel, { Group } from '@/components/home/carousel';
 import Footer from '@/components/common/footer';
 import { Button } from '@/components/ui/button';
@@ -10,6 +9,8 @@ import { HomeVO } from '../vo';
 import { Uploader } from '@/components/common/uploader';
 import { baseApi, uploadRes } from '@/lib/api';
 import { shuffle } from '@/lib/utils';
+import '../../../css/common.scss';
+import '../../../css/home.scss';
 
 // 只修改主視覺
 // 輪播是所有group都播

@@ -15,6 +15,9 @@ Route::get('/group/{id}', function ($id) {
 Route::get('/groupList', function () {
     return Inertia::render('groupList');
 })->name('groupList');
+Route::get('/member/{id}', function ($id) {
+    return Inertia::render('member', ['id' => $id]);
+})->name('member');
 
 Route::middleware([CheckAdmin::class])->group(function () {
     Route::get('/homeManage', function () {

@@ -3,7 +3,8 @@
 import Navbar from '@/components/common/navbar';
 import KeyVisual from '@/components/home/keyVisual';
 import { Head } from '@inertiajs/react';
-import '../../css/home.scss'
+import '../../css/common.scss';
+import '../../css/group.scss';
 import Footer from '@/components/common/footer';
 import { Fragment, useEffect, useState } from 'react';
 import { baseApi, uploadRes } from '@/lib/api';

@@ -3,12 +3,13 @@
 import Navbar from '@/components/common/navbar';
 import KeyVisual from '@/components/home/keyVisual';
 import { Head } from '@inertiajs/react';
-import '../../css/home.scss'
 import Carousel, { Group } from '@/components/home/carousel';
 import Footer from '@/components/common/footer';
 import { useEffect, useState } from 'react';
 import { baseApi, uploadRes } from '@/lib/api';
 import { shuffle } from '@/lib/utils';
+import '../../css/common.scss';
+import '../../css/home.scss';
 export default function Home() {
     const [bg,setBg] = useState("");
     const [character,setCharacter] = useState("");

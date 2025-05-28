@@ -26,6 +26,10 @@ Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
     // メンバー申請の通過と拒否
     Route::post('/approveMember', [MemberController::class, 'approve']);
     Route::post('/rejectMember', [MemberController::class, 'reject']);
+
+
+    Route::post('/getUserList', [UserController::class, 'index']);
+    Route::post('/updatePromission', [UserController::class, 'updatePromission']);
 });
 
 Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {

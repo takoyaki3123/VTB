@@ -29,6 +29,16 @@ Route::middleware([CheckAdmin::class])->group(function () {
     Route::get('/groupManage', function () {
         return Inertia::render('manage/groupManage');
     });
+
+    // 待新增
+    Route::get('/groupManage', function () {
+        return Inertia::render('manage/groupManage');
+    });
+    Route::get('/userManage', function () {
+        return Inertia::render('manage/userManage');
+    });
+
+
     Route::get('/applyGroupManage', function () {
         return Inertia::render('manage/applyGroupManage');
     });
@@ -50,13 +60,18 @@ Route::middleware([CheckLogin::class])->group(function () {
             return Inertia::render('applyList');
         });
     })->name('applyPage');
-});
-Route::middleware(['manageSetting'])->group(function() {
 
-    Route::get('/managerLogin', function () {
-        return Inertia::render('manage/login');
-    })->name('managerlogin');
+    // 待新增
+    Route::get('/profile', function () {
+        return Inertia::render('manage/groupManage');
+    });
 });
+// Route::middleware(['manageSetting'])->group(function() {
+
+//     Route::get('/managerLogin', function () {
+//         return Inertia::render('manage/login');
+//     })->name('managerlogin');
+// });
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {

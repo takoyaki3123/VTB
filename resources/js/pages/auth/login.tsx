@@ -56,6 +56,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 Forgot password?
                             </TextLink>
                         )}
+                        <TextLink href={route('register')} className="ml-auto text-sm" tabIndex={5}>
+                            登録
+                        </TextLink>
                     </div>
                     <button className="w-100 btn btn-lg btn-primary" type="submit" disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}

@@ -68,7 +68,7 @@ const ApplyMember = () => {
             <Navbar/>
 
             <div className="container mx-auto">
-                <h1 className="h3 mb-3 fw-normal text-center">グループ増加申請</h1>
+                <h1 className="h3 mb-3 fw-normal text-center">メンバー増加申請</h1>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">所属グループ</label>
                     <Select onValueChange={(v) => {updateVo(v, 'group_id');setSelectGroup(v)}} open={groupOpen} onOpenChange={setGroupOpen} value={selectGroup}>

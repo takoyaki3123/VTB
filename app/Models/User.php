@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'manage_group',
     ];
 
     /**
@@ -33,6 +34,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected $primaryKey = 'id';
 
     /**
      * Get the attributes that should be cast.

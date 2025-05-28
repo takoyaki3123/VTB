@@ -25,4 +25,4 @@ export function shuffle(array: Array<any>) {
         array[randomIndex], array[currentIndex]];
     }
     return array;
-  }
+}

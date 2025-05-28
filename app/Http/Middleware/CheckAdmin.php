@@ -19,7 +19,7 @@ class CheckAdmin
     {
         Log::debug ('my user value in middleware: ' .json_encode(Auth::user()));
         if (!empty($request->user())) {
-            if ($request->user()['name'] != 'administrator') {
+            if ($request->user()['manage_group'] != '1') {
                 return redirect('/');
             } else {
                 return $next($request);

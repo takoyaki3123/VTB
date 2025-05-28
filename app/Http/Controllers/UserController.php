@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Exception\HandleException;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\ErrorHandler\Debug;
 
 class UserController extends Controller
 {
@@ -13,6 +16,9 @@ class UserController extends Controller
     public function index()
     {
         //
+        $userList = User::all()->toArray();
+
+        return new HandleException(200, $userList, '');
     }
 
     // login verify
@@ -24,7 +30,7 @@ class UserController extends Controller
             $post = $request->post()['body'];
     
             $acct = User::where([['email', '=', $post['acct']],['password', '=', $post['ps']]])->first();
-            return $acct;
+            return new HandleException(200, $acct, '');
         }
     }
 
@@ -55,6 +61,15 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+    }
+
+    public function updatePromission(Request $request)
+    {
+        $post = $request->post()['body'];
+        $user = User::find((int)$post['id']);
+        $user->manage_group = $post['newPromission'];
+        $user->save();
+        return new HandleException(200, [], '');
     }
 
     /**

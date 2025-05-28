@@ -8,6 +8,8 @@ import { groupVO } from "../vo";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Editor from "@/components/common/editor";
+import { Head } from "@inertiajs/react";
+import Navbar from "@/components/common/navbar";
 
 const GroupManage = () => {
     const [vo, setVo] = useState<typeof groupVO>({ ...groupVO });
@@ -102,6 +104,8 @@ const GroupManage = () => {
     }, [])
     return (
         <>
+            <Head title="皆のVTB"/>
+            <Navbar/>
             <div className='manageContainer'>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">グループ</label>

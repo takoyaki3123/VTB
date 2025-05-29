@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LucideIcon } from 'lucide-react';
 
 export interface Auth {
@@ -36,5 +37,12 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    manage_group: number;
+    isAdmin: boolean;
+    isGroupManager: boolean;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface pairType {
+    [id: string|number]: any;
 }

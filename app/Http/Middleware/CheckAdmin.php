@@ -18,13 +18,13 @@ class CheckAdmin
     public function handle(Request $request, Closure $next): Response
     {
         Log::debug ('my user value in middleware: ' .json_encode(Auth::user()));
-        if (!empty($request->user())) {
-            if ($request->user()['manage_group'] != '1') {
-                return redirect('/');
-            } else {
+        // if (!empty($request->user())) {
+        //     if ($request->user()['manage_group'] != '1') {
+        //         return redirect('/');
+        //     } else {
                 return $next($request);
-            }
-        }
-        return redirect(('/login'));
+        //     }
+        // }
+        // return redirect(('/login'));
     }
 }

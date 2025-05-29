@@ -29,9 +29,6 @@ return Application::configure(basePath: dirname(__DIR__))
             ThrottleRequests::class,
             SubstituteBindings::class
         ]);
-        $middleware->prependToGroup('manageSetting', [
-            \Illuminate\Session\Middleware\StartSession::class,
-        ]);
         $middleware->appendToGroup('CheckLogin', [
             CheckLogin::class,
         ]);

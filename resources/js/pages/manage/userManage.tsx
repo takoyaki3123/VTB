@@ -2,7 +2,7 @@
 import { DialogCloseButton } from "@/components/common/dialog";
 import MsgBox from "@/components/common/msgBox";
 import Navbar from "@/components/common/navbar";
-import { PromissionSelect } from "@/components/common/promission";
+import { PermissionSelect } from "@/components/common/permission";
 import { baseApi } from "@/lib/api";
 import { Head } from "@inertiajs/react";
 import { Fragment, useEffect, useState } from "react";
@@ -21,8 +21,8 @@ const UserManage = () => {
             setList(res.data);
         });
     }
-    const promissionChange = (val: string, param:{[key:string]: string}) => {
-        baseApi('updatePromission', {newPromission: val, id: param.id})
+    const permissionChange = (val: string, param:{[key:string]: string}) => {
+        baseApi('updatePermission', {newPermission: val, id: param.id})
         .then((res) => {
             if (res.data.errorMsg) {
                 setMsg(res.data.errorMsg);
@@ -59,7 +59,7 @@ const UserManage = () => {
                                     {item.email}
                                 </div>
                                 <div className="col-2 my-1">
-                                    <PromissionSelect value={item.manage_group.toString()} onChange={promissionChange} param={{id: item.id}}></PromissionSelect>
+                                    <PermissionSelect value={item.manage_group.toString()} onChange={permissionChange} param={{id: item.id}}></PermissionSelect>
                                 </div>
                             </Fragment>
                         ))

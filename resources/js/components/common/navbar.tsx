@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/lib/api";
-import { Fragment, useEffect, useState } from "react";
-import { GetPromissionPair } from "./promission";
+import { Fragment, useEffect } from "react";
+import { GetPermissionPair, PermissionCheck } from "./permission";
+import { useDispatch, useSelector } from "react-redux";
+import { reducerType } from "@/store";
+import { User } from "@/types";
+import { setUser } from "@/store/actionList";
 
 const Navbar = () => {
-    const [user, setUser] = useState<any | null>(null);
-    const pairList = GetPromissionPair();
+    const pairList = GetPermissionPair();
+    const user = useSelector<reducerType, User>(state => state.user);
+    const dispatch = useDispatch();
     const getUser = () => {
         baseApi('user', {})
         .then((res) => {
-            setUser(res.data);
+            
+            dispatch(setUser({...user, ...res.data}));
         })
     }
     function isAdmin (id: number| string) {
@@ -18,8 +24,12 @@ const Navbar = () => {
         }
         return false;
     }
-    useEffect(() => {
+    const init = () => {
         getUser();
+        
+    }
+    useEffect(() => {
+        init();
         
     },[]);
     return (
@@ -37,7 +47,7 @@ const Navbar = () => {
                         <li className="nav-item dropdown">
                             <a className="nav-link" href="/groupList">グループ</a>
                         </li>
-                        {user != null ? 
+                        {user != null && user.name != "" ? 
                             <li className="nav-item dropdown" id="personal">
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     個人ページ

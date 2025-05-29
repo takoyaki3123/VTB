@@ -18,9 +18,9 @@ class CheckLogin
     public function handle(Request $request, Closure $next): Response
     {
         Log::debug ('my user value in middleware: ' .json_encode(Auth::user()));
-        if (!empty($request->user())) {
+        // if (!empty($request->user())) {
             return $next($request);
-        }
-        return redirect(('/login'));
+        // }
+        // return redirect(('/login'));
     }
 }

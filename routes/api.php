@@ -29,7 +29,7 @@ Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
 
 
     Route::post('/getUserList', [UserController::class, 'index']);
-    Route::post('/updatePromission', [UserController::class, 'updatePromission']);
+    Route::post('/updatePermission', [UserController::class, 'updatePermission']);
 });
 
 Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {

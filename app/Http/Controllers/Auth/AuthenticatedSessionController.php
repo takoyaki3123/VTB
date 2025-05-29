@@ -34,11 +34,10 @@ class AuthenticatedSessionController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
         $request->authenticateAccount();
 
-        $request->session()->regenerate();
         Log::debug('user:' . $request->user());
+        // exit();
         $request->user()->createToken('api');
         return redirect('/homeManage');
     }

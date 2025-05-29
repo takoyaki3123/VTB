@@ -63,11 +63,11 @@ class UserController extends Controller
         //
     }
 
-    public function updatePromission(Request $request)
+    public function updatePermission(Request $request)
     {
         $post = $request->post()['body'];
         $user = User::find((int)$post['id']);
-        $user->manage_group = $post['newPromission'];
+        $user->manage_group = $post['newPermission'];
         $user->save();
         return new HandleException(200, [], '');
     }

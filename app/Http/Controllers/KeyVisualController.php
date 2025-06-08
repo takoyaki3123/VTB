@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Exception\HandleException;
 use App\Models\KeyVisualModel;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Prompts\Key;
 
@@ -41,11 +43,13 @@ class KeyVisualController extends Controller
         $homeKeyVisual = DB::table('KeyVisual as k')
                         ->join('imgCollect as img', 'k.img_id', '=', 'img.id')
                         ->join('imgCollect as img2', 'k.img2_id', '=', 'img2.id')
-                        ->where('k.group_id', '=', $request->post()['body']['group_id'])
+                        ->where('k.id', '=', $request->post()['body']['id'])
                         ->get(['k.*','img.name as background','img2.name as character'])->toArray();
-        $homeKeyVisual[0]->bgPath = Storage::url("image/".$homeKeyVisual[0]->background);
-        $homeKeyVisual[0]->characterPath = Storage::url("image/".$homeKeyVisual[0]->character);
-        return $homeKeyVisual[0];
+        if (count($homeKeyVisual) != 0) {
+            $homeKeyVisual[0]->bgPath = Storage::url("image/".$homeKeyVisual[0]->background);
+            $homeKeyVisual[0]->characterPath = Storage::url("image/".$homeKeyVisual[0]->character);
+            return $homeKeyVisual[0];
+        }
     }
 
     /**
@@ -56,14 +60,17 @@ class KeyVisualController extends Controller
         //get post data
         $post = $request->post();
         $homeKeyVisual = KeyVisualModel::find($post['body']['id']);
-        if(isset(['body']['background']['id'])) {
-            $homeKeyVisual->img_id = $post['body']['background']['id'];
+        if ($homeKeyVisual != null) {
+            if (isset($post['body']['background']['id']) && $post['body']['background']['id'] != 0) {
+                $homeKeyVisual->img_id = $post['body']['background']['id'];
+            }
+            if (isset($post['body']['character']['id']) && $post['body']['character']['id'] != 0) {
+                $homeKeyVisual->img2_id = $post['body']['character']['id'];
+            }
+            $homeKeyVisual->save();
+            return new HandleException('200', [], '');
         }
-        if(isset($post['body']['character']['id'])) {
-            $homeKeyVisual->img2_id = $post['body']['character']['id'];
-        }
-        $homeKeyVisual->save();
-        return true;
+        return new HandleException('400', [], 'エラー');
     }
 
     /**

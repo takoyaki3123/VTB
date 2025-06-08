@@ -40,7 +40,7 @@ class GroupController extends Controller
     public function showList()
     {
         //
-        $groupList = GroupModel::where([['id', '!=', '0'], ['status', '=', '1']])->get(['id', 'name'])->toArray();
+        $groupList = GroupModel::where([['id', '!=', '1'], ['status', '=', '1']])->get(['id', 'name'])->toArray();
         return new HandleException(200, $groupList, '');
     }
     /**

@@ -44,7 +44,7 @@ const HomeManage = () => {
     }
 
     const getKeyVisual = () => {
-        baseApi('getHome', {group_id: 0})
+        baseApi('getHome', {id: 0})
         .then((res: uploadRes) => {
             setBg(res.data.background);
             setCharacter(res.data.character);

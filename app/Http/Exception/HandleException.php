@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Log;
 
     class HandleException implements Responsable {
         protected int $httpCode;
-        protected array $data;
+        protected array|string $data;
         protected string $errorMsg;
 
-        public function __construct(int $httpCode, array $data, string $errorMsg)
+        public function __construct(int $httpCode, array|string $data, string $errorMsg)
         {
             $this->httpCode = $httpCode;
             $this->data = $data;

@@ -36,13 +36,13 @@ export default function Register() {
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <h1 className="h3 mb-3 fw-normal text-center">アカウント登録</h1>
                 <div className="form-floating py-1">
-                    <Input type="email" value={data.name} onChange={(e) => setData('name', e.target.value)} required className="form-control" id="name"/>
+                    <Input type="name" value={data.name} onChange={(e) => setData('name', e.target.value)} required className="form-control" id="name"/>
                     <InputError message={errors.name} />
                     <label htmlFor="acct">名前</label>
                 </div>
                 <div className="form-floating py-1">
-                    <Input type="email" value={data.name} onChange={(e) => setData('name', e.target.value)} required className="form-control" id="name"/>
-                    <InputError message={errors.name} />
+                    <Input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} required className="form-control" id="email"/>
+                    <InputError message={errors.email} />
                     <label htmlFor="acct">Email</label>
                 </div>
                 <div className="form-floating py-1">

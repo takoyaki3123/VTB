@@ -5,7 +5,7 @@ export interface HomeVO {
     group: string; // 確保 type 屬性是 string[]
 }
 export const HomeVO: HomeVO = {
-    id: 3,
+    id: 0,
     background: {
         id: 0,
         name: "DSr2Qw-XkAExk2N.jpg",

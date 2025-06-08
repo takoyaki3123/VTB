@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/lib/api";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { GetPermissionPair, PermissionCheck } from "./permission";
 import { useDispatch, useSelector } from "react-redux";
 import { reducerType } from "@/store";
@@ -11,18 +11,12 @@ const Navbar = () => {
     const pairList = GetPermissionPair();
     const user = useSelector<reducerType, User>(state => state.user);
     const dispatch = useDispatch();
+    const [permissionChecked, setPermissionCheck] = useState(false);
     const getUser = () => {
         baseApi('user', {})
         .then((res) => {
-            
             dispatch(setUser({...user, ...res.data}));
         })
-    }
-    function isAdmin (id: number| string) {
-        if (pairList[id] == 'admin') {
-            return true;
-        }
-        return false;
     }
     const init = () => {
         getUser();
@@ -30,8 +24,13 @@ const Navbar = () => {
     }
     useEffect(() => {
         init();
-        
     },[]);
+    useEffect(() => {
+        if (!permissionChecked && user.manage_group != -1) {
+            PermissionCheck(user, pairList, dispatch);
+            setPermissionCheck(true);
+        }
+    }, [user])
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container-fluid">
@@ -55,15 +54,16 @@ const Navbar = () => {
                                 <ul className="dropdown-menu" aria-labelledby="personal">
                                     <li><a className="dropdown-item" href="/apply/list">申請リスト</a></li>
                                     <li><a className="dropdown-item" href="#">個人情報</a></li>
+                                    <li><a className="dropdown-item" href="/logout">ログアウト</a></li>
                                 </ul>
                             </li>
                         : <Fragment/>}
-                        {user != null && isAdmin(user.id) ?
+                        {user != null && user.isAdmin ?
                             <li className="nav-item dropdown" id="manageNavbar">
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     管理
                                 </a>
-                                <ul className="dropdown-menu" aria-labelledby="manageNavbar">
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="manageNavbar">
                                     <li><a className="dropdown-item" href="/applyGroupManage">グループ申請管理</a></li>
                                     <li><a className="dropdown-item" href="/applyMemberManage">メンバー申請管理</a></li>
                                     <li><a className="dropdown-item" href="/userManage">ユーザー管理</a></li>

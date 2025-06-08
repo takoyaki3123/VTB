@@ -21,14 +21,13 @@ class ImgCollectController extends Controller
      */
     public function store(Request $request)
     {
-        //
         // todo: upload file
         $fileName = $request->file('image')->getClientOriginalName();
         $fileType = $request->file('image')->getClientOriginalExtension();
         $size = $request->file('image')->getSize();
         $exists = Storage::exists('app/public/image'.$fileName);
-        if(!$exists){
-          Storage::disk('image')->put($fileName,$request->file('image')->get());
+        if (!$exists) {
+          Storage::disk('image')->put($fileName, $request->file('image')->get());
         }
         // todo: create file data
         $result = ImgCollectModel::firstOrCreate(['name'=>$fileName,'type'=>$fileType,'size'=>$size]);

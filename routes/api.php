@@ -43,11 +43,9 @@ Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {
         return $request->user();
     });
 });
-Route::middleware(['manageSetting'])->group(function () {
-    Route::post('/updateGroup', [GroupController::class, 'update']);
-    Route::post('/updateHome', [KeyVisualController::class, 'update']);
-    Route::post('/loginVerify', [UserController::class, 'login']);
-});
+Route::post('/updateGroup', [GroupController::class, 'update']);
+Route::post('/updateHome', [KeyVisualController::class, 'update']);
+Route::post('/loginVerify', [UserController::class, 'login']);
 // token
 Route::get('/csrfToken', function () {
     return response()->json(['token' => csrf_token()]);

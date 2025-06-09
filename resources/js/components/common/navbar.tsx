@@ -43,7 +43,7 @@ const Navbar = () => {
                         <li className="nav-item">
                             <a className="nav-link" aria-current="page" href="#">VTBとは</a>
                         </li>
-                        <li className="nav-item dropdown">
+                        <li className="nav-item">
                             <a className="nav-link" href="/groupList">グループ</a>
                         </li>
                         {user != null && user.name != "" ? 
@@ -57,7 +57,11 @@ const Navbar = () => {
                                     <li><a className="dropdown-item" href="/logout">ログアウト</a></li>
                                 </ul>
                             </li>
-                        : <Fragment/>}
+                        : 
+                            <li className="nav-item">
+                                <a className="nav-link" href="/login">ログイン</a>
+                            </li>
+                        }
                         {user != null && user.isAdmin ?
                             <li className="nav-item dropdown" id="manageNavbar">
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

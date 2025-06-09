@@ -23,7 +23,7 @@ class GroupController extends Controller
         $groupList = GroupModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
         }])
-            ->where([['id', '!=', '0'], ['status', '=', '1']])
+            ->where([['status', '=', '1']])
             ->get(['id', 'name', 'img_id'])
             ->map(function ($group) {
                 $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
@@ -40,7 +40,7 @@ class GroupController extends Controller
     public function showList()
     {
         //
-        $groupList = GroupModel::where([['id', '!=', '1'], ['status', '=', '1']])->get(['id', 'name'])->toArray();
+        $groupList = GroupModel::where([['status', '=', '1']])->get(['id', 'name'])->toArray();
         return new HandleException(200, $groupList, '');
     }
     /**
@@ -139,7 +139,7 @@ class GroupController extends Controller
         $groupList = GroupModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
         }])
-            ->where([['id', '!=', '0'], ['status', '=', '0']])
+            ->where([['status', '=', '0']])
             ->get(['id', 'name', 'desc', 'link', 'img_id', 'ctime'])
             ->map(function ($group) {
                 $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;

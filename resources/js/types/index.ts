@@ -46,3 +46,14 @@ export interface User {
 export interface pairType {
     [id: string|number]: any;
 }
+
+
+export interface mutationOption {
+    subtree?: boolean;
+    childList?: boolean;
+    attributes?: boolean;
+    attributeFilter?: Array<string>;
+    attributeOldValue?: boolean;
+    CharacterData?: boolean;
+    characterDataOldValue?: boolean;
+}

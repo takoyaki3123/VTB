@@ -71,7 +71,7 @@ const ApplyGroup = () => {
                 </div>
                 <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>申請</button>
             </div>
-            <MsgBox msg={msg} footer={{"footerChild" : footerChild}} onClose={() => closePage()}/>
+            <MsgBox msg={msg} footer={{"footerChild" : footerChild}} onClose={closePage}/>
         </Fragment>
     )
 }

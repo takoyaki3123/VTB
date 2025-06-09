@@ -59,6 +59,11 @@ const ApplyMember = () => {
     const init = () => {
         getGroupList();
     }
+
+    const closePage = () => {
+        window.close();
+    }
+
     useEffect(() => {
         init();
     }, [])
@@ -104,7 +109,7 @@ const ApplyMember = () => {
                 </div>
                 <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>申請</button>
             </div>
-            <MsgBox msg={msg} footer={{"footerChild" : footerChild}}/>
+            <MsgBox msg={msg} footer={{"footerChild" : footerChild}} onClose={() => closePage()}/>
         </Fragment>
     )
 }

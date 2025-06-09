@@ -2,9 +2,9 @@ import { DialogBody, DialogContainer, DialogFooter, DialogHeader } from "@/compo
 import { Modal } from "bootstrap";
 import { Fragment, ReactNode } from "react";
 
-const MsgBox = (props: {msg: string, header?: {headerChild: ReactNode}, footer?: {footerChild: ReactNode}}) => {
+const MsgBox = (props: {msg: string, header?: {headerChild: ReactNode}, footer?: {footerChild: ReactNode}, onClose?: ()=>void}) => {
     return (
-        <DialogContainer id="messageBox" scrollAble={false}>
+        <DialogContainer id="messageBox" scrollAble={false} onClose={props.onClose}>
             {props.header?
                 <DialogHeader>
                     {props.header.headerChild}

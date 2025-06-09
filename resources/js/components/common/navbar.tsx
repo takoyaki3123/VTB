@@ -64,6 +64,7 @@ const Navbar = () => {
                                     管理
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="manageNavbar">
+                                    <li><a className="dropdown-item" href="/homeManage">ホームページ管理</a></li>
                                     <li><a className="dropdown-item" href="/applyGroupManage">グループ申請管理</a></li>
                                     <li><a className="dropdown-item" href="/applyMemberManage">メンバー申請管理</a></li>
                                     <li><a className="dropdown-item" href="/userManage">ユーザー管理</a></li>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImgCollectController;
 use App\Http\Controllers\KeyVisualController;
 use App\Http\Controllers\MemberController;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/uploadImg', [ImgCollectController::class, 'store']);
-Route::post('/getHome', [KeyVisualController::class, 'show']);
+Route::post('/getHome', [HomeController::class, 'show']);
 Route::post('/getGroup', [GroupController::class, 'show']);
 Route::post('/getGroupList', [GroupController::class, 'showList']);
 Route::post('/getGroupListWithImg', [GroupController::class, 'index']);
@@ -20,6 +21,8 @@ Route::post('/getMember', [MemberController::class, 'show']);
 Route::post('/getMemberList', [MemberController::class, 'showList']);
 
 Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
+    // ホームページの管理
+    Route::post('/updateHome', [HomeController::class, 'update']);
     // グループ申請の通過と拒否
     Route::post('/approveGroup', [GroupController::class, 'approve']);
     Route::post('/rejectGroup', [GroupController::class, 'reject']);
@@ -44,7 +47,6 @@ Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {
     });
 });
 Route::post('/updateGroup', [GroupController::class, 'update']);
-Route::post('/updateHome', [KeyVisualController::class, 'update']);
 Route::post('/loginVerify', [UserController::class, 'login']);
 // token
 Route::get('/csrfToken', function () {

@@ -26,6 +26,10 @@ return new class extends Migration
             $table->foreignId('img2_id')->constrained('ImgCollect', 'id');
             $table->foreignId('group_id')->unique()->constrained('Group', 'id'); // 0 will be home
         });
+        Schema::table('Home', function (Blueprint $table) {
+            $table->foreignId('background')->constrained('ImgCollect', 'id');
+            $table->foreignId('character')->constrained('ImgCollect', 'id');
+        });
     }
 
     /**
@@ -48,6 +52,10 @@ return new class extends Migration
             $table->dropForeign('keyvisual_group_id_foreign');
             $table->dropForeign('keyvisual_img2_id_foreign');
             $table->dropForeign('keyvisual_img_id_foreign');
+        });
+        Schema::table('Home', function (Blueprint $table) {
+            $table->dropForeign('home_background_foreign');
+            $table->dropForeign('home_character_foreign');
         });
     }
 };

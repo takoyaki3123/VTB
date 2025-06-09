@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Exception\HandleException;
 use App\Models\KeyVisualModel;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

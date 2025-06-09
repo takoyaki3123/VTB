@@ -40,6 +40,10 @@ const ApplyGroup = () => {
             msgBoxAction('show');
         });
     }
+
+    const closePage = () => {
+        window.close();
+    }
     const footerChild = <DialogCloseButton text="關閉"></DialogCloseButton>;
     return (
         <Fragment>
@@ -50,11 +54,11 @@ const ApplyGroup = () => {
                 <h1 className="h3 mb-3 fw-normal text-center">グループ増加申請</h1>
 
                 <div className="form-floating py-1">
-                    <input type="email" onChange={(e) => updateVo(e.target.value, 'name')} className="form-control" id="acct" placeholder="name@example.com"/>
+                    <input type="text" onChange={(e) => updateVo(e.target.value, 'name')} className="form-control" id="acct"/>
                     <label htmlFor="acct">グループ名</label>
                 </div>
                 <div className="form-floating py-1">
-                    <input type="password" onChange={(e) => updateVo(e.target.value, 'link')} className="form-control" id="ps" placeholder="Password"/>
+                    <input type="text" onChange={(e) => updateVo(e.target.value, 'link')} className="form-control" id="ps" placeholder="https://"/>
                     <label htmlFor="ps">サイト</label>
                 </div>
                 <div className="mb-3">
@@ -65,9 +69,9 @@ const ApplyGroup = () => {
                     <Uploader setImgId={(id) => setImgId(id)} className="form-control" id="keyCharacter" ref={groupImgRef} refChange={() => setImgVo()} />
                     <label className="input-group-text" htmlFor="keyCharacter">宣伝画像</label>
                 </div>
-                <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>申請</button>
+                <button className="w-100 btn btn-lg btn-primary" onClick={() => closePage()}>申請</button>
             </div>
-            <MsgBox msg={msg} footer={{"footerChild" : footerChild}}/>
+            <MsgBox msg={msg} footer={{"footerChild" : footerChild}} onClose={closePage}/>
         </Fragment>
     )
 }

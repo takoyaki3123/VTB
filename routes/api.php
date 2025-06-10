@@ -19,6 +19,7 @@ Route::post('/getGroupList', [GroupController::class, 'showList']);
 Route::post('/getGroupListWithImg', [GroupController::class, 'index']);
 Route::post('/getMember', [MemberController::class, 'show']);
 Route::post('/getMemberList', [MemberController::class, 'showList']);
+Route::post('/getAllMemberList', [MemberController::class, 'showAllList']);
 
 Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
     // ホームページの管理

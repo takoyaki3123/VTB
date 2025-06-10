@@ -61,11 +61,42 @@ class MemberController extends Controller
         //
         $memberList = MemberModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
-        }])->where([['group_id', '=', $request->post()['body']['group_id']], ['status', '=', '1']])
+        }])
+            ->with(["groupMember" => function ($query) {
+                $query->select(['id', 'name as groupName']);
+            }])
+            ->where([['group_id', '=', $request->post()['body']['group_id']], ['status', '=', '1']])
             ->get(['id', 'name', 'img_id'])
             ->map(function ($member) {
                 $member['imgName'] = $member->thumbnail ? $member->thumbnail->imgName : null;
+                $member['groupName'] = $member->groupMember ? $member->groupMember->groupName : null;
                 unset($member->thumbnail);
+                unset($member->groupName);
+                return $member;
+            })
+            ->toArray();
+        return $memberList;
+    }
+
+    /**
+     * Display the list with group.
+     */
+    public function showAllList(Request $request)
+    {
+        //
+        $memberList = MemberModel::with(['thumbnail' => function ($query) {
+            $query->select(['id','name as imgName']);
+        }])
+            ->with(["company" => function ($query) {
+                $query->select(['id', 'name as groupName']);
+            }])
+            ->where([['status', '=', '1']])
+            ->get(['id', 'name', 'img_id', 'group_id'])
+            ->map(function ($member) {
+                $member['imgName'] = $member->thumbnail ? $member->thumbnail->imgName : null;
+                $member['groupName'] = $member->company ? $member->company->groupName : null;
+                unset($member->thumbnail);
+                unset($member->company);
                 return $member;
             })
             ->toArray();

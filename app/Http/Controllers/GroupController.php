@@ -58,10 +58,10 @@ class GroupController extends Controller
     {
         $post = $request->post();
         $GroupData = DB::table('Group as g')
-            ->join('KeyVisual as k', 'k.group_id', '=', 'g.id')
-            ->join('imgCollect as img', 'k.img_id', '=', 'img.id') // main background in group page
-            ->join('imgCollect as img2', 'k.img2_id', '=', 'img2.id') // character img infront of background in group page
-            ->join('imgCollect as group_img', 'g.img_id', '=', 'group_img.id') // keyvisual in home page
+            ->leftJoin('KeyVisual as k', 'k.group_id', '=', 'g.id')
+            ->leftJoin('imgCollect as img', 'k.img_id', '=', 'img.id') // main background in group page
+            ->leftJoin('imgCollect as img2', 'k.img2_id', '=', 'img2.id') // character img infront of background in group page
+            ->leftJoin('imgCollect as group_img', 'g.img_id', '=', 'group_img.id') // keyvisual in home page
             ->where([['g.id', '=', $post['body']['group_id']], ['g.status', '=', '1']])
             ->get(['g.name', 'g.desc', 'g.id', 'img.name as background', 'img2.name as character', 'img2.name as groupImg'])->toArray();
         if(count($GroupData) > 0) {
@@ -80,6 +80,11 @@ class GroupController extends Controller
         $post = $request->post();
         $group = GroupModel::find($post['body']['id']);
         $homeKeyVisual = KeyVisualModel::where('group_id', $post['body']['id'])->first();
+        if (empty($homeKeyVisual)) {
+            $homeKeyVisual = new KeyVisualModel;
+            $homeKeyVisual->group_id = $post['body']['id'];
+        }
+
         if (isset($post['body']['background']['id']) && $post['body']['background']['id'] != 0) {
             $homeKeyVisual->img_id = $post['body']['background']['id'];
         }

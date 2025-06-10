@@ -29,6 +29,8 @@ function Group(props: {id: string}) {
     const getGroup = () => {
         baseApi('getGroup', {group_id: props.id})
         .then((res: uploadRes) => {
+            console.log(res.data);
+            
             setBg(res.data.background);
             setCharacter(res.data.character);
             setDesc(res.data.desc);

@@ -10,8 +10,6 @@ import { Dispatch } from "redux";
 
 
 const GetPermissionPair = () => {
-
-    const permission = useSelector<reducerType, any>(state => state.permission);
     const dispatch = useDispatch();
     const [pair, setPair] = useState<pairType>({});
     const init = () => {
@@ -21,7 +19,7 @@ const GetPermissionPair = () => {
                 obj[item.id] = item.name;
                 return obj;
             }, {} as pairType);
-            setPair({0: 'user', 1: 'admin', ...tmpList});
+            setPair({0: 'user', 10242048: 'admin', ...tmpList});
             dispatch(setPermission({...tmpList}));
         });
     }
@@ -54,9 +52,11 @@ const PermissionSelect = (props: {onChange: ((value: string, param: {[key:string
 
 const PermissionCheck = (user: User, pairList: pairType, dispatch: Dispatch) => {
     if (pairList[user.manage_group] == 'admin') {
-        dispatch(setUser({...user, isAdmin: true}));
+        console.log('isAdmin');
+        
+        dispatch(setUser({...user, isAdmin: true, permissionChecked: true}));
     } else if (pairList[user.manage_group] != 'user') {
-        dispatch(setUser({...user, isGroupManager: true}));
+        dispatch(setUser({...user, isGroupManager: true, permissionChecked: true}));
     }
     
 }

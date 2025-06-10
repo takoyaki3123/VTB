@@ -2,7 +2,8 @@
 import KeyVisual from "@/components/home/keyVisual";
 import { Uploader } from "@/components/common/uploader";
 import { baseApi, uploadRes } from "@/lib/api";
-import '../../../css/group.scss'
+import '../../../css/group.scss';
+import '../../../css/common.scss';
 import { useEffect, useRef, useState } from "react";
 import { groupVO } from "../vo";
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,7 @@ const GroupManage = () => {
     const [groupList, setGroupList] = useState<any[]>([]);
     const [desc, setDesc] = useState<string>("");
     const [selectGroup, setSelectGroup] = useState<string>("");
-
+    const [groupImg, setGroupImg] = useState("");
     const init = () => {
         getGroupList();
     }
@@ -40,6 +41,7 @@ const GroupManage = () => {
         .then((res: uploadRes) => {
             setBg(res.data.background);
             setCharacter(res.data.character);
+            setGroupImg(res.data.groupImg);
             setDesc(res.data.desc);
             setVo({
                 ...vo,
@@ -141,6 +143,11 @@ const GroupManage = () => {
             <KeyVisual backgroundPath={"/storage/image/" + bg} imgPath={"/storage/image/" + character} />
             <div className="container">
                 <Editor value={desc} show={false} />
+            </div>
+            <hr/>
+            <div className="group_img_container">
+                グループイメージ写真はこちら
+                <img src={"/storage/image/" + groupImg}/>
             </div>
         </>
     );

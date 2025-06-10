@@ -26,3 +26,15 @@ export function shuffle(array: Array<any>) {
     }
     return array;
 }
+
+export function valueAsKey(arr: Array<any>, valueKey: string): any[] {
+    const tmp: any[] = [];
+    arr.forEach((val) => {
+        if (tmp[val[valueKey]] == undefined) {
+            tmp[val[valueKey]] = [val];
+        } else {
+            tmp[val[valueKey]].push(val);
+        }
+    })
+    return tmp;
+}

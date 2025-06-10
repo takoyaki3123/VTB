@@ -29,7 +29,7 @@ class MemberModel extends Model
     protected $table = 'Member';
 
 
-    public function groupMember(): BelongsTo{
+    public function company(): BelongsTo{
         return $this->belongsTo(GroupModel::class, foreignKey: 'group_id', ownerKey: 'id');
     }
     public function thumbnail(): HasOne{

@@ -35,6 +35,12 @@
     width: 100%;
 }
 
-a {
-    text-decoration: none;
+
+.group_img_container {
+    max-width:50vw;
+    height:auto;
+    img {
+        width: 100%;
+        height:auto;
+    }
 }

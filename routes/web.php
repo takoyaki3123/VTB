@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckLogin;
+use App\Http\Middleware\CheckManage;
 use App\Http\Middleware\ManagerPage;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -46,7 +47,14 @@ Route::middleware([CheckAdmin::class])->group(function () {
         return Inertia::render('manage/applyMemberManage');
     });
 })->name('managePage');
-
+Route::middleware([CheckManage::class])->group(function () {
+    Route::get('/manage/memberList', function () {
+        return Inertia::render('manage/memberList');
+    });
+    Route::get('/manage/member/{id}', function ($id) {
+        return Inertia::render('manage/memberManage', ['id' => $id]);
+    });
+});
 
 Route::middleware([CheckLogin::class])->group(function () {
     Route::prefix('apply')->group(function () {

@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Card from "@/components/common/card";
-import { baseApi, uploadRes } from "@/lib/api";
 import { useEffect, useState } from "react";
+
+// component
+import Card from "@/components/common/card";
+import AppLayout from "@/layouts/app-layout";
+
+// function
+import { baseApi, uploadRes } from "@/lib/api";
+
+// scss
 import '../../../css/group.scss';
 import '../../../css/common.scss';
-import AppLayout from "@/layouts/app-layout";
 
 const GroupListManage = () => {
     const [list, setList] = useState([]);

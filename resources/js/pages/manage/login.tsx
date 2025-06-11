@@ -1,5 +1,9 @@
-import { baseApi } from "@/lib/api";
 import { useState } from "react";
+
+// function
+import { baseApi } from "@/lib/api";
+
+// scss
 import '../../../css/common.scss'
 
 const Login = () => {

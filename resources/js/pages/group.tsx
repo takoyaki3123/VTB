@@ -1,15 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import KeyVisual from '@/components/home/keyVisual';
-import '../../css/common.scss';
-import '../../css/group.scss';
-import Footer from '@/components/common/footer';
 import { Fragment, useEffect, useState } from 'react';
-import { baseApi, uploadRes } from '@/lib/api';
+
+// component
+import KeyVisual from '@/components/home/keyVisual';
+import Footer from '@/components/common/footer';
 import Editor from '@/components/common/editor';
-import PropTypes from "prop-types";
 import Card from '@/components/common/card';
 import AppLayout from '@/layouts/app-layout';
+
+// function
+import { baseApi, uploadRes } from '@/lib/api';
+
+// scss
+import '../../css/common.scss';
+import '../../css/group.scss';
 function Group(props: {id: string}) {
     // データーをとる
     // 1.キービジョン
@@ -66,8 +70,5 @@ function Group(props: {id: string}) {
             <Footer/>
         </AppLayout>
     );
-}
-Group.propTypes = {
-    id: PropTypes.string.isRequired,
 }
 export default Group;

@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Fragment, useEffect, useState } from "react";
+
+// component
 import { DialogCloseButton } from "@/components/common/dialog";
 import MsgBox from "@/components/common/msgBox";
-import { PermissionSelect } from "@/components/common/permission";
 import AppLayout from "@/layouts/app-layout";
+
+// function
+import { PermissionSelect } from "@/components/common/permission";
 import { baseApi } from "@/lib/api";
-import { Fragment, useEffect, useState } from "react";
 
 const UserManage = () => {
     const [list, setList] = useState<Array<any>>([]);

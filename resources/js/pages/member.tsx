@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import '../../css/common.scss';
-import '../../css/member.scss';
-import Footer from '@/components/common/footer';
 import { useEffect, useState } from 'react';
-import { baseApi, uploadRes } from '@/lib/api';
+// component
+import Footer from '@/components/common/footer';
 import Editor from '@/components/common/editor';
 import AppLayout from '@/layouts/app-layout';
+
+// function
+import { baseApi, uploadRes } from '@/lib/api';
+
+// scss
+import '../../css/common.scss';
+import '../../css/member.scss';
 function Member(props: {id: string}) {
     // データーをとる
     // 1.キービジョン

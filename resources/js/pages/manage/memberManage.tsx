@@ -1,15 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import '../../../css/common.scss';
-import '../../../css/member.scss';
-import Footer from '@/components/common/footer';
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { baseApi, uploadRes } from '@/lib/api';
+
+// component
+import Footer from '@/components/common/footer';
 import Editor from '@/components/common/editor';
 import { dialogAction, DialogBody, DialogCloseButton, DialogContainer, DialogFooter, DialogHeader } from '@/components/common/dialog';
-import { memberVO } from '../vo';
 import { Uploader } from '@/components/common/uploader';
 import MsgBox, { msgBoxAction } from '@/components/common/msgBox';
 import AppLayout from '@/layouts/app-layout';
+
+// vo
+import { memberVO } from '../vo';
+
+// function
+import { baseApi, uploadRes } from '@/lib/api';
+
+// scss
+import '../../../css/common.scss';
+import '../../../css/member.scss';
 
 const MemberManage = (props: {id: number}) => {
     const avatarImgRef = useRef<HTMLInputElement>(null);

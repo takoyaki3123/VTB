@@ -7,6 +7,7 @@ use App\Http\Middleware\ManagerPage;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+//for all user
 Route::get('/', function () {
     return Inertia::render('home');
 })->name('home');
@@ -19,7 +20,11 @@ Route::get('/groupList', function () {
 Route::get('/member/{id}', function ($id) {
     return Inertia::render('member', ['id' => $id]);
 })->name('member');
+Route::get('/about', function () {
+    return Inertia::render('about');
+})->name('about');
 
+//for admin
 Route::middleware([CheckAdmin::class])->group(function () {
     Route::get('/homeManage', function () {
         return Inertia::render('manage/homeManage');
@@ -47,15 +52,20 @@ Route::middleware([CheckAdmin::class])->group(function () {
         return Inertia::render('manage/applyMemberManage');
     });
 })->name('managePage');
+
+// for manager in each group
 Route::middleware([CheckManage::class])->group(function () {
-    Route::get('/manage/memberList', function () {
-        return Inertia::render('manage/memberList');
-    });
-    Route::get('/manage/member/{id}', function ($id) {
-        return Inertia::render('manage/memberManage', ['id' => $id]);
+    Route::prefix('manage')->group(function () {
+        Route::get('/memberList', function () {
+            return Inertia::render('manage/memberList');
+        });
+        Route::get('/member/{id}', function ($id) {
+            return Inertia::render('manage/memberManage', ['id' => $id]);
+        });
     });
 });
 
+// for user
 Route::middleware([CheckLogin::class])->group(function () {
     Route::prefix('apply')->group(function () {
         Route::get('/group', function () {

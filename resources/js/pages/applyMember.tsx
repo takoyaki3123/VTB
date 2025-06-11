@@ -1,14 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useRef, useState } from "react";
+
+// component
 import Editor from "@/components/common/editor";
 import MsgBox, { msgBoxAction } from "@/components/common/msgBox";
 import { Uploader } from "@/components/common/uploader";
-import { useEffect, useRef, useState } from "react";
-import { memberVO } from "./vo";
-import { baseApi } from "@/lib/api";
 import { DialogCloseButton } from "@/components/common/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import '../../css/common.scss'
 import AppLayout from "@/layouts/app-layout";
+
+// vo
+import { memberVO } from "./vo";
+
+// function
+import { baseApi } from "@/lib/api";
+// scss
+import '../../css/common.scss'
 
 //グループメンバー増加の申請、管理者が許可と修正をする
 const ApplyMember = () => {

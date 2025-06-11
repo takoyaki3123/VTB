@@ -1,15 +1,21 @@
+import { useEffect, useRef, useState } from 'react';
+
+//component
 import KeyVisual from '@/components/home/keyVisual';
 import Carousel, { Group } from '@/components/home/carousel';
 import Footer from '@/components/common/footer';
 import { Button } from '@/components/ui/button';
-import { useEffect, useRef, useState } from 'react';
 import { HomeVO } from '../vo';
 import { Uploader } from '@/components/common/uploader';
-import { baseApi, uploadRes } from '@/lib/api';
+import AppLayout from '@/layouts/app-layout';
+
+//function
 import { shuffle } from '@/lib/utils';
+import { baseApi, uploadRes } from '@/lib/api';
+
+// scss
 import '../../../css/common.scss';
 import '../../../css/home.scss';
-import AppLayout from '@/layouts/app-layout';
 
 // 只修改主視覺
 // 輪播是所有group都播

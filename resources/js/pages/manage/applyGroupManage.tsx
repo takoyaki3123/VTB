@@ -1,13 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ListContainer, ListItemAction } from "@/components/common/list";
-import { baseApi, uploadRes } from "@/lib/api";
 import { useEffect, useState } from "react";
-import { Fragment } from "react/jsx-runtime";
-import { dialogAction, DialogBody, DialogCloseButton, DialogContainer, DialogFooter, DialogHeader } from "@/components/common/dialog";
+
+// component
+import AppLayout from "@/layouts/app-layout";
 import MsgBox, { msgBoxAction } from "@/components/common/msgBox";
+import { ListContainer, ListItemAction } from "@/components/common/list";
+import { dialogAction, DialogBody, DialogCloseButton, DialogContainer, DialogFooter, DialogHeader } from "@/components/common/dialog";
+import { Fragment } from "react/jsx-runtime";
+
+// function
+import { baseApi, uploadRes } from "@/lib/api";
+
+// scss
 import '../../../css/common.scss';
 import '../../../css/group.scss';
-import AppLayout from "@/layouts/app-layout";
 
 const rejectDialogID = 'rejectReason';
 const applyDialogID = 'apply';

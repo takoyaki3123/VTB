@@ -1,13 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Editor from "@/components/common/editor";
-import { Uploader } from "@/components/common/uploader";
 import { useRef, useState } from "react";
-import { groupVO } from "./vo";
-import { baseApi } from "@/lib/api";
-import '../../css/common.scss'
+
+// component
+import { Uploader } from "@/components/common/uploader";
 import MsgBox, { msgBoxAction } from "@/components/common/msgBox";
 import { DialogCloseButton } from "@/components/common/dialog";
 import AppLayout from "@/layouts/app-layout";
+
+// vo
+import { groupVO } from "./vo";
+
+// function
+import { baseApi } from "@/lib/api";
+
+// scss
+import '../../css/common.scss'
 
 //グループ増加の申請、管理者が許可と修正をする
 const ApplyGroup = () => {

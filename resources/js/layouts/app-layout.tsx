@@ -1,16 +1,14 @@
 import Navbar from '@/components/common/navbar';
 // import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
-import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 
 interface AppLayoutProps {
     children: React.ReactNode;
-    breadcrumbs?: BreadcrumbItem[];
 }
 
-const AppLayout: React.FC<AppLayoutProps> = ({ children, title }) => (
+const AppLayout: React.FC<AppLayoutProps> = ({ children }) => (
     <div>
-        <Head title={"X皆のVTB"}></Head>
+        <Head title={"皆のVTB"}></Head>
         <Navbar/>
         {children}
     </div>

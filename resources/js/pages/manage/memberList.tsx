@@ -1,14 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Card from "@/components/common/card";
-import { baseApi } from "@/lib/api";
-import { valueAsKey } from "@/lib/utils";
-import { reducerType } from "@/store";
-import { User } from "@/types";
 import { Fragment, useEffect, useState } from "react";
+import { reducerType } from "@/store";
 import { useSelector } from "react-redux";
+
+//component
+import Card from "@/components/common/card";
+import AppLayout from "@/layouts/app-layout";
+
+// type
+import { User } from "@/types";
+
+// function
+import { valueAsKey } from "@/lib/utils";
+import { baseApi } from "@/lib/api";
+
+// scss
 import '../../../css/common.scss';
 import '../../../css/member.scss';
-import AppLayout from "@/layouts/app-layout";
 
 const MemberList = () => {
 

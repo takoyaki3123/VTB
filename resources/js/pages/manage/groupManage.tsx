@@ -1,15 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import KeyVisual from "@/components/home/keyVisual";
-import { Uploader } from "@/components/common/uploader";
-import { baseApi, uploadRes } from "@/lib/api";
-import '../../../css/group.scss';
-import '../../../css/common.scss';
 import { useEffect, useRef, useState } from "react";
-import { groupVO } from "../vo";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+// component
+import KeyVisual from "@/components/home/keyVisual";
 import Editor from "@/components/common/editor";
 import AppLayout from "@/layouts/app-layout";
+import { Uploader } from "@/components/common/uploader";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+// function
+import { baseApi, uploadRes } from "@/lib/api";
+
+// vo
+import { groupVO } from "../vo";
+
+// scss
+import '../../../css/group.scss';
+import '../../../css/common.scss';
 
 const GroupManage = () => {
     const [vo, setVo] = useState<typeof groupVO>({ ...groupVO });

@@ -1,14 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ReactNode, useEffect, useState } from "react";
+
+// component
 import { ListContainer, ListItemAction } from "@/components/common/list";
 import { TabItemParam, Tabs } from "@/components/common/tabs";
-import { baseApi } from "@/lib/api";
-import { ReactNode, useEffect, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
-import { statusCompare } from "./compare";
 import { dialogAction, DialogBody, DialogContainer, DialogHeader } from "@/components/common/dialog";
+import AppLayout from "@/layouts/app-layout";
+
+// type
+import { statusCompare } from "../types/compare";
+
+// function
+import { baseApi } from "@/lib/api";
+
+// scss
 import '../../css/common.scss';
 import '../../css/group.scss';
-import AppLayout from "@/layouts/app-layout";
 
 const groupDialogID = 'groupDialog';
 const memberDialogID = 'memberDialog';

@@ -1,12 +1,19 @@
+import { useEffect, useState } from 'react';
+
+// component
 import KeyVisual from '@/components/home/keyVisual';
 import Carousel, { Group } from '@/components/home/carousel';
 import Footer from '@/components/common/footer';
-import { useEffect, useState } from 'react';
+import AppLayout from '@/layouts/app-layout';
+
+// function
 import { baseApi, uploadRes } from '@/lib/api';
 import { shuffle } from '@/lib/utils';
+
+// scss
 import '../../css/common.scss';
 import '../../css/home.scss';
-import AppLayout from '@/layouts/app-layout';
+
 export default function Home() {
     const [bg,setBg] = useState("");
     const [character,setCharacter] = useState("");

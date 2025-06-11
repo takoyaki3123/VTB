@@ -20,7 +20,7 @@ const ApplyMember = () => {
     const [groupList, setGroupList] = useState<any[]>([]);
     const [selectGroup, setSelectGroup] = useState<string>("");
     const avatarImgRef = useRef<HTMLInputElement>(null);
-    const footerChild = <DialogCloseButton text="關閉"></DialogCloseButton>;
+    const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
 
     const updateVo = (value: string|{[key:string]:any}, key: string) => {
         setVo({...vo, [key]:value})

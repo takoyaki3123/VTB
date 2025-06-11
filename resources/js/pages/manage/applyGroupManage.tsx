@@ -66,7 +66,7 @@ const ApplyGroupManage = () => {
     const [applyList, setApplyList] = useState<any>([]);
     const [processGroup, setProcessGroup] = useState<any>({});
     const [msg, setMsg] = useState("");
-    const footerChild = <DialogCloseButton text="關閉"></DialogCloseButton>;
+    const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
     const init = () => {
         baseApi('getApplyGroup', {})
         .then((res: uploadRes) => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import MDEditor from "@uiw/react-md-editor";
 import PropTypes from "prop-types";

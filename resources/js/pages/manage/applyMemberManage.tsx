@@ -68,7 +68,7 @@ const ApplyMemberManage = () => {
     const [applyList, setApplyList] = useState<any>([]);
     const [processMember, setProcessMember] = useState<any>({});
     const [msg, setMsg] = useState("");
-    const footerChild = <DialogCloseButton text="關閉"></DialogCloseButton>;
+    const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
     const init = () => {
         baseApi('getApplyMember', {})
         .then((res: uploadRes) => {

@@ -44,7 +44,7 @@ const ApplyGroup = () => {
     const closePage = () => {
         window.close();
     }
-    const footerChild = <DialogCloseButton text="關閉"></DialogCloseButton>;
+    const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
     return (
         <Fragment>
             <Head title={"皆のVTB"}></Head>

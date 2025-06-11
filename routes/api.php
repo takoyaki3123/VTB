@@ -9,6 +9,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckLogin;
+use App\Http\Middleware\CheckManage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,10 @@ Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
     Route::post('/getUserList', [UserController::class, 'index']);
     Route::post('/updatePermission', [UserController::class, 'updatePermission']);
 });
-
+Route::middleware(['auth:sanctum', CheckManage::class])->group(function () {
+    Route::post('/updateMember', [MemberController::class, 'update']);
+    Route::post('/updateGroup', [GroupController::class, 'update']);
+});
 Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {
     Route::post('/applyNewGroup', [GroupController::class, 'apply']);
     Route::post('/getApplyGroup', [GroupController::class, 'applyGroupList']);
@@ -47,7 +51,6 @@ Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {
         return $request->user();
     });
 });
-Route::post('/updateGroup', [GroupController::class, 'update']);
 Route::post('/loginVerify', [UserController::class, 'login']);
 // token
 Route::get('/csrfToken', function () {

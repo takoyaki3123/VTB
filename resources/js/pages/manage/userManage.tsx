@@ -10,7 +10,7 @@ import { Fragment, useEffect, useState } from "react";
 const UserManage = () => {
     const [list, setList] = useState<Array<any>>([]);
     const [msg, setMsg] = useState("");
-    const footerChild = <DialogCloseButton text="關閉"></DialogCloseButton>;
+    const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
     const init = () => {
         getUserList();
     }

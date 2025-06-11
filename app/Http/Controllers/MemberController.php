@@ -43,7 +43,7 @@ class MemberController extends Controller
         $member = MemberModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
         }])->where([['id', '=', $request->post()['body']['id']], ['status', '=', '1']])
-            ->get(['id', 'name', 'desc', 'img_id'])
+            ->get(['id', 'name', 'socialUrl', 'streamUrl', 'desc', 'img_id'])
             ->map(function ($memberData) {
                 $memberData['imgName'] = $memberData->thumbnail ? $memberData->thumbnail->imgName : null;
                 unset($memberData->thumbnail);
@@ -117,6 +117,18 @@ class MemberController extends Controller
     public function update(Request $request, MemberModel $memberModel)
     {
         //
+        $post = $request->post()['body'];
+        $member = MemberModel::find($post['id']);
+        if (!empty($member)) {
+            $member->name = $post['name'];
+            $member->desc = $post['desc'];
+            $member->streamUrl = $post['streamUrl'];
+            $member->socialUrl = $post['socialUrl'];
+            $member->img_id = $post['avatar']['id'];
+            $member->save();
+            return new HandleException('200', [], '');
+        }
+        return new HandleException('400', [], 'メンバーを見当たりません');
     }
 
     /**

@@ -4,7 +4,7 @@ import { ReactNode, useRef } from "react";
 import { Modal } from "bootstrap";
 import { useMutationObserver } from "@/lib/mutationObserver";
 import { mutationOption } from "@/types";
-const DialogContainer = (props: {id: string, scrollAble: boolean,  children: ReactNode, className?: string, onClose?: () => void}) => {
+const DialogContainer = (props: {id: string,  children: ReactNode, scrollAble?: boolean, className?: string, onClose?: () => void}) => {
     const modalRef = useRef<HTMLDivElement>(null);
     const option: mutationOption = {
         CharacterData: false,

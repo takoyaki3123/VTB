@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { uploadApi, uploadRes } from "@/lib/api";
 
-function Uploader({ className, id, ref, setImgId, refChange }: {className:string, id:string, ref:React.Ref<HTMLInputElement>, setImgId:(id:number) => void, refChange:()=>void}) {
+function Uploader({ className, id, ref, setImgId, refChange }: {className:string, id:string, ref:React.RefObject<HTMLInputElement | null>, setImgId:(id:number) => void, refChange:(ref: React.RefObject<HTMLInputElement | null>)=>void}) {
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        refChange();
+        refChange(ref);
         if(e.target!.files![0]) {
             uploadApi("uploadImg",{'image': e.target.files![0]})
             .then((res: uploadRes) => {

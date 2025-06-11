@@ -58,9 +58,9 @@ interface MemberVO {
     id: number | null;
     name: string;
     desc: string;
-    streamUrl: string | null;
+    streamUrl: string;
     streamPlatform: string | null;
-    socialUrl: string | null;
+    socialUrl: string;
     socialPlatform: string | null;
     avatar: {id?: number | null, name?: string | null; type?: string | null; size?: number | null } | null;
     group_id: number | null;
@@ -69,9 +69,9 @@ export const memberVO: MemberVO = {
     id: null,
     name: '',
     desc: '',
-    streamUrl:  null,
+    streamUrl:  '',
     streamPlatform:  null,
-    socialUrl:  null,
+    socialUrl:  '',
     socialPlatform: null,
     avatar: null,
     group_id: null,

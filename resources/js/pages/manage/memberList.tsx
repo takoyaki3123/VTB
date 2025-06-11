@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Card from "@/components/common/card";
-import Navbar from "@/components/common/navbar";
 import { baseApi } from "@/lib/api";
 import { valueAsKey } from "@/lib/utils";
 import { reducerType } from "@/store";
 import { User } from "@/types";
-import { Head } from "@inertiajs/react";
 import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import '../../../css/common.scss';
 import '../../../css/member.scss';
+import AppLayout from "@/layouts/app-layout";
 
 const MemberList = () => {
 
@@ -36,13 +35,7 @@ const MemberList = () => {
         }
     },[user])
     return(
-        <Fragment>
-            <Head title={"皆のVTB"}>
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-            </Head>
-            <Navbar/>
-
+        <AppLayout>
             <div className='container'>
                 <h3>メンバーリスト</h3>
                 <div className="row mt-4">
@@ -60,7 +53,7 @@ const MemberList = () => {
                 </div>
 
             </div>
-        </Fragment>
+        </AppLayout>
     )
 }
 export default MemberList;

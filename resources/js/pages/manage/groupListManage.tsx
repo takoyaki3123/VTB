@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Card from "@/components/common/card";
-import Navbar from "@/components/common/navbar";
 import { baseApi, uploadRes } from "@/lib/api";
-import { Head } from "@inertiajs/react";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import '../../../css/group.scss';
 import '../../../css/common.scss';
+import AppLayout from "@/layouts/app-layout";
 
 const GroupListManage = () => {
     const [list, setList] = useState([]);
@@ -19,9 +18,7 @@ const GroupListManage = () => {
         init();
     },[])
     return (
-        <Fragment>
-            <Head title={"皆のVTB"}></Head>
-            <Navbar/>
+        <AppLayout>
             <div className="container">
                 <div className="row mt-4">
                     {list.map((item: {[key:string]:any}) => (
@@ -36,7 +33,7 @@ const GroupListManage = () => {
                     ))}
                 </div>
             </div>
-        </Fragment>
+        </AppLayout>
     )
 }
 export default GroupListManage;

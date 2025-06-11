@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ListContainer, ListItemAction } from "@/components/common/list";
-import Navbar from "@/components/common/navbar";
 import { TabItemParam, Tabs } from "@/components/common/tabs";
 import { baseApi } from "@/lib/api";
-import { Head } from "@inertiajs/react";
 import { ReactNode, useEffect, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import { statusCompare } from "./compare";
 import { dialogAction, DialogBody, DialogContainer, DialogHeader } from "@/components/common/dialog";
 import '../../css/common.scss';
 import '../../css/group.scss';
+import AppLayout from "@/layouts/app-layout";
 
 const groupDialogID = 'groupDialog';
 const memberDialogID = 'memberDialog';
@@ -114,9 +113,7 @@ const ApplyList = () => {
         init();
     },[])
     return (
-        <Fragment>
-            <Head title={"皆のVTB"}></Head>
-            <Navbar/>
+        <AppLayout>
             <div className="container-half mx-auto">
                 <h1>申請リスト</h1>
                 {tabContent != null ?     
@@ -126,7 +123,7 @@ const ApplyList = () => {
             </div>
             <GroupDialog group={group}/>
             <MemberDialog member={member}/>
-        </Fragment>
+        </AppLayout>
     )
 }
 export default ApplyList;

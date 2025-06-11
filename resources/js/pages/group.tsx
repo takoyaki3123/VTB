@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import Navbar from '@/components/common/navbar';
 import KeyVisual from '@/components/home/keyVisual';
-import { Head } from '@inertiajs/react';
 import '../../css/common.scss';
 import '../../css/group.scss';
 import Footer from '@/components/common/footer';
@@ -11,6 +9,7 @@ import { baseApi, uploadRes } from '@/lib/api';
 import Editor from '@/components/common/editor';
 import PropTypes from "prop-types";
 import Card from '@/components/common/card';
+import AppLayout from '@/layouts/app-layout';
 function Group(props: {id: string}) {
     // データーをとる
     // 1.キービジョン
@@ -18,7 +17,6 @@ function Group(props: {id: string}) {
     const [bg,setBg] = useState("");
     const [character,setCharacter] = useState("");
     const [desc, setDesc] = useState("");
-    const [title, setTitle] = useState("");
     const [memberList, setMemberList] = useState<Array<any>>([]);
 
     const init = () => {
@@ -29,12 +27,9 @@ function Group(props: {id: string}) {
     const getGroup = () => {
         baseApi('getGroup', {group_id: props.id})
         .then((res: uploadRes) => {
-            console.log(res.data);
-            
             setBg(res.data.background);
             setCharacter(res.data.character);
             setDesc(res.data.desc);
-            setTitle(res.data.name);
         });
     }
 
@@ -49,12 +44,7 @@ function Group(props: {id: string}) {
         init();
     },[])
     return (
-        <>
-            <Head title={"皆のVTB - " + title}>
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-            </Head>
-            <Navbar/>
+        <AppLayout>
             <KeyVisual backgroundPath={"/storage/image/" + bg} imgPath={"/storage/image/" + character}/>
             <div className='container'>
                 <Editor value={desc} show={false} />
@@ -74,7 +64,7 @@ function Group(props: {id: string}) {
 
             </div>
             <Footer/>
-        </>
+        </AppLayout>
     );
 }
 Group.propTypes = {

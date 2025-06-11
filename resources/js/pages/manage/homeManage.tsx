@@ -1,6 +1,4 @@
-import Navbar from '@/components/common/navbar';
 import KeyVisual from '@/components/home/keyVisual';
-import { Head } from '@inertiajs/react';
 import Carousel, { Group } from '@/components/home/carousel';
 import Footer from '@/components/common/footer';
 import { Button } from '@/components/ui/button';
@@ -11,6 +9,7 @@ import { baseApi, uploadRes } from '@/lib/api';
 import { shuffle } from '@/lib/utils';
 import '../../../css/common.scss';
 import '../../../css/home.scss';
+import AppLayout from '@/layouts/app-layout';
 
 // 只修改主視覺
 // 輪播是所有group都播
@@ -78,12 +77,7 @@ const HomeManage = () => {
         init();
     }, [])
     return (
-        <>
-            <Head title="皆のVTB">
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-            </Head>
-            <Navbar />
+        <AppLayout>
             <div className='manageContainer'>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">背景</label>
@@ -102,7 +96,7 @@ const HomeManage = () => {
                 <Carousel groups={groups} />
             </div>
             <Footer />
-        </>
+        </AppLayout>
     );
 }
 export default HomeManage;

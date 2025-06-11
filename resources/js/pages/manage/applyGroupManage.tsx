@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ListContainer, ListItemAction } from "@/components/common/list";
-import Navbar from "@/components/common/navbar";
 import { baseApi, uploadRes } from "@/lib/api";
-import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import { dialogAction, DialogBody, DialogCloseButton, DialogContainer, DialogFooter, DialogHeader } from "@/components/common/dialog";
 import MsgBox, { msgBoxAction } from "@/components/common/msgBox";
 import '../../../css/common.scss';
 import '../../../css/group.scss';
+import AppLayout from "@/layouts/app-layout";
 
 const rejectDialogID = 'rejectReason';
 const applyDialogID = 'apply';
@@ -107,9 +106,7 @@ const ApplyGroupManage = () => {
         init();
     },[])
     return (
-        <Fragment>
-            <Head></Head>
-            <Navbar/>
+        <AppLayout>
             <div className="container-half mx-auto">
                 <h1>グループ申請</h1>
                 <ListContainer>
@@ -131,7 +128,7 @@ const ApplyGroupManage = () => {
             <ApplyDialog processGroup={processGroup} approve={() => {approve()}}/>
             <RejectReason reject={reject}/>
             <MsgBox msg={msg} footer={{"footerChild" : footerChild}}/>
-        </Fragment>
+        </AppLayout>
     )
 }
 export default ApplyGroupManage;

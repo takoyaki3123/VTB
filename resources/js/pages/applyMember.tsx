@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Editor from "@/components/common/editor";
 import MsgBox, { msgBoxAction } from "@/components/common/msgBox";
-import Navbar from "@/components/common/navbar";
 import { Uploader } from "@/components/common/uploader";
-import { Head } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
-import { Fragment } from "react/jsx-runtime";
 import { memberVO } from "./vo";
 import { baseApi } from "@/lib/api";
 import { DialogCloseButton } from "@/components/common/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import '../../css/common.scss'
+import AppLayout from "@/layouts/app-layout";
 
 //グループメンバー増加の申請、管理者が許可と修正をする
 const ApplyMember = () => {
@@ -68,9 +66,7 @@ const ApplyMember = () => {
         init();
     }, [])
     return (
-        <Fragment>
-            <Head title={"皆のVTB"}></Head>
-            <Navbar/>
+        <AppLayout>
 
             <div className="container mx-auto">
                 <h1 className="h3 mb-3 fw-normal text-center">メンバー増加申請</h1>
@@ -110,7 +106,7 @@ const ApplyMember = () => {
                 <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>申請</button>
             </div>
             <MsgBox msg={msg} footer={{"footerChild" : footerChild}} onClose={() => closePage()}/>
-        </Fragment>
+        </AppLayout>
     )
 }
 export default ApplyMember;

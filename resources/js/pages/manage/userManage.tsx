@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DialogCloseButton } from "@/components/common/dialog";
 import MsgBox from "@/components/common/msgBox";
-import Navbar from "@/components/common/navbar";
 import { PermissionSelect } from "@/components/common/permission";
+import AppLayout from "@/layouts/app-layout";
 import { baseApi } from "@/lib/api";
-import { Head } from "@inertiajs/react";
 import { Fragment, useEffect, useState } from "react";
 
 const UserManage = () => {
@@ -33,9 +32,7 @@ const UserManage = () => {
         init();
     },[])
     return (
-        <Fragment>
-            <Head title={"皆のVTB"}></Head>
-            <Navbar/>
+        <AppLayout>
             <div className="container">
                 <h5>ユーザー管理</h5>
                 <div className="row">
@@ -68,7 +65,7 @@ const UserManage = () => {
                 </div>
             </div>
             <MsgBox msg={msg} footer={{"footerChild" : footerChild}}/>
-        </Fragment>
+        </AppLayout>
     )
 }
 export default UserManage;

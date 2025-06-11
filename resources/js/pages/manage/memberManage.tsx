@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Navbar from '@/components/common/navbar';
-import { Head } from '@inertiajs/react';
 import '../../../css/common.scss';
 import '../../../css/member.scss';
 import Footer from '@/components/common/footer';
-import { Fragment, RefObject, useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { baseApi, uploadRes } from '@/lib/api';
 import Editor from '@/components/common/editor';
 import { dialogAction, DialogBody, DialogCloseButton, DialogContainer, DialogFooter, DialogHeader } from '@/components/common/dialog';
 import { memberVO } from '../vo';
 import { Uploader } from '@/components/common/uploader';
 import MsgBox, { msgBoxAction } from '@/components/common/msgBox';
+import AppLayout from '@/layouts/app-layout';
 
 const MemberManage = (props: {id: number}) => {
     const avatarImgRef = useRef<HTMLInputElement>(null);
@@ -88,16 +87,12 @@ const MemberManage = (props: {id: number}) => {
         init();
     },[])
     return (
-        <Fragment>
-            <Head title={"皆のVTB - " + name}>
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-            </Head>
-            <Navbar/>
+        <AppLayout>
             <div className='container-half mx-auto'>
                 <button className="btn btn-primary" onClick={() => openDialog()}>修正</button>
                 <div className='d-flex flex-wrap'>
                     <img src={'/storage/image/' + imgName} alt="no img" className='thumbnail'/>
+                    <h3>{name}</h3>
                     <Editor value={desc} show={false} />
                     <div className='mt-2'>配信チャンネル：<a href={streamUrl} target='_blank'>{streamUrl}</a></div>
                     <div>SNS：<a href={socialUrl} target='_blank'>{socialUrl}</a></div>
@@ -137,7 +132,7 @@ const MemberManage = (props: {id: number}) => {
             </DialogContainer>
             <MsgBox msg={msg} footer={{"footerChild" : footerChild}}/>
             <Footer/>
-        </Fragment>
+        </AppLayout>
     );
 }
 export default MemberManage;

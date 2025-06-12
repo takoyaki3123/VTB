@@ -61,6 +61,15 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        $post = $request->post()['body'];
+        $user = User::find((int)$post['id']);
+        if (!empty($user)) {
+            $user->name = $post['name'];
+            $user->email = $post['email'];
+            $user->save();
+            return new HandleException(200, [], '');
+        }
+        return new HandleException(400, [], '使用者が見当たりません');
     }
 
     public function updatePermission(Request $request)

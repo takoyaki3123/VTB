@@ -45,8 +45,8 @@ Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {
     Route::post('/getApplyGroup', [GroupController::class, 'applyGroupList']);
     Route::post('/applyNewMember', [MemberController::class, 'apply']);
     Route::post('/getApplyMember', [MemberController::class, 'applyMemberList']);
-    
     Route::post('/getApplyList', [ApplyController::class, 'getApplyList']);
+    Route::post('/updatePersonal', [UserController::class, 'update']);
     Route::post('/user', function (Request $request) {
         return $request->user();
     });

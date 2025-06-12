@@ -77,8 +77,12 @@ Route::middleware([CheckLogin::class])->group(function () {
         Route::get('/list', function () {
             return Inertia::render('applyList');
         });
+
     })->name('applyPage');
 
+    Route::get('/personal', function () {
+        return Inertia::render('personal');
+    })->name('personal');
     // 待新增
     Route::get('/profile', function () {
         return Inertia::render('manage/groupManage');

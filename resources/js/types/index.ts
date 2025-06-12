@@ -35,8 +35,8 @@ export interface User {
     email: string;
     avatar?: string;
     email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
     manage_group: number;
     isAdmin: boolean;
     isGroupManager: boolean;

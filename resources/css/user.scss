@@ -1,0 +1,49 @@
+$personal_color: #4182fa;
+$avatar_large_size: 160px;
+$avatar_normal_size: 90px;
+$avatar_small_size: 28px;
+.personal-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+// avatar
+.avatar-container {
+    width: fit-content;
+    border-radius: 50%;
+    background-color: $personal_color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+    .avatar {
+        background-size: cover;
+        position: absolute;
+    }
+    .avatar-default {
+        font-weight: 500;
+    }
+}
+.avatar-large {
+    width: $avatar_large_size;
+    max-width: $avatar_large_size;
+    height: $avatar_large_size;
+    line-height: $avatar_large_size;
+    font-size: 30px;
+}
+.avatar-small {
+    width: $avatar_small_size;
+    max-width: $avatar_small_size;
+    height: $avatar_small_size;
+
+    line-height: $avatar_small_size;
+    font-size: 12px;
+}
+
+//info
+.info-container {
+    width:100%;
+}

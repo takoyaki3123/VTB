@@ -108,7 +108,7 @@ const MemberManage = (props: {id: number}) => {
             </div>
             <DialogContainer id={dialogID} className='modal-lg'>
                 <DialogHeader>
-                    <h2>name</h2>
+                    <h2>{ name }</h2>
                 </DialogHeader>
                 <DialogBody>
                     <div className="form-floating py-1">

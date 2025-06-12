@@ -52,7 +52,7 @@ const Navbar = () => {
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="personal">
                                     <li><a className="dropdown-item" href="/apply/list">申請リスト</a></li>
-                                    <li><a className="dropdown-item" href="#">個人情報</a></li>
+                                    <li><a className="dropdown-item" href="/personal">個人情報</a></li>
                                     <li><a className="dropdown-item" href="/logout">ログアウト</a></li>
                                 </ul>
                             </li>

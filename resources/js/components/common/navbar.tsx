@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { reducerType } from "@/store";
 import { User } from "@/types";
 import { setUser } from "@/store/actionList";
+import Avatar from "./avatar";
 
 const Navbar = () => {
     const pairList = GetPermissionPair();
@@ -45,22 +46,6 @@ const Navbar = () => {
                         <li className="nav-item">
                             <a className="nav-link" href="/groupList">グループ</a>
                         </li>
-                        {user != null && user.name != "" ? 
-                            <li className="nav-item dropdown" id="personal">
-                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    個人ページ
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="personal">
-                                    <li><a className="dropdown-item" href="/apply/list">申請リスト</a></li>
-                                    <li><a className="dropdown-item" href="/personal">個人情報</a></li>
-                                    <li><a className="dropdown-item" href="/logout">ログアウト</a></li>
-                                </ul>
-                            </li>
-                        : 
-                            <li className="nav-item">
-                                <a className="nav-link" href="/login">ログイン</a>
-                            </li>
-                        }
                         {user != null && user.isAdmin ?
                             <li className="nav-item dropdown" id="manageNavbar">
                                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -76,6 +61,23 @@ const Navbar = () => {
                                 </ul>
                             </li>
                         : <Fragment/>}
+
+                        {user != null && user.name != "" ? 
+                            <li className="nav-item dropdown" id="personal">
+                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <Avatar size="small"/>
+                                </a>
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="personal">
+                                    <li><a className="dropdown-item" href="/apply/list">申請リスト</a></li>
+                                    <li><a className="dropdown-item" href="/personal">個人情報</a></li>
+                                    <li><a className="dropdown-item" href="/logout">ログアウト</a></li>
+                                </ul>
+                            </li>
+                        : 
+                            <li className="nav-item">
+                                <a className="nav-link" href="/login">ログイン</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

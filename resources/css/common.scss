@@ -1,4 +1,5 @@
 
+$avatar_small_size: 28px;
 a {
     text-decoration: none;
 }
@@ -18,9 +19,10 @@ hr {
 
 .navbar {
     .avatar-container {
-        width: 25px;
-        max-width: 25px;
-        height: 25px;
+        width: $avatar_small_size;
+        max-width: $avatar_small_size;
+        height: $avatar_small_size;
+        display: inline-flex;
     }
 }
 

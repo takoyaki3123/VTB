@@ -19,6 +19,7 @@ $avatar_small_size: 28px;
     justify-content: center;
     align-items: center;
     position:relative;
+    overflow: hidden;
     .avatar {
         background-size: cover;
         position: absolute;

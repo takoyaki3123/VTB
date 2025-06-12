@@ -74,7 +74,7 @@ const MemberManage = (props: {id: number}) => {
                 msgBoxAction('show');
             } else {
                 dialogAction(dialogID, 'hide');
-                setMsg('修正完成');
+                setMsg('変更完成');
                 msgBoxAction('show');
 
                 setImgName(vo.avatar!.name!.toString());
@@ -97,7 +97,7 @@ const MemberManage = (props: {id: number}) => {
     return (
         <AppLayout>
             <div className='container-half mx-auto'>
-                <button className="btn btn-primary" onClick={() => openDialog()}>修正</button>
+                <button className="btn btn-primary" onClick={() => openDialog()}>変更</button>
                 <div className='d-flex flex-wrap'>
                     <img src={'/storage/image/' + imgName} alt="no img" className='thumbnail'/>
                     <h3>{name}</h3>

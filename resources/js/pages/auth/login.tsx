@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, Fragment } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -52,9 +52,10 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         <InputError message={errors.password} />
                         <label htmlFor="ps">パスワード</label>
                         {canResetPassword && (
-                            <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
-                                Forgot password?
-                            </TextLink>
+                            <Fragment/>
+                            // <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
+                            //     Forgot password?
+                            // </TextLink>
                         )}
                         <TextLink href={route('register')} className="ml-auto text-sm" tabIndex={5}>
                             登録

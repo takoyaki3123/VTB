@@ -42,7 +42,7 @@ const Personal = () => {
                 msgBoxAction('show');
             } else {
                 dialogAction(dialogID, 'hide');
-                setMsg('修正完成');
+                setMsg('変更完成');
                 msgBoxAction('show');
                 dispatch(setUser({...userVo}))
             }

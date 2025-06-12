@@ -36,10 +36,12 @@ Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
     Route::post('/getUserList', [UserController::class, 'index']);
     Route::post('/updatePermission', [UserController::class, 'updatePermission']);
 });
+
 Route::middleware(['auth:sanctum', CheckManage::class])->group(function () {
     Route::post('/updateMember', [MemberController::class, 'update']);
     Route::post('/updateGroup', [GroupController::class, 'update']);
 });
+
 Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {
     Route::post('/applyNewGroup', [GroupController::class, 'apply']);
     Route::post('/getApplyGroup', [GroupController::class, 'applyGroupList']);

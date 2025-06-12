@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Exception\HandleException;
+use App\Http\Exception\Response;
 use App\Models\HomeModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -44,7 +45,7 @@ class HomeController extends Controller
                 return $home;
             })
             ->toArray();
-        return new HandleException(200, $home[0], '');
+        return new Response(200, $home[0], '');
     }
 
     /**
@@ -54,6 +55,12 @@ class HomeController extends Controller
     {
         //
         $post = $request->post();
+        $validate = Validator::make($post['body'], [
+            'id' => ['required'],
+        ]);
+        if ($validate->fails()) {
+            return new Response(400, [], '資料に問題がありました！');
+        }
         $home = HomeModel::find($post['body']['id']);
         if ($home != null) {
             if (isset($post['body']['background']['id']) && $post['body']['background']['id'] != 0) {
@@ -63,20 +70,21 @@ class HomeController extends Controller
                 $home->character = $post['body']['character']['id'];
             }
             $home->save();
-            return new HandleException('200', [], '');
+            return new Response('200', [], '');
         } else {
             try {
                 $home = new HomeModel;
                 $home->background = $post['body']['background']['id'];
                 $home->character = $post['body']['character']['id'];
                 $home->save();
-                return new HandleException('200', [], '');
+                return new Response('200', [], '');
             } catch (\Throwable $th) {
                 //throw $th;
-                Log::debug("error from update home by code " . $th->getCode() . ", message: " . $th->getMessage());
+                return new Response('400', [], 'エラー', $th);
+                // Log::debug("error from update home by code " . $th->getCode() . ", message: " . $th->getMessage());
             }
         }
-        return new HandleException('400', [], 'エラー');
+        return new Response('400', [], 'エラー');
     }
 
     /**

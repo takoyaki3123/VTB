@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             // img id リストで出る画像
             $table->string('name');
-            $table->string('desc');
+            $table->text('desc');
             $table->string('link')->nullable();
             $table->string('apply_user')->nullable();
             $table->string('status')->default('0');
-            $table->string('rejectReason')->nullable();
+            $table->text('rejectReason')->nullable();
             $table->dateTime('ctime')->useCurrent();
             $table->dateTime('utime')->useCurrent()->useCurrentOnUpdate();
         });

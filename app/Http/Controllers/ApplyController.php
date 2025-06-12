@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Exception\HandleException;
+use App\Http\Exception\Response;
 use App\Models\GroupModel;
 use App\Models\MemberModel;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class ApplyController extends Controller
         $groupList = GroupModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
         }])
-            ->where([['id', '!=', '0'], ['status', '!=', '1'], ['apply_user', '=', $request->user()['id']]])
+            ->where([['status', '!=', '1'], ['apply_user', '=', $request->user()['id']]])
             ->get(['id', 'name', 'desc', 'link', 'status', 'ctime', 'img_id'])
             ->map(function ($group) {
                 $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
@@ -29,7 +29,7 @@ class ApplyController extends Controller
             ->toArray();
         $memberList = MemberModel::with(['thumbnail' => function ($query) {
                 $query->select(['id','name as imgName']);
-            }, 'groupMember' => function ($query) {
+            }, 'company' => function ($query) {
                 $query->select(['id','name as groupName']);
             }])
                 ->where([['status', '!=', '1'], ['apply_user', '=', $request->user()['id']]])
@@ -37,14 +37,14 @@ class ApplyController extends Controller
                 ->map(function ($member) {
                     $member['imgName'] = $member->thumbnail ? $member->thumbnail->imgName : null;
                     unset($member->thumbnail);
-                    $member['groupName'] = $member->groupMember ? $member->groupMember->groupName : null;
-                    unset($member->groupMember);
+                    $member['groupName'] = $member->company ? $member->company->groupName : null;
+                    unset($member->company);
                     return $member;
                 })
                 ->toArray();
         $result['group'] = $groupList;
         $result['member'] = $memberList;
-        return new HandleException(200, $result, '');
+        return new Response(200, $result, '');
     }
 }
 ?>

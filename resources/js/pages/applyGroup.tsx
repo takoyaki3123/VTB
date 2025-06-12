@@ -21,6 +21,7 @@ import '../../css/common.scss'
 const ApplyGroup = () => {
     const [vo, setVo] = useState<typeof groupVO>({...groupVO});
     const [msg, setMsg] = useState("");
+    const [close, setClose] = useState(false);
     const groupImgRef = useRef<HTMLInputElement>(null);
     const updateVo = (value: string|{[key:string]:any}, key: string) => {
         setVo({...vo, [key]:value})
@@ -36,19 +37,37 @@ const ApplyGroup = () => {
     }
 
     const apply = () => {
+        if (!checkVo()) {
+            setMsg("請確認欄位接填寫完成");
+            msgBoxAction('show');
+        }
         baseApi('applyNewGroup', {...vo})
         .then((res) => {
             if (res.data.errorMsg) {
                 setMsg(res.data.errorMsg);
             } else {
+                setClose(true);
                 setMsg("申請完成");
             }
             msgBoxAction('show');
         });
     }
 
+    const checkVo = (): boolean => {
+        if (vo.name == '' || vo.link == '' || vo.desc == '' || vo.visual == null) {
+            return false;
+        } else if (vo.visual != null) {
+            if (vo.visual.id! <= 0 || vo.visual.id == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     const closePage = () => {
-        window.close();
+        if (close) {
+            window.close();
+        }
     }
     const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
     return (

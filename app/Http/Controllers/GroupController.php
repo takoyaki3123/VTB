@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Exception\HandleException;
+use App\Http\Exception\Response;
 use App\Models\GroupModel;
 use App\Models\KeyVisualModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class GroupController extends Controller
 {
@@ -31,7 +32,7 @@ class GroupController extends Controller
                 return $group;
             })
             ->toArray();
-        return new HandleException(200, $groupList, '');
+        return new Response(200, $groupList, '');
     }
 
     /**
@@ -41,7 +42,7 @@ class GroupController extends Controller
     {
         //
         $groupList = GroupModel::where([['status', '=', '1']])->get(['id', 'name'])->toArray();
-        return new HandleException(200, $groupList, '');
+        return new Response(200, $groupList, '');
     }
     /**
      * Store a newly created resource in storage.
@@ -67,9 +68,9 @@ class GroupController extends Controller
         if(count($GroupData) > 0) {
             $GroupData[0]->bgPath = Storage::url("image/" . $GroupData[0]->background);
             $GroupData[0]->characterPath = Storage::url("image/" . $GroupData[0]->character);
-            return  new HandleException(200, (array)$GroupData[0], '');
+            return  new Response(200, (array)$GroupData[0], '');
         }
-        return new HandleException(200, [], '');
+        return new Response(200, [], '');
     }
 
     /**
@@ -78,6 +79,15 @@ class GroupController extends Controller
     public function update(Request $request)
     {
         $post = $request->post();
+
+        $validate = Validator::make($post['body'], [
+            'id' => ['required'],
+            'group_id' => ['required'],
+            'desc' => ['required']
+        ]);
+        if ($validate->fails()) {
+            return new Response(400, [], '資料に問題がありました！');
+        }
         $group = GroupModel::find($post['body']['id']);
         $homeKeyVisual = KeyVisualModel::where('group_id', $post['body']['id'])->first();
         if (empty($homeKeyVisual)) {
@@ -94,11 +104,17 @@ class GroupController extends Controller
         if (isset($post['body']['visual']['id']) && $post['body']['visual']['id'] != 0) {
             $group->img_id = $post['body']['visual']['id'];
         }
-        $homeKeyVisual->save();
-
+        
         $group->desc = $post['body']['desc'];
-        $group->save();
-        return  new HandleException(200, [], '');
+
+        try {
+            $homeKeyVisual->save();
+            $group->save();
+            return  new Response(200, [], '');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return  new Response(400, [], '変更失敗しました', $th);
+        }
     }
 
     /**
@@ -113,16 +129,30 @@ class GroupController extends Controller
     public function apply(Request $request)
     {
         $groupData = $request->post()['body'];
-        Log::debug(json_encode($groupData));
+
+        $validate = Validator::make($groupData, [
+            'id' => ['required'],
+            'name' => ['required'],
+            'desc' => ['required'],
+            'link' => ['required'],
+            'visual.id' => ['required'],
+        ]);
+        if ($validate->fails()) {
+            return new Response(400, [], '資料に問題がありました！');
+        }
         if (isset($groupData['id']) && $groupData['id'] != 0) {
-            $group = GroupModel::find($groupData['id']);
-            $group->name = $groupData['name'];
-            $group->desc = $groupData['desc'];
-            $group->link = $groupData['link'] ?: '';
-            $group->status = '0';
-            $group->img_id = $groupData['visual']['id'];
-            $group->save();
-            return new HandleException(200, $group, '');
+            try {
+                $group = GroupModel::find($groupData['id']);
+                $group->name = $groupData['name'];
+                $group->desc = $groupData['desc'];
+                $group->link = $groupData['link'] ?: '';
+                $group->status = '0';
+                $group->img_id = $groupData['visual']['id'];
+                $group->save();
+                return new Response(200, $group, '');
+            } catch (\Throwable $th) {
+                return new Response(400, [], '申請失敗', $th);
+            }
         } else {
             $group = GroupModel::firstOrCreate([
                 'name' => $groupData['name'],
@@ -133,9 +163,9 @@ class GroupController extends Controller
                 'img_id' => $groupData['visual']['id'],
             ]);
             if ($group->wasRecentlyCreated) {
-                return new HandleException(200, [], '');
+                return new Response(200, [], '');
             } else {
-                return new HandleException(400, [], '既に存在しているグループです！');
+                return new Response(400, [], '既に存在しているグループです！');
             }
         }
     }
@@ -152,27 +182,46 @@ class GroupController extends Controller
                 return $group;
             })
             ->toArray();
-        return new HandleException(200, $groupList, '');
+        return new Response(200, $groupList, '');
     }
 
     public function approve(Request $request)
     {
         $post = $request->post();
+
+        $validate = Validator::make($post['body'], [
+            'id' => ['required'],
+        ]);
+        if ($validate->fails()) {
+            return new Response(400, [], '資料に問題がありました！');
+        }
         $groupID = $post['body']['id'];
         $group = GroupModel::find($groupID);
+        if (empty($group)) {
+            return new Response(400, [], '存在しないグループです');
+        }
         $group->status = '1';
         $group->save();
-        return new HandleException(200, [], '');
+        return new Response(200, [], '');
     }
 
     public function reject(Request $request)
     {
         $post = $request->post();
-        $groupID = $post['body']['id'];
-        $group = GroupModel::find($groupID);
+        $validate = Validator::make($post['body'], [
+            'id' => ['required'],
+            'rejectReason' => ['required'],
+        ]);
+        if ($validate->fails()) {
+            return new Response(400, [], '資料に問題がありました！');
+        }
+        $group = GroupModel::find($post['body']['id']);
+        if (empty($group)) {
+            return new Response(400, [], '存在しないグループです');
+        }
         $group->status = 2;
         $group->rejectReason = $post['body']['rejectReason'];
         $group->save();
-        return new HandleException(200, [], '');
+        return new Response(200, [], '');
     }
 }

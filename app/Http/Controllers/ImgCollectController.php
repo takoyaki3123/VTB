@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Exception\Response;
 use App\Models\ImgCollectModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -32,7 +33,7 @@ class ImgCollectController extends Controller
         // todo: create file data
         $result = ImgCollectModel::firstOrCreate(['name'=>$fileName,'type'=>$fileType,'size'=>$size]);
 
-        return $result;
+        return new Response('200', $result, '');
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Exception\HandleException;
+use App\Http\Exception\Response;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +18,7 @@ class UserController extends Controller
         //
         $userList = User::all()->toArray();
 
-        return new HandleException(200, $userList, '');
+        return new Response(200, $userList, '');
     }
 
     // login verify
@@ -30,7 +30,7 @@ class UserController extends Controller
             $post = $request->post()['body'];
     
             $acct = User::where([['email', '=', $post['acct']],['password', '=', $post['ps']]])->first();
-            return new HandleException(200, $acct, '');
+            return new Response(200, $acct, '');
         }
     }
 
@@ -67,9 +67,9 @@ class UserController extends Controller
             $user->name = $post['name'];
             $user->email = $post['email'];
             $user->save();
-            return new HandleException(200, [], '');
+            return new Response(200, [], '');
         }
-        return new HandleException(400, [], '使用者が見当たりません');
+        return new Response(400, [], '使用者が見当たりません');
     }
 
     public function updatePermission(Request $request)
@@ -78,7 +78,7 @@ class UserController extends Controller
         $user = User::find((int)$post['id']);
         $user->manage_group = $post['newPermission'];
         $user->save();
-        return new HandleException(200, [], '');
+        return new Response(200, [], '');
     }
 
     /**

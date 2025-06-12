@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Exception\HandleException;
+use App\Http\Exception\Response;
 use App\Models\MemberModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -50,7 +50,7 @@ class MemberController extends Controller
                 return $memberData;
             })
             ->toArray();
-        return $member[0];
+        return new Response('200', $member[0], '');
     }
 
     /**
@@ -75,7 +75,7 @@ class MemberController extends Controller
                 return $member;
             })
             ->toArray();
-        return $memberList;
+        return new Response('200', $memberList, '');
     }
 
     /**
@@ -100,7 +100,7 @@ class MemberController extends Controller
                 return $member;
             })
             ->toArray();
-        return $memberList;
+        return new Response('200', $memberList, '');
     }
 
     /**
@@ -126,9 +126,9 @@ class MemberController extends Controller
             $member->socialUrl = $post['socialUrl'];
             $member->img_id = $post['avatar']['id'];
             $member->save();
-            return new HandleException('200', [], '');
+            return new Response('200', [], '');
         }
-        return new HandleException('400', [], 'メンバーを見当たりません');
+        return new Response('400', [], 'メンバーを見当たりません');
     }
 
     /**
@@ -151,9 +151,8 @@ class MemberController extends Controller
             'socialUrl' => ['required'],
         ]);
         if ($validate->fails()) {
-            return new HandleException(400, [], '資料に問題がありました！');
+            return new Response(400, [], '資料に問題がありました！');
         } else {
-            Log::debug('data:' . json_encode($memberData));
             if (isset($memberData['id']) && $memberData['id'] != 0) {
                 $member = MemberModel::find($memberData['id']);
                 $member->name = $memberData['name'];
@@ -165,7 +164,7 @@ class MemberController extends Controller
                 $member->img_id = $memberData['avatar']['id'] ?? 0;
                 $member->group_id = $memberData['group_id'];
                 $member->save();
-                return new HandleException(200, [], '');
+                return new Response(200, [], '');
             } else {
                 $group = MemberModel::firstOrCreate(['name' => $memberData['name'], 'group_id' => $memberData['group_id']],[
                     'desc' => $memberData['desc'],
@@ -176,9 +175,9 @@ class MemberController extends Controller
                     'img_id' => $memberData['avatar']['id'],
                 ]);
                 if ($group->wasRecentlyCreated) {
-                    return new HandleException(200, [], '');
+                    return new Response(200, [], '');
                 } else {
-                    return new HandleException(400, [], '既に登録しているメンバーです！');
+                    return new Response(400, [], '既に登録しているメンバーです！');
                 }
             }
         }
@@ -198,7 +197,7 @@ class MemberController extends Controller
                 return $group;
             })
             ->toArray();
-        return new HandleException(200, $groupList, '');
+        return new Response(200, $groupList, '');
     }
     
     public function approve(Request $request)
@@ -208,20 +207,20 @@ class MemberController extends Controller
             'id' => ['required', 'integer'],
         ]);
         if ($validate->fails()) {
-            return new HandleException(400, [], '資料に問題がありました！');
+            return new Response(400, [], '資料に問題がありました！');
         }
 
         $memberID = $post['body']['id'];
         $member = MemberModel::find($memberID);
         if (!empty($member)) {
             if ($member->status != 0) {
-                return new HandleException(400, [], '資料に問題がありました！');
+                return new Response(400, [], '資料に問題がありました！');
             }
             $member->status = '1';
             $member->save();
-            return new HandleException(200, [], '');
+            return new Response(200, [], '');
         }
-        return new HandleException(400, [], 'メンバーを見つかりませんでした');
+        return new Response(400, [], 'メンバーを見つかりませんでした');
     }
 
     public function reject(Request $request)
@@ -232,19 +231,19 @@ class MemberController extends Controller
             'rejectReason' => ['required', 'string'],
         ]);
         if ($validate->fails()) {
-            return new HandleException(400, [], '資料に問題がありました！');
+            return new Response(400, [], '資料に問題がありました！');
         }
         $memberID = $post['body']['id'];
         $member = MemberModel::find($memberID);
         if (!empty($member)) {
             if ($member->status != 0) {
-                return new HandleException(400, [], '資料に問題がありました！');
+                return new Response(400, [], '資料に問題がありました！');
             }
             $member->status = 2;
             $member->rejectReason = $post['body']['rejectReason'];
             $member->save();
-            return new HandleException(200, [], '');
+            return new Response(200, [], '');
         }
-        return new HandleException(400, [], 'メンバーを見つかりませんでした');
+        return new Response(400, [], 'メンバーを見つかりませんでした');
     }
 }

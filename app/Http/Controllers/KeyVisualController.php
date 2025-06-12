@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Exception\HandleException;
+use App\Http\Exception\Response;
 use App\Models\KeyVisualModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Prompts\Key;
 
 class KeyVisualController extends Controller
@@ -29,8 +30,22 @@ class KeyVisualController extends Controller
     {
         //get post data
         $post = $request->post();
-        $result = KeyVisualModel::firstOrCreate(['img_id'=>$post['body']['background']['id'],'img2_id'=>$post['body']['character']['id'],'group_id'=>$post['body']['group']]);
-        return $result;
+
+        $validate = Validator::make($post['body'], [
+            'background.id' => ['required'],
+            'character.id' => ['required'],
+            'group_id' => ['required'],
+        ]);
+        if ($validate->fails()) {
+            return new Response(400, [], '資料に問題がありました！');
+        }
+        $keyVisual = new KeyVisualModel;
+        $keyVisual->img_id = $post['body']['background']['id'];
+        $keyVisual->character = $post['body']['character']['id'];
+        $keyVisual->group_id = $post['body']['group_id'];
+        $keyVisual->save();
+        // $result = KeyVisualModel::firstOrCreate(['img_id'=>$post['body']['background']['id'],'img2_id'=>$post['body']['character']['id'],'group_id'=>$post['body']['group']]);
+        return new Response("200", [], '');
     }
 
     /**
@@ -47,8 +62,9 @@ class KeyVisualController extends Controller
         if (count($homeKeyVisual) != 0) {
             $homeKeyVisual[0]->bgPath = Storage::url("image/".$homeKeyVisual[0]->background);
             $homeKeyVisual[0]->characterPath = Storage::url("image/".$homeKeyVisual[0]->character);
-            return $homeKeyVisual[0];
+            return new Response("200", $homeKeyVisual[0], '');
         }
+        return new Response("200", [], '');
     }
 
     /**
@@ -58,6 +74,12 @@ class KeyVisualController extends Controller
     {
         //get post data
         $post = $request->post();
+        $validate = Validator::make($post['body'], [
+            'id' => ['required'],
+        ]);
+        if ($validate->fails()) {
+            return new Response(400, [], '資料に問題がありました！');
+        }
         $homeKeyVisual = KeyVisualModel::find($post['body']['id']);
         if ($homeKeyVisual != null) {
             if (isset($post['body']['background']['id']) && $post['body']['background']['id'] != 0) {
@@ -67,9 +89,11 @@ class KeyVisualController extends Controller
                 $homeKeyVisual->img2_id = $post['body']['character']['id'];
             }
             $homeKeyVisual->save();
-            return new HandleException('200', [], '');
+            return new Response('200', [], '');
+        } else {
+            return $this->store($request);
         }
-        return new HandleException('400', [], 'エラー');
+        return new Response('400', [], 'エラー');
     }
 
     /**

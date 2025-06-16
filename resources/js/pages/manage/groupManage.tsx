@@ -18,8 +18,12 @@ import { groupVO } from "../vo";
 // scss
 import '../../../css/group.scss';
 import '../../../css/common.scss';
+import { useSelector } from "react-redux";
+import { reducerType } from "@/store";
+import { User } from "@/types";
+import { ADMIN_GROUP_MANAGE } from "../settings/globalConst";
 
-const GroupManage = (props: {id?: string|number}) => {
+const GroupManage = () => {
     const [vo, setVo] = useState<typeof groupVO>({ ...groupVO });
     const backgroundRef = useRef<HTMLInputElement>(null);
     const characterRef = useRef<HTMLInputElement>(null);
@@ -31,9 +35,10 @@ const GroupManage = (props: {id?: string|number}) => {
     const [desc, setDesc] = useState<string>("");
     const [selectGroup, setSelectGroup] = useState<string>("");
     const [groupImg, setGroupImg] = useState("");
+    const user = useSelector<reducerType, User>(state => state.user);
     const init = () => {
-        if (props.id != undefined) {
-            getGroupData(props.id);
+        if (user.manage_group != ADMIN_GROUP_MANAGE) {
+            getGroupData(user.manage_group);
         } else {
             getGroupList();
         }
@@ -113,12 +118,14 @@ const GroupManage = (props: {id?: string|number}) => {
             });
     }
     useEffect(() => {
-        init();
-    }, [])
+        if (user.id != 0) {
+            init();
+        }
+    }, [user])
     return (
         <AppLayout>
             <div className='manageContainer'>
-                {props.id != undefined ? <Fragment/>
+                {user.manage_group != ADMIN_GROUP_MANAGE ? <Fragment/>
                 :
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">グループ</label>

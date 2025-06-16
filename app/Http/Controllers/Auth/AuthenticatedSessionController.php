@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
         if ($request->user() != null) {
             $request->user()->createToken('api');
         }
-        return redirect('/homeManage');
+        return redirect('/manage/home');
     }
 
     /**

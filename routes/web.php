@@ -32,9 +32,9 @@ Route::middleware([CheckAdmin::class])->group(function () {
         Route::get('/groupList', function () {
             return Inertia::render('manage/groupListManage');
         });
-        Route::get('/group', function () {
-            return Inertia::render('manage/groupManage');
-        });
+        // Route::get('/group', function () {
+        //     return Inertia::render('manage/groupManage');
+        // });
     
         Route::get('/user', function () {
             return Inertia::render('manage/userManage');
@@ -59,8 +59,8 @@ Route::middleware([CheckManage::class])->group(function () {
         Route::get('/member/{id}', function ($id) {
             return Inertia::render('manage/memberManage', ['id' => $id]);
         });
-        Route::get('/group/{id}', function ($id) {
-            return Inertia::render('manage/groupManage', ['id' => $id]);
+        Route::get('/group', function () {
+            return Inertia::render('manage/groupManage');
         });
     });
 });

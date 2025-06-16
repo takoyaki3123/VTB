@@ -2,6 +2,7 @@ import Navbar from '@/components/common/navbar';
 // import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { Head } from '@inertiajs/react';
 
+import '../../css/common.scss';
 interface AppLayoutProps {
     children: React.ReactNode;
 }

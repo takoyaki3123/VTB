@@ -7,6 +7,7 @@ import { reducerType } from "@/store";
 import { setPermission, setUser } from "@/store/actionList";
 import { pairType, User } from "@/types";
 import { Dispatch } from "redux";
+import { ADMIN_GROUP_MANAGE, USER_GROUP_MANAGE } from "@/pages/settings/globalConst";
 
 
 const GetPermissionPair = () => {
@@ -19,7 +20,7 @@ const GetPermissionPair = () => {
                 obj[item.id] = item.name;
                 return obj;
             }, {} as pairType);
-            setPair({0: 'user', 10242048: 'admin', ...tmpList});
+            setPair({[USER_GROUP_MANAGE]: 'user', [ADMIN_GROUP_MANAGE]: 'admin', ...tmpList});
             dispatch(setPermission({...tmpList}));
         });
     }

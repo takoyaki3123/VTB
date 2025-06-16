@@ -15,7 +15,9 @@ const Login = () => {
         .then((res) => {
             
             if (res.data.name == 'admin') {
-                location.href = "http://localhost:8000/groupManage"
+                location.href = "http://localhost:8000/manage/group";
+            } else {
+                location.href = "http://localhost:8000/";
             }
         })
     }

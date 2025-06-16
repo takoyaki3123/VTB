@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Exception\Response;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\ErrorHandler\Debug;
 
 class UserController extends Controller
 {
@@ -76,9 +74,12 @@ class UserController extends Controller
     {
         $post = $request->post()['body'];
         $user = User::find((int)$post['id']);
-        $user->manage_group = $post['newPermission'];
-        $user->save();
-        return new Response(200, [], '');
+        if (!empty($user)) {
+            $user->manage_group = $post['newPermission'];
+            $user->save();
+            return new Response(200, [], '');
+        }
+        return new Response(400, [], '使用者を見つかりませんでした');
     }
 
     /**

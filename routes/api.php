@@ -4,7 +4,6 @@ use App\Http\Controllers\ApplyController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImgCollectController;
-use App\Http\Controllers\KeyVisualController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckAdmin;

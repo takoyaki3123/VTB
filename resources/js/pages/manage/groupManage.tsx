@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 // component
 import KeyVisual from "@/components/home/keyVisual";
@@ -19,7 +19,7 @@ import { groupVO } from "../vo";
 import '../../../css/group.scss';
 import '../../../css/common.scss';
 
-const GroupManage = () => {
+const GroupManage = (props: {id?: string|number}) => {
     const [vo, setVo] = useState<typeof groupVO>({ ...groupVO });
     const backgroundRef = useRef<HTMLInputElement>(null);
     const characterRef = useRef<HTMLInputElement>(null);
@@ -32,7 +32,11 @@ const GroupManage = () => {
     const [selectGroup, setSelectGroup] = useState<string>("");
     const [groupImg, setGroupImg] = useState("");
     const init = () => {
-        getGroupList();
+        if (props.id != undefined) {
+            getGroupData(props.id);
+        } else {
+            getGroupList();
+        }
     }
 
     const getGroupList = () => {
@@ -114,6 +118,8 @@ const GroupManage = () => {
     return (
         <AppLayout>
             <div className='manageContainer'>
+                {props.id != undefined ? <Fragment/>
+                :
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">グループ</label>
                     <Select onValueChange={(v) => groupChange(v)} open={groupOpen} onOpenChange={setGroupOpen} value={selectGroup}>
@@ -127,6 +133,7 @@ const GroupManage = () => {
                         </SelectContent>
                     </Select>
                 </div>
+                }
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="visual">ビジュアルダイアグラム</label>
                     <Uploader setImgId={(id) => setImgId(id, 0)} className="form-control" id="visual" ref={visualRef} refChange={() => visualChange()} />

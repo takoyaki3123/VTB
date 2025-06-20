@@ -22,8 +22,8 @@ return new class extends Migration
         });
         Schema::table('KeyVisual', function (Blueprint $table) {
             //$table->foreignId('column name')->constrained('target table name', 'target column name');
-            $table->foreignId('img_id')->constrained('ImgCollect', 'id');
-            $table->foreignId('img2_id')->constrained('ImgCollect', 'id');
+            $table->foreignId('img_id')->constrained('ImgCollect', 'id'); //背景
+            $table->foreignId('img2_id')->constrained('ImgCollect', 'id');//背景前のキャラ
             $table->foreignId('group_id')->unique()->constrained('Group', 'id'); // 0 will be home
         });
         Schema::table('Home', function (Blueprint $table) {

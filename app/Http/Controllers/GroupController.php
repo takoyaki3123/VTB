@@ -136,6 +136,8 @@ class GroupController extends Controller
             'desc' => ['required'],
             'link' => ['required'],
             'visual.id' => ['required'],
+            'background.id' => ['required'],
+            'character.id' => ['required'],
         ]);
         if ($validate->fails()) {
             return new Response(400, [], '資料に問題がありました！');
@@ -154,18 +156,26 @@ class GroupController extends Controller
                 return new Response(400, [], '申請失敗', $th);
             }
         } else {
-            $group = GroupModel::firstOrCreate([
-                'name' => $groupData['name'],
-                'desc' => $groupData['desc'],
-                'link' => $groupData['link'] ?: '',
-                'apply_user' => $request->user()['id'],
-                'status' => '0',
-                'img_id' => $groupData['visual']['id'],
-            ]);
-            if ($group->wasRecentlyCreated) {
-                return new Response(200, [], '');
-            } else {
+            $groupExists = GroupModel::where('name', '=', $groupData['name'])->exists();
+
+            if ($groupExists) {
                 return new Response(400, [], '既に存在しているグループです！');
+            } else {
+                $group = new GroupModel;
+                $group->name = $groupData['name'];
+                $group->desc = $groupData['desc'];
+                $group->link = $groupData['link'] ?: '';
+                $group->apply_user = $request->user()['id'];
+                $group->status = '0';
+                $group->img_id = $groupData['visual']['id'];
+                $group->save();
+
+                $kv = new KeyVisualModel;
+                $kv->img_id = $groupData['background']['id'];
+                $kv->img_id2 = $groupData['character']['id'];
+                $kv->group_id = $group->id;
+                $kv->save();
+                return new Response(200, [], '');
             }
         }
     }

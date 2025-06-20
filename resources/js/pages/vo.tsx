@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface HomeVO {
     id: number;
     background: {id?: number | null, name?: string | null; type?: string | null; size?: number | null } | null;
@@ -28,6 +29,7 @@ export interface GroupVO {
     visual: {id?: number | null, name?: string | null; type?: string | null; size?: number | null } | null;
     desc: string;
     link: string;
+    [key:string]: any;
 }
 export const groupVO: GroupVO = {
     id: 0,

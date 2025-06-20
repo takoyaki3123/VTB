@@ -22,12 +22,14 @@ const ApplyGroup = () => {
     const [vo, setVo] = useState<typeof groupVO>({...groupVO});
     const [msg, setMsg] = useState("");
     const [close, setClose] = useState(false);
+    const kvBgRef = useRef<HTMLInputElement>(null);
+    const kvChRef = useRef<HTMLInputElement>(null);
     const groupImgRef = useRef<HTMLInputElement>(null);
     const updateVo = (value: string|{[key:string]:any}, key: string) => {
         setVo({...vo, [key]:value})
     }
-    const setImgId = (id: number) => {
-        setVo({ ...vo, visual: { ...vo.visual, id: id } });
+    const setImgId = (id: number, key: string) => {
+        setVo({ ...vo, [key]: { ...vo[key], id: id } });
     }
     const setImgVo = () => {
         if (groupImgRef.current!.files) {
@@ -84,12 +86,20 @@ const ApplyGroup = () => {
                     <label htmlFor="ps">サイト</label>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="keyBackground">紹介文</label>
+                    <label>紹介文</label>
                     <Editor value={vo.desc} show={true} setValue={(val?: string) => {updateVo(val!, 'desc')}} />
                 </div>
                 <div className="input-group mb-3">
-                    <Uploader setImgId={(id) => setImgId(id)} className="form-control" id="keyCharacter" ref={groupImgRef} refChange={() => setImgVo()} />
-                    <label className="input-group-text" htmlFor="keyCharacter">宣伝画像</label>
+                    <Uploader setImgId={(id) => setImgId(id, 'visual')} className="form-control" id="keyVisual" ref={groupImgRef} refChange={() => setImgVo()} />
+                    <label className="input-group-text" htmlFor="keyVisual">宣伝画像</label>
+                </div>
+                <div className="input-group mb-3">
+                    <Uploader setImgId={(id) => setImgId(id, 'background')} className="form-control" id="keyBackground" ref={kvBgRef} refChange={() => setImgVo()} />
+                    <label className="input-group-text" htmlFor="keyBackground">背景画像</label>
+                </div>
+                <div className="input-group mb-3">
+                    <Uploader setImgId={(id) => setImgId(id, 'character')} className="form-control" id="keyCharacter" ref={kvChRef} refChange={() => setImgVo()} />
+                    <label className="input-group-text" htmlFor="keyCharacter">キャラ画像</label>
                 </div>
                 <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>申請</button>
             </div>

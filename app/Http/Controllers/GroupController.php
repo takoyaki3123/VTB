@@ -82,7 +82,6 @@ class GroupController extends Controller
 
         $validate = Validator::make($post['body'], [
             'id' => ['required'],
-            'group_id' => ['required'],
             'desc' => ['required']
         ]);
         if ($validate->fails()) {
@@ -172,7 +171,7 @@ class GroupController extends Controller
 
                 $kv = new KeyVisualModel;
                 $kv->img_id = $groupData['background']['id'];
-                $kv->img_id2 = $groupData['character']['id'];
+                $kv->img2_id = $groupData['character']['id'];
                 $kv->group_id = $group->id;
                 $kv->save();
                 return new Response(200, [], '');

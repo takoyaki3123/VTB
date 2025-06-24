@@ -44,6 +44,8 @@ const HomeManage = () => {
         baseApi('getGroupListWithImg', {})
         .then((res: uploadRes) => {
             const showGroup = shuffle(res.data);
+            console.log(showGroup);
+            
             setGroups(showGroup.slice(0,3));
         });
     }

@@ -13,6 +13,7 @@ import { shuffle } from '@/lib/utils';
 // scss
 import '../../css/common.scss';
 import '../../css/home.scss';
+import Youtube from '@/class/youtubeAPI';
 
 export default function Home() {
     const [bg,setBg] = useState("");
@@ -41,6 +42,8 @@ export default function Home() {
     const init = () => {
         getKeyVisual();
         getGroup();
+        // const yt = new Youtube('@hinanotachiba7');
+        // yt.searchLiveStatus();
     }
     
     useEffect(()=>{

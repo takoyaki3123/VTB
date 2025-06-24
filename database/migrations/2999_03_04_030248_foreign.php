@@ -28,7 +28,7 @@ return new class extends Migration
         });
         Schema::table('Home', function (Blueprint $table) {
             $table->foreignId('background')->constrained('ImgCollect', 'id');
-            $table->foreignId('character')->constrained('ImgCollect', 'id');
+            $table->foreignId('character')->nullable()->constrained('ImgCollect', 'id');
         });
     }
 

@@ -13,6 +13,9 @@ function Uploader({ className, id, ref, setImgId, refChange }: {className:string
                 if(res.data.msg){
                     alert("upload fail!");
                 }
+                console.log(res.data);
+                console.log(res.data.id);
+                
                 setImgId(res.data.id);
             });
         }

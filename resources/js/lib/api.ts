@@ -20,13 +20,27 @@ interface SettingResult {
         body: Record<string, any>;
     };
 }
-const setting = (urlCode: string, data: object) => {
+const setting = (urlCode: string, data: object, newSetting?: object, method: string = 'post') => {
     return new Promise<SettingResult>((resolve) => {
-        const header = { method: "post", url: "/api/" + urlCode, data: data };
+        const header = { method: method, url: "/api/" + urlCode, data: data , ...newSetting};
         const bodyData = { body: {} };
         bodyData.body = data;
         const domain = isLocal ? "127.0.0.1" : "";
         resolve({ headers: header, "domain": domain, body: bodyData });
+    })
+}
+
+const baseGetApi = (urlCode: string, newSetting: object, outside: boolean = false) => {
+    return new Promise<uploadRes>((resolve, reject) => {
+        setting(urlCode, {}, newSetting, 'get').then((res: SettingResult) => {
+            axios
+            request.get(outside ? urlCode : res.headers.url, res.headers).then((res) => {
+                resolve(res);
+            })
+            .catch((err) => {
+                reject(err.response);
+            });
+        })
     })
 }
 
@@ -36,9 +50,9 @@ const baseApi = (urlCode: string, data: object) => {
             request.post(res.headers.url, res.body, res.headers).then((res) => {
                 resolve(res)
             })
-                .catch((err) => {
-                    reject(err.response);
-                });
+            .catch((err) => {
+                reject(err.response);
+            });
         })
     })
 }
@@ -66,10 +80,10 @@ const uploadApi = (urlCode: string, data: object) => {
                 // alert("upload success");
                 resolve(res)
             })
-                .catch((err) => {
-                    console.log('error api');
-                    reject(err);
-                });
+            .catch((err) => {
+                console.log('error api');
+                reject(err);
+            });
         })
     })
 }
@@ -89,6 +103,7 @@ async function getCsrfToken() {
 getCsrfToken();
 export {
     baseApi,
+    baseGetApi,
     uploadApi,
     isError
 }

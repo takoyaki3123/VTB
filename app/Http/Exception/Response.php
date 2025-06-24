@@ -26,9 +26,8 @@
                 $this->httpCode >= 200 => $this->data,
             };
             Log::debug("my response payload: ". json_encode($payload));
-            if (!empty($th)) {
-                Log::debug("error detail: {$this->th}");
-            }
+            $thErrMsg = $this->th ?: 'NOTHING';
+            Log::debug("error detail: {$thErrMsg}");
             return response()->json(
                 data: $payload,
                 status: $this->httpCode,

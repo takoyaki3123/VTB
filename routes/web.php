@@ -16,9 +16,12 @@ Route::get('/group/{id}', function ($id) {
 Route::get('/groupList', function () {
     return Inertia::render('groupList');
 })->name('groupList');
-Route::get('/member/{id}', function ($id) {
+Route::get('/member/{id}/', function ($id) {
     return Inertia::render('member', ['id' => $id]);
 })->name('member');
+Route::get('/member/{id}/{liveID}', function ($id, $liveID) {
+    return Inertia::render('member', ['id' => $id, 'liveStatus' => empty($liveID) ? false: true, 'liveID' => $liveID]);
+});
 Route::get('/about', function () {
     return Inertia::render('about');
 })->name('about');

@@ -45,11 +45,13 @@ hr {
     overflow: hidden;
     display: flex;
     justify-content: center;
+    background-repeat: no-repeat;
+    background-position: center;
     .keyVisual {
         max-width: 100%;
         height:auto;
         max-height:600px;
-        object-fit: cover;
+        object-fit: contain;
     }
     .keyVisual {
         animation-name: VisualIn;

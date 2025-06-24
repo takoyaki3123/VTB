@@ -31,7 +31,7 @@ class ImgCollectController extends Controller
           Storage::disk('image')->put($fileName, $request->file('image')->get());
         }
         // todo: create file data
-        $result = ImgCollectModel::firstOrCreate(['name'=>$fileName,'type'=>$fileType,'size'=>$size]);
+        $result = ImgCollectModel::firstOrCreate(['name'=>$fileName,'type'=>$fileType,'size'=>$size])->toArray();
 
         return new Response('200', $result, '');
     }

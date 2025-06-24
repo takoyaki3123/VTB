@@ -14,6 +14,7 @@ import { baseApi, uploadRes } from '@/lib/api';
 // scss
 import '../../css/common.scss';
 import '../../css/group.scss';
+import Youtube from '@/class/youtubeAPI';
 function Group(props: {id: string}) {
     // データーをとる
     // 1.キービジョン
@@ -40,7 +41,15 @@ function Group(props: {id: string}) {
     const getMemberList = () => {
         baseApi('getMemberList', {group_id: props.id})
         .then((res: uploadRes) => {
-            setMemberList(res.data);
+            const pattern = /https:\/\/www\.youtube\.com\/(@.+)/i;
+            const tmpList = res.data.map((row: {[key:string]: any}) => {
+                const handle = row.streamUrl.match(pattern);
+                const yt = new Youtube(handle);
+                yt.searchLiveStatus();
+
+                return {...row, handle: handle, liveStatus: yt.getLiveStatus(), liveID: yt.getLiveID()};
+            })
+            setMemberList(tmpList);
         });
     }
     
@@ -59,8 +68,8 @@ function Group(props: {id: string}) {
                 <div className="row mt-4">
                     {memberList.length > 0 ? memberList.map((item: {[key:string]:any}) => (
                         <div className="col-sm-4 card-maxHeight my-2" key={item.id}>
-                            <a href={ "/member/" + item.id}>
-                                <Card title={item.name} imgName={item.imgName} class="h-100"/>
+                            <a href={ "/member/" + item.id + '/' + item.liveID}>
+                                <Card tag={item.liveStatus ? 'live' : ''} title={item.name} imgName={item.imgName} class="h-100"/>
                             </a>
                         </div>
                     )) : <Fragment/>}

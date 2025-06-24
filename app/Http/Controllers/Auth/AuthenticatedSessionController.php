@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        $request->authenticateAccount();
+        $request->authenticate();
         
         Log::debug(json_encode($request->user()));
         if ($request->user() != null) {

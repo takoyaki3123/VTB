@@ -55,13 +55,7 @@ class HomeController extends Controller
     {
         //
         $post = $request->post();
-        $validate = Validator::make($post['body'], [
-            'id' => ['required'],
-        ]);
-        if ($validate->fails()) {
-            return new Response(400, [], '資料に問題がありました！');
-        }
-        $home = HomeModel::find($post['body']['id']);
+        $home = HomeModel::find($post['body']['id'] ?: 1);
         if ($home != null) {
             if (isset($post['body']['background']['id']) && $post['body']['background']['id'] != 0) {
                 $home->background = $post['body']['background']['id'];
@@ -79,9 +73,7 @@ class HomeController extends Controller
                 $home->save();
                 return new Response('200', [], '');
             } catch (\Throwable $th) {
-                //throw $th;
                 return new Response('400', [], 'エラー', $th);
-                // Log::debug("error from update home by code " . $th->getCode() . ", message: " . $th->getMessage());
             }
         }
         return new Response('400', [], 'エラー');

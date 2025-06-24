@@ -66,7 +66,7 @@ class MemberController extends Controller
                 $query->select(['id', 'name as groupName']);
             }])
             ->where([['group_id', '=', $request->post()['body']['group_id']], ['status', '=', '1']])
-            ->get(['id', 'name', 'img_id'])
+            ->get(['id', 'name', 'streamUrl', 'img_id', 'group_id'])
             ->map(function ($member) {
                 $member['imgName'] = $member->thumbnail ? $member->thumbnail->imgName : null;
                 $member['groupName'] = $member->company ? $member->company->groupName : null;

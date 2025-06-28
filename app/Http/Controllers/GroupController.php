@@ -141,8 +141,8 @@ class GroupController extends Controller
         if ($validate->fails()) {
             return new Response(400, [], '資料に問題がありました！');
         }
-        if (isset($groupData['id']) && $groupData['id'] != 0) {
-            try {
+        try {
+            if (isset($groupData['id']) && $groupData['id'] != 0) {
                 $group = GroupModel::find($groupData['id']);
                 $group->name = $groupData['name'];
                 $group->desc = $groupData['desc'];
@@ -151,31 +151,30 @@ class GroupController extends Controller
                 $group->img_id = $groupData['visual']['id'];
                 $group->save();
                 return new Response(200, $group, '');
-            } catch (\Throwable $th) {
-                return new Response(400, [], '申請失敗', $th);
-            }
-        } else {
-            $groupExists = GroupModel::where('name', '=', $groupData['name'])->exists();
-
-            if ($groupExists) {
-                return new Response(400, [], '既に存在しているグループです！');
             } else {
-                $group = new GroupModel;
-                $group->name = $groupData['name'];
-                $group->desc = $groupData['desc'];
-                $group->link = $groupData['link'] ?: '';
-                $group->apply_user = $request->user()['id'];
-                $group->status = '0';
-                $group->img_id = $groupData['visual']['id'];
-                $group->save();
+                $groupExists = GroupModel::where('name', '=', $groupData['name'])->exists();
+                if ($groupExists) {
+                    return new Response(400, [], '既に存在しているグループです！');
+                } else {
+                    $group = new GroupModel;
+                    $group->name = $groupData['name'];
+                    $group->desc = $groupData['desc'];
+                    $group->link = $groupData['link'] ?: '';
+                    $group->apply_user = $request->user()['id'];
+                    $group->status = '0';
+                    $group->img_id = $groupData['visual']['id'];
+                    $group->save();
 
-                $kv = new KeyVisualModel;
-                $kv->img_id = $groupData['background']['id'];
-                $kv->img2_id = $groupData['character']['id'];
-                $kv->group_id = $group->id;
-                $kv->save();
-                return new Response(200, [], '');
+                    $kv = new KeyVisualModel;
+                    $kv->img_id = $groupData['background']['id'];
+                    $kv->img2_id = $groupData['character']['id'];
+                    $kv->group_id = $group->id;
+                    $kv->save();
+                    return new Response(200, [], '');
+                }
             }
+        } catch (\Throwable $th) {
+            return new Response(400, [], '申請失敗', $th);
         }
     }
 

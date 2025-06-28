@@ -45,11 +45,13 @@ const ApplyGroup = () => {
         }
         baseApi('applyNewGroup', {...vo})
         .then((res) => {
+            setClose(true);
+            setMsg("申請完成");
+            msgBoxAction('show');
+        })
+        .catch((res) => {
             if (res.data.errorMsg) {
                 setMsg(res.data.errorMsg);
-            } else {
-                setClose(true);
-                setMsg("申請完成");
             }
             msgBoxAction('show');
         });

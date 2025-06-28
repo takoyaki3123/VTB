@@ -24,6 +24,7 @@ const ApplyMember = () => {
     const [groupOpen, setGroupOpen] = useState(false);
     const [groupList, setGroupList] = useState<any[]>([]);
     const [selectGroup, setSelectGroup] = useState<string>("");
+    const [close, setClose] = useState(false);
     const avatarImgRef = useRef<HTMLInputElement>(null);
     const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
 
@@ -49,9 +50,14 @@ const ApplyMember = () => {
         });
     }
     const apply = () => {
+        if (!checkVo()) {
+            msgBoxAction('show');
+            return;
+        }
         baseApi('applyNewMember', {...vo})
         .then(() => {
-            setMsg("申請完成");
+            setMsg("申請完了");
+            setClose(true);
             msgBoxAction('show');
         })
         .catch((res) => {
@@ -61,12 +67,28 @@ const ApplyMember = () => {
             msgBoxAction('show');
         });
     }
+
+    const checkVo = (): boolean => {
+        const streamPattern = /^https:\/\/www.youtube.com\/@[a-zA-Z0-9_]+$/i;
+        if (vo.name == '' ||  vo.desc == '' || vo.avatar == null) {
+            setMsg("すべての項目が入力されていることを確認してください");
+            return false;
+        } else if (vo.streamUrl != '') {
+            if (!vo.streamUrl.match(streamPattern)) {
+                setMsg("チャンネルリンク形式が違います");
+                return false;
+            }
+        }
+        return true;
+    }
     const init = () => {
         getGroupList();
     }
 
     const closePage = () => {
-        window.close();
+        if (close) {
+            window.close();
+        }
     }
 
     useEffect(() => {

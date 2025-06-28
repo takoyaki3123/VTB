@@ -57,6 +57,3 @@ Route::post('/loginVerify', [UserController::class, 'login']);
 Route::get('/csrfToken', function () {
     return response()->json(['token' => csrf_token()]);
 });
-Route::get('/ytKey', function() {
-    return env('YOUTUBE_KEY', '');
-});

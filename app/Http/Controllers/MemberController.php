@@ -141,6 +141,7 @@ class MemberController extends Controller
 
     public function apply(Request $request)
     {
+        return new Response(400, [], 'test');
         $memberData = $request->post()['body'];
         $validate = Validator::make($memberData, [
             'name' => ['required'],
@@ -153,32 +154,42 @@ class MemberController extends Controller
         if ($validate->fails()) {
             return new Response(400, [], '資料に問題がありました！');
         } else {
-            if (isset($memberData['id']) && $memberData['id'] != 0) {
-                $member = MemberModel::find($memberData['id']);
-                $member->name = $memberData['name'];
-                $member->desc = $memberData['desc'];
-                $member->streamUrl = $memberData['streamUrl'] ?: '';
-                $member->socialUrl = $memberData['socialUrl'] ?: '';
-                $member->status = '0';
-                $member->apply_user = $request->user()['id'];
-                $member->img_id = $memberData['avatar']['id'] ?? 0;
-                $member->group_id = $memberData['group_id'];
-                $member->save();
-                return new Response(200, [], '');
-            } else {
-                $group = MemberModel::firstOrCreate(['name' => $memberData['name'], 'group_id' => $memberData['group_id']],[
-                    'desc' => $memberData['desc'],
-                    'streamUrl' => $memberData['streamUrl'] ?: '',
-                    'socialUrl' => $memberData['socialUrl'] ?: '',
-                    'status' => '0',
-                    'apply_user' => $request->user()['id'] ?? 0,
-                    'img_id' => $memberData['avatar']['id'],
-                ]);
-                if ($group->wasRecentlyCreated) {
+            $streamUrlPattern = "/^https:\/\/www.youtube.com\/@[a-zA-Z0-9_]+$/";
+            if (!empty($memberData['streamUrl'])) {
+                if (preg_match($streamUrlPattern, $memberData['streamUrl'])) {
+                    return new Response(400, [], 'チャンネルリンク形式が違います');
+                }
+            }
+            try {
+                if (isset($memberData['id']) && $memberData['id'] != 0) {
+                    $member = MemberModel::find($memberData['id']);
+                    $member->name = $memberData['name'];
+                    $member->desc = $memberData['desc'];
+                    $member->streamUrl = $memberData['streamUrl'] ?: '';
+                    $member->socialUrl = $memberData['socialUrl'] ?: '';
+                    $member->status = '0';
+                    $member->apply_user = $request->user()['id'];
+                    $member->img_id = $memberData['avatar']['id'] ?? 0;
+                    $member->group_id = $memberData['group_id'];
+                    $member->save();
                     return new Response(200, [], '');
                 } else {
-                    return new Response(400, [], '既に登録しているメンバーです！');
+                    $group = MemberModel::firstOrCreate(['name' => $memberData['name'], 'group_id' => $memberData['group_id']],[
+                        'desc' => $memberData['desc'],
+                        'streamUrl' => $memberData['streamUrl'] ?: '',
+                        'socialUrl' => $memberData['socialUrl'] ?: '',
+                        'status' => '0',
+                        'apply_user' => $request->user()['id'] ?? 0,
+                        'img_id' => $memberData['avatar']['id'],
+                    ]);
+                    if ($group->wasRecentlyCreated) {
+                        return new Response(200, [], '');
+                    } else {
+                        return new Response(400, [], '既に登録しているメンバーです！');
+                    }
                 }
+            } catch (\Throwable $th) {
+                return new Response(400, [], '申請失敗', $th);
             }
         }
     }

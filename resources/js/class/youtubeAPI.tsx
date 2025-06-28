@@ -15,6 +15,8 @@ class Youtube {
 
     constructor(youtubeHandle: string) {
         if (youtubeHandle != null) {
+            console.log(youtubeHandle);
+            
             this.#youtubeHandle = youtubeHandle;
         }
     }
@@ -38,29 +40,29 @@ class Youtube {
         return this.#liveTitle;
     }
 
-    async searchLiveStatus() {
-        if (this.#youtubeHandle == '') {
-            return 'no youtube handle';
-        }
-        if (this.#channelID == '') {
-            await this.searchChannel();
-        }
-        const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.#channelID}&eventType=live&maxResults=25&type=video&key=${key}`;
-        const axiosSetting = {
-            withCredentials: false,
-            withXSRFToken: false,
-        }
-        console.log('test2');
-        
-        baseGetApi(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.#channelID}&eventType=live&maxResults=25&type=video&key=${key}`, axiosSetting, true)
-        .then((res) => {
-            console.log(res);
-            if (res.data.items[0]) {
-                this.#liveStatus = true;
-                this.#liveID = res.data.items[0].id.videoId;
-                this.#liveTitle = res.data.items[0].snippet.title;
+    searchLiveStatus() {
+        return new Promise(async (resolve) => {
+            if (this.#youtubeHandle == '') {
+                return 'no youtube handle';
             }
-        });
+            if (this.#channelID.trim() == '') {
+                await this.searchChannel();
+            }
+            const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${this.#channelID}&eventType=live&maxResults=25&type=video&key=${key}`;
+            const axiosSetting = {
+                withCredentials: false,
+                withXSRFToken: false,
+            }
+            baseGetApi(url, axiosSetting, true)
+            .then((res) => {
+                if (res.data.items[0]) {
+                    this.#liveStatus = true;
+                    this.#liveID = res.data.items[0].id.videoId;
+                    this.#liveTitle = res.data.items[0].snippet.title;
+                    resolve(true);
+                }
+            });
+        })
     }
 
     async searchChannel() {
@@ -72,8 +74,10 @@ class Youtube {
         await baseGetApi(url, axiosSetting, true)
         .then((res) => {
             if (res.data.items) {
-                this.#channel = res.data.items[0].snippet;
-                this.#channelID = res.data.items[0].id;
+                if (res.data.items.length == 1) {
+                    this.#channel = res.data.items[0].snippet;
+                    this.#channelID = res.data.items[0].id;
+                }
             }
         });
     }

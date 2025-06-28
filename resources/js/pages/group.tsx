@@ -79,9 +79,7 @@ function Group(props: {id: string}) {
                         </div>
                     )) : <Fragment/>}
                 </div>
-
             </div>
-            <Footer/>
         </AppLayout>
     );
 }

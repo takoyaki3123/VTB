@@ -42,8 +42,6 @@ export default function Home() {
     const init = () => {
         getKeyVisual();
         getGroup();
-        // const yt = new Youtube('@hinanotachiba7');
-        // yt.searchLiveStatus();
     }
     
     useEffect(()=>{
@@ -55,7 +53,6 @@ export default function Home() {
             <div className='container'>
                 <Carousel groups={groups}/>
             </div>
-            <Footer/>
         </AppLayout>
     );
 }

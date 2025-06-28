@@ -3,6 +3,7 @@ import Navbar from '@/components/common/navbar';
 import { Head } from '@inertiajs/react';
 
 import '../../css/common.scss';
+import Footer from '@/components/common/footer';
 interface AppLayoutProps {
     children: React.ReactNode;
 }
@@ -12,6 +13,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => (
         <Head title={"皆のVTB"}></Head>
         <Navbar/>
         {children}
+        <Footer/>
     </div>
 );
 export default AppLayout;

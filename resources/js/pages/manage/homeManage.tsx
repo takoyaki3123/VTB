@@ -103,7 +103,6 @@ const HomeManage = () => {
             <div className='container'>
                 <Carousel groups={groups} />
             </div>
-            <Footer />
         </AppLayout>
     );
 }

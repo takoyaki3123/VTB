@@ -139,7 +139,6 @@ const MemberManage = (props: {id: number}) => {
                 </DialogFooter>
             </DialogContainer>
             <MsgBox msg={msg} footer={{"footerChild" : footerChild}}/>
-            <Footer/>
         </AppLayout>
     );
 }

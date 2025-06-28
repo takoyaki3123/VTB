@@ -40,13 +40,13 @@ const ApplyGroup = () => {
 
     const apply = () => {
         if (!checkVo()) {
-            setMsg("請確認欄位接填寫完成");
+            setMsg("すべての項目が入力されていることを確認してください");
             msgBoxAction('show');
         }
         baseApi('applyNewGroup', {...vo})
         .then((res) => {
             setClose(true);
-            setMsg("申請完成");
+            setMsg("申請完了");
             msgBoxAction('show');
         })
         .catch((res) => {

@@ -23,7 +23,7 @@ const Carousel = ({ groups = [] }: { groups: Array<Group> }) => {
                         <div key={i} className={(i == 0 ? "carousel-item active" : "carousel-item")}>
                             <div className="carousel-item-container d-flex justify-content-center flex-wrap">
                                 <img src={"/storage/image/" + group.imgName} className="d-block w-100" alt="..." />
-                                <p className="mx-auto">{group.name}</p>
+                                <h4 className="mx-auto my-0">{group.name}</h4>
                             </div>
                         </div>
                     ))}

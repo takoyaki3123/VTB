@@ -1,0 +1,14 @@
+
+.carousel-inner {
+    max-height:450px;
+    .carousel-item {
+        .carousel-item-container {
+            position:relative;
+            width:fit-content;
+            margin:0 auto;
+            img {
+                max-height:380px;
+            }
+        }
+    }
+}

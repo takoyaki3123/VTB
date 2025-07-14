@@ -1,0 +1,89 @@
+
+$avatar_small_size: 28px;
+a {
+    text-decoration: none;
+}
+hr {
+    width:100%;
+}
+.container-half {
+    width: 50%;
+    padding: 1rem;
+}
+@media (max-width: 540px) {
+    .container-half {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+.navbar {
+    .avatar-container {
+        width: $avatar_small_size;
+        max-width: $avatar_small_size;
+        height: $avatar_small_size;
+        display: inline-flex;
+    }
+}
+
+.card-img-container {
+    max-width: 100%;
+    max-height: 10rem;
+    overflow: hidden;
+    img {
+        max-width:100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
+}
+
+.keyVisualContainer {
+    width:100%;
+    max-height:600px;
+    height:auto;
+    position:relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    .keyVisual {
+        max-width: 100%;
+        height:auto;
+        max-height:600px;
+        object-fit: contain;
+    }
+    .keyVisual {
+        animation-name: VisualIn;
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease;
+    }
+    @keyframes VisualIn {
+        0% {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0px);
+            opacity: 1;
+        }
+    }
+}
+
+.mx-height-15v {
+    max-height: 15vh;
+}
+.mx-height-25v {
+    max-height: 25vh;
+}
+.mx-height-35v {
+    max-height: 35vh;
+}
+.mx-height-45v {
+    max-height: 45vh;
+}
+.mx-height-55v {
+    max-height: 55vh;
+}
+

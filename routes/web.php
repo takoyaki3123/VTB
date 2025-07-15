@@ -65,6 +65,9 @@ Route::middleware([CheckManage::class])->group(function () {
         Route::get('/group', function () {
             return Inertia::render('manage/groupManage');
         });
+        Route::get('/eventList', function () {
+            return Inertia::render('manage/eventList');
+        });
     });
 });
 
@@ -76,6 +79,9 @@ Route::middleware([CheckLogin::class])->group(function () {
         });
         Route::get('/member', function () {
             return Inertia::render('applyMember');
+        });
+        Route::get('/event', function () {
+            return Inertia::render('applyEvent');
         });
         Route::get('/list', function () {
             return Inertia::render('applyList');

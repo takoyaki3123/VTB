@@ -78,3 +78,20 @@ export const memberVO: MemberVO = {
     avatar: null,
     group_id: null,
 }
+type EventVO = {
+    id?: number,
+    title?: string,
+    desc?: string,
+    link?: string,
+    status: number,
+    reject_Reason: string,
+    start?: string,
+    end?: string,
+    promotion_img_id?: number,
+    promotion_img_name?: string,
+    group_id?: number,
+}
+export const eventVO: EventVO = {
+    status: 0,
+    reject_Reason: ''
+}

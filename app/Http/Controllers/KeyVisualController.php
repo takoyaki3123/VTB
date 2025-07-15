@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Prompts\Key;
 
 class KeyVisualController extends Controller
 {
@@ -26,25 +25,23 @@ class KeyVisualController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    static public function store(Array $data)
     {
         //get post data
-        $post = $request->post();
 
-        $validate = Validator::make($post['body'], [
-            'background.id' => ['required'],
-            'character.id' => ['required'],
+        $validate = Validator::make($data, [
+            'background_id' => ['required'],
+            'character_id' => ['required'],
             'group_id' => ['required'],
         ]);
         if ($validate->fails()) {
             return new Response(400, [], '資料に問題がありました！');
         }
         $keyVisual = new KeyVisualModel;
-        $keyVisual->img_id = $post['body']['background']['id'];
-        $keyVisual->character = $post['body']['character']['id'];
-        $keyVisual->group_id = $post['body']['group_id'];
+        $keyVisual->background_img_id = $data['background_id'];
+        $keyVisual->character_img_id = $data['character_id'];
+        $keyVisual->group_id = $data['group_id'];
         $keyVisual->save();
-        // $result = KeyVisualModel::firstOrCreate(['img_id'=>$post['body']['background']['id'],'img2_id'=>$post['body']['character']['id'],'group_id'=>$post['body']['group']]);
         return new Response("200", [], '');
     }
 
@@ -55,8 +52,8 @@ class KeyVisualController extends Controller
     {
         //
         $homeKeyVisual = DB::table('KeyVisual as k')
-                        ->join('imgCollect as img', 'k.img_id', '=', 'img.id')
-                        ->join('imgCollect as img2', 'k.img2_id', '=', 'img2.id')
+                        ->join('imgCollect as img', 'k.background_img_id', '=', 'img.id')
+                        ->join('imgCollect as img2', 'k.character_img_id', '=', 'img2.id')
                         ->where('k.id', '=', $request->post()['body']['id'])
                         ->get(['k.*','img.name as background','img2.name as character'])->toArray();
         if (count($homeKeyVisual) != 0) {
@@ -70,30 +67,27 @@ class KeyVisualController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    static public function update(Array $data)
     {
         //get post data
-        $post = $request->post();
-        $validate = Validator::make($post['body'], [
-            'id' => ['required'],
+        $validate = Validator::make($data['body'], [
+            'group_id' => ['required'],
         ]);
         if ($validate->fails()) {
-            return new Response(400, [], '資料に問題がありました！');
+            return false;
         }
-        $homeKeyVisual = KeyVisualModel::find($post['body']['id']);
+        $homeKeyVisual = KeyVisualModel::where('group_id', $data['group_id'])->first();
         if ($homeKeyVisual != null) {
-            if (isset($post['body']['background']['id']) && $post['body']['background']['id'] != 0) {
-                $homeKeyVisual->img_id = $post['body']['background']['id'];
+            if (isset($data['background_id']) && $data['background_id'] != 0) {
+                $homeKeyVisual->background_img_id = $data['background_id'];
             }
-            if (isset($post['body']['character']['id']) && $post['body']['character']['id'] != 0) {
-                $homeKeyVisual->img2_id = $post['body']['character']['id'];
+            if (isset($data['character_id']) && $data['character_id'] != 0) {
+                $homeKeyVisual->character_img_id = $data['character_id'];
             }
             $homeKeyVisual->save();
-            return new Response('200', [], '');
-        } else {
-            return $this->store($request);
+            return true;
         }
-        return new Response('400', [], 'エラー');
+        return false;
     }
 
     /**

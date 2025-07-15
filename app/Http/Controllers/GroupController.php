@@ -60,8 +60,8 @@ class GroupController extends Controller
         $post = $request->post();
         $GroupData = DB::table('Group as g')
             ->leftJoin('KeyVisual as k', 'k.group_id', '=', 'g.id')
-            ->leftJoin('imgCollect as img', 'k.img_id', '=', 'img.id') // main background in group page
-            ->leftJoin('imgCollect as img2', 'k.img2_id', '=', 'img2.id') // character img infront of background in group page
+            ->leftJoin('imgCollect as img', 'k.background_img_id', '=', 'img.id') // main background in group page
+            ->leftJoin('imgCollect as img2', 'k.character_img_id', '=', 'img2.id') // character img infront of background in group page
             ->leftJoin('imgCollect as group_img', 'g.img_id', '=', 'group_img.id') // keyvisual in home page
             ->where([['g.id', '=', $post['body']['group_id']], ['g.status', '=', '1']])
             ->get(['g.name', 'g.desc', 'g.id', 'img.name as background', 'img2.name as character', 'img2.name as groupImg'])->toArray();
@@ -78,37 +78,42 @@ class GroupController extends Controller
      */
     public function update(Request $request)
     {
-        $post = $request->post();
+        $groupData = $request->post()['body'];
 
-        $validate = Validator::make($post['body'], [
+        $validate = Validator::make($groupData, [
             'id' => ['required'],
             'desc' => ['required']
         ]);
         if ($validate->fails()) {
             return new Response(400, [], '資料に問題がありました！');
         }
-        $group = GroupModel::find($post['body']['id']);
-        $homeKeyVisual = KeyVisualModel::where('group_id', $post['body']['id'])->first();
-        if (empty($homeKeyVisual)) {
-            $homeKeyVisual = new KeyVisualModel;
-            $homeKeyVisual->group_id = $post['body']['id'];
-        }
-
-        if (isset($post['body']['background']['id']) && $post['body']['background']['id'] != 0) {
-            $homeKeyVisual->img_id = $post['body']['background']['id'];
-        }
-        if (isset($post['body']['character']['id']) && $post['body']['character']['id'] != 0) {
-            $homeKeyVisual->img2_id = $post['body']['character']['id'];
-        }
-        if (isset($post['body']['visual']['id']) && $post['body']['visual']['id'] != 0) {
-            $group->img_id = $post['body']['visual']['id'];
-        }
-        
-        $group->desc = $post['body']['desc'];
-
         try {
-            $homeKeyVisual->save();
+            // group update
+            $group = GroupModel::find($groupData['id']);
+            if (empty($group)) {
+                return new Response(400, [], '存在しないグループです');
+            }
+
+            if (isset($groupData['visual']['id']) && $groupData['visual']['id'] != 0) {
+                $group->img_id = $groupData['visual']['id'];
+            }
+            $group->desc = $groupData['desc'];
             $group->save();
+
+            // kv update
+            $homeKeyVisual = KeyVisualModel::where('group_id', $groupData['id'])->first();
+            if (empty($homeKeyVisual)) {
+                $homeKeyVisual = new KeyVisualModel;
+                $homeKeyVisual->group_id = $groupData['id'];
+            }
+            if (isset($groupData['background']['id']) && $groupData['background']['id'] != 0) {
+                $homeKeyVisual->background_img_id = $groupData['background']['id'];
+            }
+            if (isset($groupData['character']['id']) && $groupData['character']['id'] != 0) {
+                $homeKeyVisual->character_img_id = $groupData['character']['id'];
+            }
+
+            $homeKeyVisual->save();
             return  new Response(200, [], '');
         } catch (\Throwable $th) {
             //throw $th;
@@ -130,7 +135,6 @@ class GroupController extends Controller
         $groupData = $request->post()['body'];
 
         $validate = Validator::make($groupData, [
-            'id' => ['required'],
             'name' => ['required'],
             'desc' => ['required'],
             'link' => ['required'],
@@ -144,12 +148,27 @@ class GroupController extends Controller
         try {
             if (isset($groupData['id']) && $groupData['id'] != 0) {
                 $group = GroupModel::find($groupData['id']);
+                
+                if (empty($group)) {
+                    return new Response(400, [], '存在しないグループです');
+                }
+
                 $group->name = $groupData['name'];
                 $group->desc = $groupData['desc'];
                 $group->link = $groupData['link'] ?: '';
                 $group->status = '0';
                 $group->img_id = $groupData['visual']['id'];
                 $group->save();
+
+                $kvData = [
+                    'background_id' => $groupData['background']['id'],
+                    'character_id' => $groupData['character']['id'], 
+                    'group_id' => $group->id
+                ];
+                
+                if (!KeyVisualController::update($kvData)) {
+                    return new Response(400, [], 'エラー');
+                }
                 return new Response(200, $group, '');
             } else {
                 $groupExists = GroupModel::where('name', '=', $groupData['name'])->exists();
@@ -165,11 +184,15 @@ class GroupController extends Controller
                     $group->img_id = $groupData['visual']['id'];
                     $group->save();
 
-                    $kv = new KeyVisualModel;
-                    $kv->img_id = $groupData['background']['id'];
-                    $kv->img2_id = $groupData['character']['id'];
-                    $kv->group_id = $group->id;
-                    $kv->save();
+                    $kvData = [
+                        'background_id' => $groupData['background']['id'],
+                        'character_id' => $groupData['character']['id'], 
+                        'group_id' => $group->id
+                    ];
+                    
+                    if (!KeyVisualController::store($kvData)) {
+                        return new Response(400, [], 'エラー');
+                    }
                     return new Response(200, [], '');
                 }
             }

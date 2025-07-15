@@ -17,9 +17,11 @@ import { baseApi } from "@/lib/api";
 // scss
 import '../../css/common.scss';
 import '../../css/group.scss';
+import DateTimeSelector from "@/components/common/datetimeSelector";
 
 const groupDialogID = 'groupDialog';
 const memberDialogID = 'memberDialog';
+const eventDialogID = 'eventDialog';
 const GroupDialog = (props: {group: {[key: string]: any}}) => {
 
     return (
@@ -59,15 +61,39 @@ const MemberDialog = (props: {member: {[key: string]: any}}) => {
     )
 }
 
+const EventDialog = (props: {event: {[key: string]: any}, timeChange: (time: string, name: string) => void}) => {
+
+    return (
+        <DialogContainer id={eventDialogID} scrollAble={true}>
+            <DialogHeader>
+                <h3>イベント申請ー{props.event.name}</h3>
+            </DialogHeader>
+            <DialogBody>
+                <div>
+                    <div>宣伝図：<img className="apply-img" src={"/storage/image/" + props.event.imgName}/></div>
+                    <div>イベント名：{props.event.title}</div>
+                    <div>開催グループ：{props.event.groupName}</div>
+                    <div>イベンド概要：{props.event.desc}</div>
+                    <div>関連リンク：<a href={props.event.link}>{props.event.link}</a></div>
+                    <div>
+                        開催期間：
+                        {props.event.start} ~ {props.event.end}
+                    </div>
+                </div>
+            </DialogBody>
+        </DialogContainer>
+    )
+}
+
 const ApplyList = () => {
     const [tabContent, setTabContent] = useState<TabItemParam[]>();
     const [group, setGroup] = useState<any>({});
     const [member, setMember] = useState<any>({});
+    const [event, setEvent] = useState<any>({});
 
     const init = () => {
         baseApi('getApplyList', {})
         .then((res) => {
-            console.log(res);
             const groupTab:ReactNode = 
             <div className="d-flex flex-wrap justify-content-center">
                 <ListContainer className="w-100">
@@ -108,14 +134,40 @@ const ApplyList = () => {
                     })
                 }
                 </ListContainer>
-                <a className="btn btn-primary my-2" target="_blank" href="/apply/member">申請</a>
+                <a className="btn btn-primary my-2" target="_blank" href="/apply/event">申請</a>
             </div>;
             
+            const eventTab:ReactNode = 
+            <div className="d-flex flex-wrap justify-content-center">
+                <ListContainer className="w-100">
+                {
+                    res.data.event.map((eventData: { [key: string]: any; }, index: number) => {
+                        return (
+                            <div key={index} onClick={() => {setEvent(eventData);dialogAction(eventDialogID, 'show');}}>
+                                <ListItemAction>
+                                    <div className="row">
+                                        <div className="col">{eventData.title}</div>
+                                        <div className="col">{eventData.ctime}</div>
+                                        <div className="col">{statusCompare[eventData.status]}</div>
+                                    </div>
+                                </ListItemAction>
+                            </div>
+                        )
+                    })
+                }
+                </ListContainer>
+                <a className="btn btn-primary my-2" target="_blank" href="/apply/member">申請</a>
+            </div>;
             setTabContent([
                 {id: 'groupTab', title: 'グループ', children: groupTab},
-                {id: 'memberTab', title: 'メンバー', children: memberTab}
+                {id: 'memberTab', title: 'メンバー', children: memberTab},
+                {id: 'eventTab', title: 'イベント', children: eventTab},
             ]);
         })
+    }
+
+    const timeChange = (time:string, name:string) => {
+        setEvent({...event, [name]: time});
     }
     useEffect(() => {
         init();
@@ -131,6 +183,7 @@ const ApplyList = () => {
             </div>
             <GroupDialog group={group}/>
             <MemberDialog member={member}/>
+            <EventDialog event={event} timeChange={timeChange}/>
         </AppLayout>
     )
 }

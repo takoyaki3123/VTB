@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApplyController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImgCollectController;
@@ -19,6 +20,7 @@ Route::post('/getGroupList', [GroupController::class, 'showList']);
 Route::post('/getGroupListWithImg', [GroupController::class, 'index']);
 Route::post('/getMember', [MemberController::class, 'show']);
 Route::post('/getMemberList', [MemberController::class, 'showList']);
+Route::post('/getEventList', [EventController::class, 'index']);
 Route::post('/getAllMemberList', [MemberController::class, 'showAllList']);
 
 Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
@@ -46,6 +48,8 @@ Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {
     Route::post('/getApplyGroup', [GroupController::class, 'applyGroupList']);
     Route::post('/applyNewMember', [MemberController::class, 'apply']);
     Route::post('/getApplyMember', [MemberController::class, 'applyMemberList']);
+    Route::post('/applyNewEvent', [EventController::class, 'apply']);
+    Route::post('/getApplyEvent', [EventController::class, 'applyEventList']);
     Route::post('/getApplyList', [ApplyController::class, 'getApplyList']);
     Route::post('/updatePersonal', [UserController::class, 'update']);
     Route::post('/user', function (Request $request) {

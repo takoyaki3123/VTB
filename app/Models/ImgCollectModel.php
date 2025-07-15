@@ -23,10 +23,4 @@ class ImgCollectModel extends Model
     public function group(): BelongsTo{
         return $this->belongsTo(GroupModel::class, 'img_id', 'id');
     }
-    // public function keyVisualImg(): BelongsTo{
-    //     return $this->belongsTo(KeyVisualModel::class, 'img_id', 'id');
-    // }
-    // public function characterImg(): BelongsTo{
-    //     return $this->belongsTo(KeyVisualModel::class, 'img2_id', 'id');
-    // }
 }

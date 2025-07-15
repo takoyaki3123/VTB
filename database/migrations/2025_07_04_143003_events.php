@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Group', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            // img id リストで出る画像
-            $table->string('name');
+            $table->string('title');
             $table->text('desc');
-            $table->string('link')->nullable();
-            $table->string('status')->default('0');
-            $table->text('rejectReason')->nullable();
+            $table->string('link');
+            $table->boolean('status')->default(false);
+            $table->text('reject_reason')->default('');
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->dateTime('ctime')->useCurrent();
             $table->dateTime('utime')->useCurrent()->useCurrentOnUpdate();
         });
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Group');
+        Schema::dropIfExists('events');
     }
 };

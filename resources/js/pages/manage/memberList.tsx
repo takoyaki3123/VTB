@@ -26,12 +26,10 @@ const MemberList = () => {
         
         const url = user.isAdmin ? 'getAllMemberList' : 'getMemberList';
         console.log(url);
-        baseApi(url, {})
+        baseApi(url, {'group_id': user.manage_group})
         .then((res) => {
             const newArr = valueAsKey(res.data, 'group_id');
             setMemberList(newArr);
-            console.log(newArr);
-            
         })
     }
     const init = () => {

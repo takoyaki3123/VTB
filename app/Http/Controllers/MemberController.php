@@ -50,7 +50,7 @@ class MemberController extends Controller
                 return $memberData;
             })
             ->toArray();
-        return new Response('200', $member[0], '');
+        return new Response(200, $member[0], '');
     }
 
     /**
@@ -75,7 +75,7 @@ class MemberController extends Controller
                 return $member;
             })
             ->toArray();
-        return new Response('200', $memberList, '');
+        return new Response(200, $memberList, '');
     }
 
     /**
@@ -100,7 +100,7 @@ class MemberController extends Controller
                 return $member;
             })
             ->toArray();
-        return new Response('200', $memberList, '');
+        return new Response(200, $memberList, '');
     }
 
     /**
@@ -119,16 +119,20 @@ class MemberController extends Controller
         //
         $post = $request->post()['body'];
         $member = MemberModel::find($post['id']);
-        if (!empty($member)) {
-            $member->name = $post['name'];
-            $member->desc = $post['desc'];
-            $member->streamUrl = $post['streamUrl'];
-            $member->socialUrl = $post['socialUrl'];
-            $member->img_id = $post['avatar']['id'];
-            $member->save();
-            return new Response('200', [], '');
+        try {
+            if (!empty($member)) {
+                $member->name = $post['name'];
+                $member->desc = $post['desc'];
+                $member->streamUrl = $post['streamUrl'];
+                $member->socialUrl = $post['socialUrl'];
+                $member->img_id = $post['avatar']['id'];
+                $member->save();
+                return new Response(200, [], '');
+            }
+            return new Response(400, [], 'メンバーを見当たりません');
+        } catch (\Throwable $th) {
+            return new Response(400, [], 'エラー');
         }
-        return new Response('400', [], 'メンバーを見当たりません');
     }
 
     /**
@@ -162,6 +166,7 @@ class MemberController extends Controller
             }
             try {
                 if (isset($memberData['id']) && $memberData['id'] != 0) {
+                    //　申請し直し
                     $member = MemberModel::find($memberData['id']);
                     $member->name = $memberData['name'];
                     $member->desc = $memberData['desc'];
@@ -174,7 +179,8 @@ class MemberController extends Controller
                     $member->save();
                     return new Response(200, [], '');
                 } else {
-                    $group = MemberModel::firstOrCreate(['name' => $memberData['name'], 'group_id' => $memberData['group_id']],[
+                    //　新しい申請
+                    $member = MemberModel::firstOrCreate(['name' => $memberData['name'], 'group_id' => $memberData['group_id']],[
                         'desc' => $memberData['desc'],
                         'streamUrl' => $memberData['streamUrl'] ?: '',
                         'socialUrl' => $memberData['socialUrl'] ?: '',
@@ -182,7 +188,7 @@ class MemberController extends Controller
                         'apply_user' => $request->user()['id'] ?? 0,
                         'img_id' => $memberData['avatar']['id'],
                     ]);
-                    if ($group->wasRecentlyCreated) {
+                    if ($member->wasRecentlyCreated) {
                         return new Response(200, [], '');
                     } else {
                         return new Response(400, [], '既に登録しているメンバーです！');
@@ -221,17 +227,21 @@ class MemberController extends Controller
             return new Response(400, [], '資料に問題がありました！');
         }
 
-        $memberID = $post['body']['id'];
-        $member = MemberModel::find($memberID);
-        if (!empty($member)) {
-            if ($member->status != 0) {
-                return new Response(400, [], '資料に問題がありました！');
+        try {
+            $memberID = $post['body']['id'];
+            $member = MemberModel::find($memberID);
+            if (!empty($member)) {
+                if ($member->status != 0) {
+                    return new Response(400, [], '資料に問題がありました！');
+                }
+                $member->status = '1';
+                $member->save();
+                return new Response(200, [], '');
             }
-            $member->status = '1';
-            $member->save();
-            return new Response(200, [], '');
+            return new Response(400, [], 'メンバーを見つかりませんでした');
+        } catch (\Throwable $th) {
+            return new Response(400, [], 'エラー', $th);
         }
-        return new Response(400, [], 'メンバーを見つかりませんでした');
     }
 
     public function reject(Request $request)
@@ -244,17 +254,21 @@ class MemberController extends Controller
         if ($validate->fails()) {
             return new Response(400, [], '資料に問題がありました！');
         }
-        $memberID = $post['body']['id'];
-        $member = MemberModel::find($memberID);
-        if (!empty($member)) {
-            if ($member->status != 0) {
-                return new Response(400, [], '資料に問題がありました！');
+        try {
+            $memberID = $post['body']['id'];
+            $member = MemberModel::find($memberID);
+            if (!empty($member)) {
+                if ($member->status != 0) {
+                    return new Response(400, [], '資料に問題がありました！');
+                }
+                $member->status = 2;
+                $member->rejectReason = $post['body']['rejectReason'];
+                $member->save();
+                return new Response(200, [], '');
             }
-            $member->status = 2;
-            $member->rejectReason = $post['body']['rejectReason'];
-            $member->save();
-            return new Response(200, [], '');
+            return new Response(400, [], 'メンバーを見つかりませんでした');
+        } catch (\Throwable $th) {
+            return new Response(400, [], 'エラー', $th);
         }
-        return new Response(400, [], 'メンバーを見つかりませんでした');
     }
 }

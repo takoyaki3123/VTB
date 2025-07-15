@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Exception\Response;
+use App\Models\EventModel;
 use App\Models\GroupModel;
 use App\Models\MemberModel;
 use Illuminate\Http\Request;
@@ -42,8 +43,24 @@ class ApplyController extends Controller
                     return $member;
                 })
                 ->toArray();
+        $eventList = EventModel::with(['promotionPic' => function ($query) {
+                $query->select(['id','name as imgName']);
+            }, 'host' => function ($query) {
+                $query->select(['id','name as groupName']);
+            }])
+                ->where([['status', '!=', '1'], ['apply_user', '=', $request->user()['id']]])
+                ->get(['id', 'title', 'desc', 'link', 'start', 'end', 'reject_reason', 'ctime', 'status', 'group_id', 'promotion_img_id'])
+                ->map(function ($event) {
+                    $event['imgName'] = $event->promotionPic ? $event->promotionPic->imgName : null;
+                    unset($event->promotionPic);
+                    $event['groupName'] = $event->host ? $event->host->groupName : null;
+                    unset($event->host);
+                    return $event;
+                })
+                ->toArray();
         $result['group'] = $groupList;
         $result['member'] = $memberList;
+        $result['event'] = $eventList;
         return new Response(200, $result, '');
     }
 }

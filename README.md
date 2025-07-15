@@ -6,6 +6,15 @@ VTBグループ、メンバー、イベントなどの情報を集めるサイ�
 
 `npm install && npm run build`
 
-データベースの資料はmigrationで一部生成します、しかし、画像の部分は著作権の原因で提供できません。
+.envの資料は.env.exampleをコピーして変えます
 
-`php artisan migrate:refresh --seed`
+コピーしたあと、laravelのvendorを生成し、APP KEYを作ります。
+
+`composer install`
+
+`php artisan key:generate`
+
+完成したら、実際に実行します。
+`composer run dev`
+
+その後、アカウントを作り、権限を変えれば、色んな画像などを設置できます。

@@ -42,7 +42,7 @@ function Group(props: {id: string}) {
         baseApi('getMemberList', {group_id: props.id})
         .then(async (res: uploadRes) => {
             const pattern = /https:\/\/www\.youtube\.com\/(@.+)/i;
-            
+
             const tmpList = res.data.map(async (row: { [key: string]: any; }) => {
                     const handle = row.streamUrl.match(pattern);
                     const yt = new Youtube(handle[1]);
@@ -51,6 +51,7 @@ function Group(props: {id: string}) {
                     if (searchResult) {
                         return { ...row, handle: handle[1], liveStatus: yt.getLiveStatus(), liveID: yt.getLiveID() };
                     }
+                    return row;
                 });
             return Promise.all(tmpList).then((val) => {
                 setMemberList(val);

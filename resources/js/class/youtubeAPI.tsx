@@ -15,8 +15,6 @@ class Youtube {
 
     constructor(youtubeHandle: string) {
         if (youtubeHandle != null) {
-            console.log(youtubeHandle);
-            
             this.#youtubeHandle = youtubeHandle;
         }
     }
@@ -41,9 +39,10 @@ class Youtube {
     }
 
     searchLiveStatus() {
-        return new Promise(async (resolve) => {
+        return new Promise(async (resolve, reject) => {
             if (this.#youtubeHandle == '') {
-                return 'no youtube handle';
+                console.log('no youtube handle');
+                resolve(false);
             }
             if (this.#channelID.trim() == '') {
                 await this.searchChannel();
@@ -61,6 +60,11 @@ class Youtube {
                     this.#liveTitle = res.data.items[0].snippet.title;
                     resolve(true);
                 }
+                resolve(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                reject(false);
             });
         })
     }

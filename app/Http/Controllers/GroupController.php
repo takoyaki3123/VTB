@@ -64,7 +64,7 @@ class GroupController extends Controller
             ->leftJoin('imgCollect as img2', 'k.character_img_id', '=', 'img2.id') // character img infront of background in group page
             ->leftJoin('imgCollect as group_img', 'g.img_id', '=', 'group_img.id') // keyvisual in home page
             ->where([['g.id', '=', $post['body']['group_id']], ['g.status', '=', '1']])
-            ->get(['g.name', 'g.desc', 'g.id', 'img.name as background', 'img2.name as character', 'img2.name as groupImg'])->toArray();
+            ->get(['g.name', 'g.desc', 'g.id', 'img.name as background', 'img2.name as character', 'group_img.name as groupImg'])->toArray();
         if(count($GroupData) > 0) {
             $GroupData[0]->bgPath = Storage::url("image/" . $GroupData[0]->background);
             $GroupData[0]->characterPath = Storage::url("image/" . $GroupData[0]->character);

@@ -2,7 +2,6 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 
 // component
-import Footer from '@/components/common/footer';
 import Editor from '@/components/common/editor';
 import { dialogAction, DialogBody, DialogCloseButton, DialogContainer, DialogFooter, DialogHeader } from '@/components/common/dialog';
 import { Uploader } from '@/components/common/uploader';
@@ -98,8 +97,10 @@ const MemberManage = (props: {id: number}) => {
         <AppLayout>
             <div className='container-half mx-auto'>
                 <button className="btn btn-primary" onClick={() => openDialog()}>変更</button>
-                <div className='d-flex flex-wrap'>
-                    <img src={'/storage/image/' + imgName} alt="no img" className='thumbnail'/>
+                <div className=''>
+                    <div className='w-100 d-flex justify-content-center'>
+                        <img src={'/storage/image/' + imgName} alt="no img" className='thumbnail mx-auto'/>
+                    </div>
                     <h3>{name}</h3>
                     <Editor value={desc} show={false} />
                     <div className='mt-2'>配信チャンネル：<a href={streamUrl} target='_blank'>{streamUrl}</a></div>

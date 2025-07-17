@@ -162,11 +162,11 @@ const GroupManage = () => {
             <KeyVisual backgroundPath={"/storage/image/" + bg} imgPath={"/storage/image/" + character} />
             <div className="container">
                 <Editor value={desc} show={false} />
-            </div>
-            <hr/>
-            <div className="group_img_container">
-                グループイメージ写真はこちら
-                <img src={"/storage/image/" + groupImg}/>
+                <hr/>
+                <div className="group_img_container">
+                    グループイメージ写真はこちら
+                    <img src={"/storage/image/" + groupImg}/>
+                </div>
             </div>
         </AppLayout>
     );

@@ -14,6 +14,7 @@ import { baseApi, uploadRes } from "@/lib/api";
 // scss
 import '../../../css/common.scss';
 import '../../../css/group.scss';
+import KeyVisual from "@/components/home/keyVisual";
 
 const rejectDialogID = 'rejectReason';
 const applyDialogID = 'apply';
@@ -56,7 +57,10 @@ const ApplyDialog = (props: {processGroup: {[key: string]: any}, approve: () => 
                     <div>グループ名：{props.processGroup.name}</div>
                     <div>グループ紹介：{props.processGroup.desc}</div>
                     <div>サイト：<a href={props.processGroup.link}>{props.processGroup.link}</a></div>
-                    <div>宣伝図：<img className="apply-img" src={"/storage/image/" + props.processGroup.imgName}/></div>
+                    <div>宣伝図：<img className="apply-img" src={"/storage/image/" + props.processGroup.groupImg}/></div>
+                    <div>紹介画像：
+                        <KeyVisual backgroundPath={"/storage/image/" + props.processGroup.background} imgPath={"/storage/image/" + props.processGroup.character}/>
+                    </div>
                 </div>
             </DialogBody>
             <DialogFooter>

@@ -9,6 +9,7 @@ use App\Models\GroupModel;
 use App\Models\MemberModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ApplyController extends Controller
@@ -17,16 +18,25 @@ class ApplyController extends Controller
     {
         Log::debug ('my user value in middleware: ' .json_encode(Auth::user()));
 
-        $groupList = GroupModel::with(['thumbnail' => function ($query) {
-            $query->select(['id','name as imgName']);
-        }])
-            ->where([['status', '!=', '1'], ['apply_user', '=', $request->user()['id']]])
-            ->get(['id', 'name', 'desc', 'link', 'status', 'ctime', 'img_id'])
-            ->map(function ($group) {
-                $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
-                unset($group->thumbnail);
-                return $group;
-            })
+        // $groupList = GroupModel::with(['thumbnail' => function ($query) {
+        //     $query->select(['id','name as imgName']);
+        // }])
+        //     ->where([['status', '!=', '1'], ['apply_user', '=', $request->user()['id']]])
+        //     ->get(['id', 'name', 'desc', 'link', 'status', 'ctime', 'img_id'])
+        //     ->map(function ($group) {
+        //         $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
+        //         unset($group->thumbnail);
+        //         return $group;
+        //     })
+        //     ->toArray();
+        
+        $groupList = DB::table('Group as g')
+            ->leftJoin('KeyVisual as k', 'k.group_id', '=', 'g.id')
+            ->leftJoin('imgCollect as img', 'k.background_img_id', '=', 'img.id') // main background in group page
+            ->leftJoin('imgCollect as img2', 'k.character_img_id', '=', 'img2.id') // character img infront of background in group page
+            ->leftJoin('imgCollect as group_img', 'g.img_id', '=', 'group_img.id') // keyvisual in home page
+            ->where([['g.status', '!=', '1'], ['apply_user', '=', $request->user()['id']]])
+            ->get(['g.name', 'g.desc', 'g.id', 'g.link', 'g.status', 'g.rejectReason', 'img.name as background', 'img2.name as character', 'group_img.name as groupImg'])
             ->toArray();
         $memberList = MemberModel::with(['thumbnail' => function ($query) {
                 $query->select(['id','name as imgName']);

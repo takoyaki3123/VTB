@@ -74,7 +74,7 @@ function Group(props: {id: string}) {
                 <div className="row mt-4">
                     {memberList.length > 0 ? memberList.map((item: {[key:string]:any}) => (
                         <div className="col-sm-4 card-maxHeight my-2" key={item.id}>
-                            <a href={ "/member/" + item.id + '/' + item.liveID}>
+                            <a href={ "/member/" + item.id + (item.liveID ? '/' + item.liveID : '')}>
                                 <Card tag={item.liveStatus ? 'live' : ''} title={item.name} imgName={item.imgName} class="h-100"/>
                             </a>
                         </div>

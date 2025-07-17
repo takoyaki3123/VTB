@@ -13,10 +13,12 @@ import { statusCompare } from "../types/compare";
 
 // function
 import { baseApi } from "@/lib/api";
+import moment from "moment";
 
 // scss
 import '../../css/common.scss';
 import '../../css/group.scss';
+import KeyVisual from "@/components/home/keyVisual";
 
 const groupDialogID = 'groupDialog';
 const memberDialogID = 'memberDialog';
@@ -33,7 +35,17 @@ const GroupDialog = (props: {group: {[key: string]: any}}) => {
                     <div>グループ名：{props.group.name}</div>
                     <div>グループ紹介：{props.group.desc}</div>
                     <div>サイト：<a href={props.group.link}>{props.group.link}</a></div>
-                    <div>宣伝図：<img className="apply-img" src={"/storage/image/" + props.group.imgName}/></div>
+                    <div>宣伝図：<img className="apply-img" src={"/storage/image/" + props.group.groupImg}/></div>
+                    <div>紹介画像：
+                        <KeyVisual backgroundPath={"/storage/image/" + props.group.background} imgPath={"/storage/image/" + props.group.character}/>
+                    </div>
+                    {props.group.rejectReason != '' ?
+                        <div>
+                            申請拒否の理由：{props.group.rejectReason}
+                        </div>
+                    :
+                        <Fragment/>
+                    }
                 </div>
             </DialogBody>
         </DialogContainer>
@@ -103,7 +115,7 @@ const ApplyList = () => {
                                     <ListItemAction>
                                         <div className="row">
                                             <div className="col">{groupData.name}</div>
-                                            <div className="col">{groupData.ctime}</div>
+                                            <div className="col">{moment(groupData.ctime).format('YYYY-MM-DD HH:m:s')}</div>
                                             <div className="col">{statusCompare[groupData.status]}</div>
                                         </div>
                                     </ListItemAction>
@@ -124,7 +136,7 @@ const ApplyList = () => {
                                 <ListItemAction>
                                     <div className="row">
                                         <div className="col">{memberData.name}</div>
-                                        <div className="col">{memberData.ctime}</div>
+                                        <div className="col">{moment(memberData.ctime).format('YYYY-MM-DD h:mm:ss')}</div>
                                         <div className="col">{statusCompare[memberData.status]}</div>
                                     </div>
                                 </ListItemAction>
@@ -146,7 +158,7 @@ const ApplyList = () => {
                                 <ListItemAction>
                                     <div className="row">
                                         <div className="col">{eventData.title}</div>
-                                        <div className="col">{eventData.ctime}</div>
+                                        <div className="col">{moment(eventData.ctime).format('YYYY-MM-DD H:m:s')}</div>
                                         <div className="col">{statusCompare[eventData.status]}</div>
                                     </div>
                                 </ListItemAction>
@@ -160,7 +172,7 @@ const ApplyList = () => {
             setTabContent([
                 {id: 'groupTab', title: 'グループ', children: groupTab},
                 {id: 'memberTab', title: 'メンバー', children: memberTab},
-                {id: 'eventTab', title: 'イベント', children: eventTab},
+                // {id: 'eventTab', title: 'イベント', children: eventTab},
             ]);
         })
     }

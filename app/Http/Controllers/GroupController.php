@@ -202,16 +202,13 @@ class GroupController extends Controller
     }
 
     public function applyGroupList() {
-        $groupList = GroupModel::with(['thumbnail' => function ($query) {
-            $query->select(['id','name as imgName']);
-        }])
-            ->where([['status', '=', '0']])
-            ->get(['id', 'name', 'desc', 'link', 'img_id', 'ctime'])
-            ->map(function ($group) {
-                $group['imgName'] = $group->thumbnail ? $group->thumbnail->imgName : null;
-                unset($group->thumbnail);
-                return $group;
-            })
+        $groupList = DB::table('Group as g')
+            ->leftJoin('KeyVisual as k', 'k.group_id', '=', 'g.id')
+            ->leftJoin('imgCollect as img', 'k.background_img_id', '=', 'img.id') // main background in group page
+            ->leftJoin('imgCollect as img2', 'k.character_img_id', '=', 'img2.id') // character img infront of background in group page
+            ->leftJoin('imgCollect as group_img', 'g.img_id', '=', 'group_img.id') // keyvisual in home page
+            ->where([['g.status', '=', '0']])
+            ->get(['g.name', 'g.desc', 'g.id', 'img.name as background', 'img2.name as character', 'group_img.name as groupImg'])
             ->toArray();
         return new Response(200, $groupList, '');
     }

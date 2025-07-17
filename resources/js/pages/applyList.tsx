@@ -17,7 +17,6 @@ import { baseApi } from "@/lib/api";
 // scss
 import '../../css/common.scss';
 import '../../css/group.scss';
-import DateTimeSelector from "@/components/common/datetimeSelector";
 
 const groupDialogID = 'groupDialog';
 const memberDialogID = 'memberDialog';

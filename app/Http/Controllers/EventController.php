@@ -159,6 +159,27 @@ class EventController extends Controller
     {
         //
     }
+    public function getApplyEventList(Request $request)
+    {
+
+        $groupList = EventModel::with(['promotionPic' => function ($query) {
+            $query->select(['id','name as imgName']);
+        }])
+            ->with(['host' => function ($query) {
+                $query->select(['id','name as groupName']);
+            }])
+            ->where([['id', '!=', '0'], ['status', '=', '0']])
+            ->get(['id', 'name', 'desc', 'streamUrl', 'socialUrl', 'img_id', 'ctime'])
+            ->map(function ($event) {
+                $event['imgName'] = $event->promotionPic ? $event->promotionPic->imgName : null;
+                unset($event->thumbnail);
+                $event['groupName'] = $event->host ? $event->host->groupName : null;
+                unset($event->host);
+                return $event;
+            })
+            ->toArray();
+        return new Response(200, $groupList, '');
+    }
 
     public function apply(Request $request) {
         $eventData = $request->post()['body'];

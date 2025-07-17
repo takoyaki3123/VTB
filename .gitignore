@@ -31,3 +31,5 @@ auth.json
 
 package-lock.json
 composer.json
+
+.vite

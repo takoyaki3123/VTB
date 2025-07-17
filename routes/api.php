@@ -49,7 +49,7 @@ Route::middleware(['auth:sanctum', CheckLogin::class])->group(function () {
     Route::post('/applyNewMember', [MemberController::class, 'apply']);
     Route::post('/getApplyMember', [MemberController::class, 'applyMemberList']);
     Route::post('/applyNewEvent', [EventController::class, 'apply']);
-    Route::post('/getApplyEvent', [EventController::class, 'applyEventList']);
+    Route::post('/getApplyEvent', [EventController::class, 'getApplyEventList']);
     Route::post('/getApplyList', [ApplyController::class, 'getApplyList']);
     Route::post('/updatePersonal', [UserController::class, 'update']);
     Route::post('/user', function (Request $request) {

@@ -50,6 +50,9 @@ Route::middleware([CheckAdmin::class])->group(function () {
         Route::get('/applyMember', function () {
             return Inertia::render('manage/applyMemberManage');
         });
+        Route::get('/applyEvent', function () {
+            return Inertia::render('manage/applyEventManage');
+        });
     });
 })->name('managePage');
 

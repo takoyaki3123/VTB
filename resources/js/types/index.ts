@@ -57,3 +57,21 @@ export interface mutationOption {
     CharacterData?: boolean;
     characterDataOldValue?: boolean;
 }
+
+export interface carouselType {
+    name: string;
+    imgName: string;
+};
+
+export type Group = {
+    name: string,
+    imgName: string,
+    [key: string]: any,
+};
+
+export type Event = {
+    id: number,
+    group_id: number,
+    imgName: string,
+    name: string,
+};

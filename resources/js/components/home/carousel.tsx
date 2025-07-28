@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import * as bootstrap from 'bootstrap';
-interface Group {
-    name: string,
-    imgName: string,
-    [key: string]: any,
-}
-const Carousel = ({ groups = [] }: { groups: Array<Group> }) => {
+import { carouselType, Group } from "@/types";
+const Carousel = <T extends carouselType>({ items = [] }: { items: Array<T> }) => {
     useEffect(()=>{
         // carouselはitemがmapで生成する場合、自動にスライドしないので、このようにうこかせる必要があります。
         const carouselContainer = document.querySelector("#carouselExampleAutoplaying");
@@ -19,11 +15,11 @@ const Carousel = ({ groups = [] }: { groups: Array<Group> }) => {
         <>
             <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div className="carousel-inner">
-                    {groups.map((group: Group, i: number) => (
+                    {items.map((item: T, i: number|number) => (
                         <div key={i} className={(i == 0 ? "carousel-item active" : "carousel-item")}>
                             <div className="carousel-item-container d-flex justify-content-center flex-wrap">
-                                <img src={"/storage/image/" + group.imgName} className="d-block w-100" alt="..." />
-                                <h4 className="mx-auto my-0">{group.name}</h4>
+                                <img src={"/storage/image/" + item.imgName} className="d-block w-100" alt="..." />
+                                <h4 className="mx-auto my-0">{item.name}</h4>
                             </div>
                         </div>
                     ))}
@@ -41,4 +37,3 @@ const Carousel = ({ groups = [] }: { groups: Array<Group> }) => {
     );
 }
 export default Carousel;
-export type { Group };

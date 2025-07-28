@@ -14,6 +14,7 @@ import { baseApi } from "@/lib/api";
 import '../../css/common.scss'
 import { eventVO } from "./vo";
 import { renderTimeViewClock } from "@mui/x-date-pickers";
+import moment from "moment";
 const ApplyEvent = () => {
     const [vo, setVo] = useState<typeof eventVO>({...eventVO});
     const [close, setClose] = useState(false);
@@ -30,7 +31,7 @@ const ApplyEvent = () => {
     const setImgVo = () => {
         if (promotionImgRef.current!.files) {
             const file = promotionImgRef.current!.files[0];
-            updateVo(file.name, 'promotion_img_name');
+            updateVo(file.name, 'imgName');
         }
     }
 
@@ -53,6 +54,10 @@ const ApplyEvent = () => {
     }
 
     const apply = () => {
+        if (!checkVo()) {
+            msgBoxAction('show');
+            return;
+        }
         baseApi('applyNewEvent', vo)
         .then(() => {
             setMsg("申請完了");
@@ -65,6 +70,24 @@ const ApplyEvent = () => {
             }
             msgBoxAction('show');
         });
+    }
+
+    const checkVo = () => {
+        if (vo.title == '' || vo.link == '' || vo.desc == '' || vo.start == null || vo.end == null) {
+            setMsg("入力していない資料があります");
+            return false;
+        } else if (vo.promotion_img_id != null) {
+            if (vo.promotion_img_id! <= 0 || vo.promotion_img_id == null) {
+                setMsg("宣伝画像に問題を生じました");
+                return false;
+            }
+        } else {
+            if (moment(vo.start).format("YYYY-MM-DD HH:m:s") <= moment(vo.end).format("YYYY-MM-DD HH:m:s")) {
+                setMsg("開催終了時間は開始時間の前に設定されています");
+                return false;
+            }
+        }
+        return true;
     }
 
     useEffect(() => {

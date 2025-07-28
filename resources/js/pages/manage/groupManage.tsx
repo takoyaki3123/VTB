@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 
 // component
-import KeyVisual from "@/components/home/keyVisual";
+import KeyVisual from "@/components/common/keyVisual";
 import Editor from "@/components/common/editor";
 import AppLayout from "@/layouts/app-layout";
 import { Uploader } from "@/components/common/uploader";

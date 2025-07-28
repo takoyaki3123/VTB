@@ -19,9 +19,9 @@ class EventController extends Controller
             $query->select(['id','name as imgName']);
         }])
             ->where([['status', '=', true]])
-            ->get(['id', 'name', 'group_id', 'promotion_img_id'])
+            ->get(['id', 'title', 'group_id', 'promotion_img_id'])
             ->map(function ($event) {
-                $event['promotion_img'] = $event->promotionPic['name'];
+                $event['imgName'] = $event->promotionPic['imgName'];
                 unset($event->promotionPic);
                 return $event;
             })
@@ -84,7 +84,7 @@ class EventController extends Controller
             ->where([['status', '=', true], ['group_id', '=', $post['group_id']]])
             ->get(['id', 'name', 'group_id', 'promotion_img_id'])
             ->map(function ($event) {
-                $event['promotion_img'] = $event->promotionPic['name'];
+                $event['imgName'] = $event->promotionPic['name'];
                 unset($event->promotionPic);
                 return $event;
             })

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 //component
-import KeyVisual from '@/components/home/keyVisual';
+import KeyVisual from '@/components/common/keyVisual';
 import Carousel, { Group } from '@/components/home/carousel';
 import Footer from '@/components/common/footer';
 import { Button } from '@/components/ui/button';

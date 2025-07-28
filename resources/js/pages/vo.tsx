@@ -88,10 +88,13 @@ type EventVO = {
     start?: string,
     end?: string,
     promotion_img_id?: number,
-    promotion_img_name?: string,
+    imgName?: string,
     group_id?: number,
 }
 export const eventVO: EventVO = {
+    desc: '',
+    link: '',
+    title: '',
     status: 0,
-    reject_Reason: ''
+    reject_Reason: '',
 }

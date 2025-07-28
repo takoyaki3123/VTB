@@ -18,7 +18,7 @@ import moment from "moment";
 // scss
 import '../../css/common.scss';
 import '../../css/group.scss';
-import KeyVisual from "@/components/home/keyVisual";
+import KeyVisual from "@/components/common/keyVisual";
 
 const groupDialogID = 'groupDialog';
 const memberDialogID = 'memberDialog';
@@ -167,12 +167,12 @@ const ApplyList = () => {
                     })
                 }
                 </ListContainer>
-                <a className="btn btn-primary my-2" target="_blank" href="/apply/member">申請</a>
+                <a className="btn btn-primary my-2" target="_blank" href="/apply/event">申請</a>
             </div>;
             setTabContent([
                 {id: 'groupTab', title: 'グループ', children: groupTab},
                 {id: 'memberTab', title: 'メンバー', children: memberTab},
-                // {id: 'eventTab', title: 'イベント', children: eventTab},
+                {id: 'eventTab', title: 'イベント', children: eventTab},
             ]);
         })
     }

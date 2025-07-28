@@ -14,7 +14,7 @@ import { baseApi, uploadRes } from "@/lib/api";
 // scss
 import '../../../css/common.scss';
 import '../../../css/group.scss';
-import KeyVisual from "@/components/home/keyVisual";
+import KeyVisual from "@/components/common/keyVisual";
 
 const rejectDialogID = 'rejectReason';
 const applyDialogID = 'apply';

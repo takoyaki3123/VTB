@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useState } from 'react';
 
 // component
-import KeyVisual from '@/components/home/keyVisual';
+import KeyVisual from '@/components/common/keyVisual';
 import Footer from '@/components/common/footer';
 import Editor from '@/components/common/editor';
 import Card from '@/components/common/card';

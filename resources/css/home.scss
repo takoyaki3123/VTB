@@ -12,3 +12,23 @@
         }
     }
 }
+[class*="-carousel"] {
+    h1, h2, h3, h4, h5 {
+        text-align: center;
+    }
+    [class*="-link"] {
+        display: flex;
+        justify-self: center;
+        justify-content: center;
+        width:15rem;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    [class*="-link"]:hover {
+        background-color: azure;
+        box-shadow:0 0.75rem 2rem rgba(75, 100, 143, 0.25);
+    }
+}
+.rounded-corner {
+    border-radius: 4rem;
+}

@@ -20,8 +20,9 @@ Route::post('/getGroupList', [GroupController::class, 'showList']);
 Route::post('/getGroupListWithImg', [GroupController::class, 'index']);
 Route::post('/getMember', [MemberController::class, 'show']);
 Route::post('/getMemberList', [MemberController::class, 'showList']);
-Route::post('/getEventList', [EventController::class, 'index']);
 Route::post('/getAllMemberList', [MemberController::class, 'showAllList']);
+Route::post('/getEventList', [EventController::class, 'index']);
+Route::post('/getGroupEvent', [EventController::class, 'showList']);
 
 Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
     // ホームページの管理
@@ -32,6 +33,9 @@ Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
     // メンバー申請の通過と拒否
     Route::post('/approveMember', [MemberController::class, 'approve']);
     Route::post('/rejectMember', [MemberController::class, 'reject']);
+    // イベント申請の通過と拒否
+    Route::post('/approveMember', [EventController::class, 'approve']);
+    Route::post('/rejectMember', [EventController::class, 'reject']);
 
 
     Route::post('/getUserList', [UserController::class, 'index']);

@@ -55,7 +55,7 @@ const Navbar = () => {
                                     <li><a className="dropdown-item" href="/manage/home">ホームページ管理</a></li>
                                     <li><a className="dropdown-item" href="/manage/applyGroup">グループ申請管理</a></li>
                                     <li><a className="dropdown-item" href="/manage/applyMember">メンバー申請管理</a></li>
-                                    <li><a className="dropdown-item" href="/manage/applyMember">イベント申請管理</a></li>
+                                    <li><a className="dropdown-item" href="/manage/applyEvent">イベント申請管理</a></li>
                                     <li><a className="dropdown-item" href="/manage/group">グループ管理</a></li>
                                     <li><a className="dropdown-item" href="/manage/memberList">メンバー管理</a></li>
                                     <li><a className="dropdown-item" href="/manage/event">イベント管理</a></li>

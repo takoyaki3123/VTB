@@ -88,7 +88,7 @@ const ApplyEventManage = () => {
         dialogAction(applyDialogID, 'show');
     }
     const approve = () => {
-        baseApi('approveEvent', {id: processEvent.id})
+        baseApi('approveEvent', {id: processEvent.id, group_id: processEvent.group_id})
         .then((res: uploadRes) => {
             if (res.data.errorMsg) {
                 setMsg(res.data.errorMsg);
@@ -126,7 +126,7 @@ const ApplyEventManage = () => {
                         <div onClick={() => {applyDialog(index)}}>
                             <ListItemAction>
                                 <div className="row">
-                                    <div className="col">{item.name}</div>
+                                    <div className="col">{item.title}</div>
                                     <div className="col">{item.ctime}</div>
                                 </div>
                             </ListItemAction>

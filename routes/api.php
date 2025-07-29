@@ -34,8 +34,8 @@ Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
     Route::post('/approveMember', [MemberController::class, 'approve']);
     Route::post('/rejectMember', [MemberController::class, 'reject']);
     // イベント申請の通過と拒否
-    Route::post('/approveMember', [EventController::class, 'approve']);
-    Route::post('/rejectMember', [EventController::class, 'reject']);
+    Route::post('/approveEvent', [EventController::class, 'approve']);
+    Route::post('/rejectEvent', [EventController::class, 'reject']);
 
 
     Route::post('/getUserList', [UserController::class, 'index']);

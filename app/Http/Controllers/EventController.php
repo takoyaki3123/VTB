@@ -39,7 +39,7 @@ class EventController extends Controller
                 $query->select(['id', 'name as groupName']);
             }])
             ->where([['group_id', '=', $request->post()['body']['group_id']], ['status', '=', '1']])
-            ->get(['id', 'name', 'streamUrl', 'img_id', 'group_id'])
+            ->get(['id', 'title', 'streamUrl', 'img_id', 'group_id'])
             ->map(function ($event) {
                 $event['imgName'] = $event->promotionPic ? $event->promotionPic->imgName : null;
                 $event['groupName'] = $event->host ? $event->host->groupName : null;
@@ -82,9 +82,9 @@ class EventController extends Controller
             $query->select(['id','name as imgName']);
         }])
             ->where([['status', '=', true], ['group_id', '=', $post['group_id']]])
-            ->get(['id', 'name', 'group_id', 'promotion_img_id'])
+            ->get(['id', 'title', 'group_id', 'promotion_img_id'])
             ->map(function ($event) {
-                $event['imgName'] = $event->promotionPic['name'];
+                $event['imgName'] = $event->promotionPic['imgName'];
                 unset($event->promotionPic);
                 return $event;
             })
@@ -169,7 +169,7 @@ class EventController extends Controller
                 $query->select(['id','name as groupName']);
             }])
             ->where([['id', '!=', '0'], ['status', '=', '0']])
-            ->get(['id', 'name', 'desc', 'streamUrl', 'socialUrl', 'img_id', 'ctime'])
+            ->get(['id', 'title', 'desc', 'link', 'ctime', 'start', 'end', 'group_id', 'promotion_img_id'])
             ->map(function ($event) {
                 $event['imgName'] = $event->promotionPic ? $event->promotionPic->imgName : null;
                 unset($event->thumbnail);

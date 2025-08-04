@@ -61,6 +61,7 @@ export interface mutationOption {
 export interface carouselType {
     name: string;
     imgName: string;
+    link?: string;
 };
 
 export type Group = {

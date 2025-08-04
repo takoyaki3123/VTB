@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import * as bootstrap from 'bootstrap';
 import { carouselType, Group } from "@/types";
+import '../../../css/home.scss';
 const Carousel = <T extends carouselType>({ items = [] }: { items: Array<T> }) => {
     useEffect(()=>{
         // carouselはitemがmapで生成する場合、自動にスライドしないので、このようにうこかせる必要があります。
@@ -17,10 +18,19 @@ const Carousel = <T extends carouselType>({ items = [] }: { items: Array<T> }) =
                 <div className="carousel-inner">
                     {items.map((item: T, i: number|number) => (
                         <div key={i} className={(i == 0 ? "carousel-item active" : "carousel-item")}>
+                            {item.link ?
+                            <a href={item.link}>
+                                <div className="carousel-item-container d-flex justify-content-center flex-wrap">
+                                    <img src={"/storage/image/" + item.imgName} className="d-block w-100" alt="..." />
+                                    <h4 className="mx-auto my-0">{item.name}</h4>
+                                </div>
+                            </a>
+                            :
                             <div className="carousel-item-container d-flex justify-content-center flex-wrap">
                                 <img src={"/storage/image/" + item.imgName} className="d-block w-100" alt="..." />
                                 <h4 className="mx-auto my-0">{item.name}</h4>
                             </div>
+                            }
                         </div>
                     ))}
                 </div>

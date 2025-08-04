@@ -28,7 +28,10 @@ export default function Home() {
         baseApi('getGroupListWithImg', {})
         .then((res) => {
             const showGroup = shuffle(res.data);
-            setGroups(showGroup.slice(0, 3));
+            const tmp = showGroup.slice(0, 3).map((val) => {
+                return {...val, link: '/group/' + val.id};
+            })
+            setGroups(tmp.slice(0, 3));
         });
     }
 
@@ -44,7 +47,10 @@ export default function Home() {
         baseApi('getEventList', {})
         .then((res) => {
             const showEvent = shuffle(res.data);
-            setEvent(showEvent.slice(0, 3));
+            const tmp = showEvent.slice(0, 3).map((val) => {
+                return {...val, link: '/event/' + val.id};
+            })
+            setEvent(tmp);
         })
     }
 

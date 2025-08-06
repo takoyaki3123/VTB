@@ -22,6 +22,9 @@ Route::get('/member/{id}/', function ($id) {
 Route::get('/member/{id}/{liveID}', function ($id, $liveID) {
     return Inertia::render('member', ['id' => $id, 'liveStatus' => empty($liveID) ? false: true, 'liveID' => $liveID]);
 });
+Route::get('/event/{id}', function ($id) {
+    return Inertia::render('eventPage', ['id' => $id]);
+})->name('eventPage');
 Route::get('/about', function () {
     return Inertia::render('about');
 })->name('about');

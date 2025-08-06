@@ -22,6 +22,7 @@ Route::post('/getMember', [MemberController::class, 'show']);
 Route::post('/getMemberList', [MemberController::class, 'showList']);
 Route::post('/getAllMemberList', [MemberController::class, 'showAllList']);
 Route::post('/getEventList', [EventController::class, 'index']);
+Route::post('/getEvent', [EventController::class, 'show']);
 Route::post('/getGroupEvent', [EventController::class, 'showList']);
 
 Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {

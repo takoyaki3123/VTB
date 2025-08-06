@@ -73,6 +73,22 @@ class EventController extends Controller
     public function show(Request $request)
     {
         //
+        $event = EventModel::with(['promotionPic' => function ($query) {
+            $query->select(['id','name as imgName']);
+        }])->with(['host' => function ($query) {
+            $query->select(['id','name as groupName']);
+        }])
+            ->where([['id', '=', $request->post()['body']['id']], ['status', '=', '1']])
+            ->get(['id', 'title', 'desc', 'link', 'start', 'end', 'group_id', 'promotion_img_id'])
+            ->map(function ($eventData) {
+                $eventData['imgName'] = $eventData->promotionPic ? $eventData->promotionPic->imgName : null;
+                unset($eventData->promotionPic);
+                $eventData['groupName'] = $eventData->host ? $eventData->host->groupName : null;
+                unset($eventData->host);
+                return $eventData;
+            })
+            ->toArray();
+        return new Response(200, $event[0], '');
     }
 
     public function showGroupEvent(Request $request)

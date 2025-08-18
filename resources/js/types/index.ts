@@ -76,3 +76,5 @@ export type Event = {
     imgName: string,
     name: string,
 };
+
+// todo: use type to process all variable

@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 
 //component
 import KeyVisual from '@/components/common/keyVisual';
-import Carousel, { Group } from '@/components/home/carousel';
-import Footer from '@/components/common/footer';
+import Carousel from '@/components/home/carousel';
 import { Button } from '@/components/ui/button';
 import { HomeVO } from '../vo';
 import { Uploader } from '@/components/common/uploader';
 import AppLayout from '@/layouts/app-layout';
+import { Event, Group } from '@/types';
 
 //function
 import { shuffle } from '@/lib/utils';
@@ -26,7 +26,6 @@ const HomeManage = () => {
     const characterRef = useRef<HTMLInputElement>(null);
     const [bg, setBg] = useState("");
     const [character, setCharacter] = useState("");
-    const [groups, setGroups] = useState<Array<Group>>([]);
     const backgroundChange = () => {
         if (backgroundRef.current!.files) {
             const file = backgroundRef.current!.files[0];
@@ -40,16 +39,6 @@ const HomeManage = () => {
         }
     }
 
-    const getGroup = () => {
-        baseApi('getGroupListWithImg', {})
-        .then((res: uploadRes) => {
-            const showGroup = shuffle(res.data);
-            console.log(showGroup);
-            
-            setGroups(showGroup.slice(0,3));
-        });
-    }
-
     const getKeyVisual = () => {
         baseApi('getHome', {})
         .then((res: uploadRes) => {
@@ -60,7 +49,6 @@ const HomeManage = () => {
 
     const init = () => {
         getKeyVisual();
-        getGroup();
     }
     const upload = () => {
         baseApi('updateHome', { ...vo })
@@ -98,11 +86,23 @@ const HomeManage = () => {
                 <Button type="button" className="btn btn-primary" onClick={() => upload()}>確認</Button>
             </div>
             <hr/>
-            <h5>實際顯示內容</h5>
-            <KeyVisual backgroundPath={"/storage/image/" + bg} imgPath={"/storage/image/" + character} />
-            <div className='container'>
-                <Carousel groups={groups} />
+            <h5>使用の画像</h5>
+            <div className="row w-100">
+                <div className="col-6">
+                    背景
+                </div>
+                <div className="col-6">
+                    キャラ
+                </div>
+                <div className="col-6">
+                    <img src={"/storage/image/" + bg} alt="" />
+                </div>
+                <div className="col-6">
+                    <img src={"/storage/image/" + character} alt="" />
+                </div>
             </div>
+            <h5>実際の画像</h5>
+            <KeyVisual backgroundPath={"/storage/image/" + bg} imgPath={"/storage/image/" + character} />
         </AppLayout>
     );
 }

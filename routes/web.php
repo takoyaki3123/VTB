@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Aws\S3\S3Controller;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckLogin;
 use App\Http\Middleware\CheckManage;

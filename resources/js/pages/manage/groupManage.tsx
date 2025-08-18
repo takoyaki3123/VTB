@@ -164,7 +164,7 @@ const GroupManage = () => {
                 <Editor value={desc} show={false} />
                 <hr/>
                 <div className="group_img_container">
-                    グループイメージ写真はこちら
+                    グループイメージ画像はこちら
                     <img src={"/storage/image/" + groupImg}/>
                 </div>
             </div>

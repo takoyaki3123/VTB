@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 define('GROUPDIR', 'group/');
-define('EVENTDIR', 'group/<<group>>/event/');
-define('MEMBERDIR', 'group/<<group>>/member/');
+define('EVENTDIR', 'group/<group>/event/');
+define('MEMBERDIR', 'group/<group>/member/');
 define('HOMEDIR', 'home/');
 class S3Controller extends Controller
 {
@@ -36,10 +36,10 @@ class S3Controller extends Controller
                 if ($group <= 0) {
                     return false;
                 }
-                if ($path == 'event') {
-                    $path = preg_replace('<<group>>', $group, EVENTDIR);
+                if ($type == 'event') {
+                    $path = preg_replace('/<group>/', $group, EVENTDIR);
                 } else {
-                    $path = preg_replace('<<group>>', $group, MEMBERDIR);
+                    $path = preg_replace('/<group>/', $group, MEMBERDIR);
                 }
             break;
             case 'home':

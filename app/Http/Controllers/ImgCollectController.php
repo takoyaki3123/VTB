@@ -6,6 +6,7 @@ use App\Http\Controllers\Aws\S3\S3Controller;
 use App\Http\Exception\Response;
 use App\Models\ImgCollectModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,9 +25,9 @@ class ImgCollectController extends Controller
      */
     public function store(Request $request)
     {
-        $postData = $request->post()['body'];
+        $postData = $request->post();
         // todo: upload file
-        $request->validate(['image' => 'required|image|mimes:png, jpg, jpeg, webp']);
+        $request->validate(['image' => 'required|image|mimes:png,jpg,jpeg,webp,jfif']);
         $img = $request->file('image');
         $fileType = $img->getClientOriginalExtension();
         // $fileName = $request->file('image')->getClientOriginalName();
@@ -43,8 +44,8 @@ class ImgCollectController extends Controller
 
         // todo: upload file to aws s3
         $uploadResult = (new S3Controller())->uploadFile($img->get(), $fileName, $postData['type'], $postData);
-        if ($uploadResult) {
-            $result->delete();
+        if (!$uploadResult) {
+            $uploadResult->delete();
             Storage::disk('image')->delete($fileName);
             return new Response('400', '', 'アップロード中にエラーが発生しました。');
         }

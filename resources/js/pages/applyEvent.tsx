@@ -52,6 +52,8 @@ const ApplyEvent = () => {
     const closePage = () => {
         if (close) {
             window.close();
+        } else {
+            setMsg("");
         }
     }
 

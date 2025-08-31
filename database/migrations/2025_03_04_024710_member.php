@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('desc');
             $table->string('streamUrl');
-            // $table->string('streamPlatform');
             $table->string('socialUrl');
-            // $table->string('socialPlatform');
             $table->integer('status', unsigned:false)->default(0);
             $table->text('rejectReason')->nullable();
             $table->dateTime('ctime')->useCurrent();

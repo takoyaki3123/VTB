@@ -20,7 +20,7 @@ import '../../../css/group.scss';
 import '../../../css/common.scss';
 import { useSelector } from "react-redux";
 import { reducerType } from "@/store";
-import { User } from "@/types";
+import { uploadParam, User } from "@/types";
 import { ADMIN_GROUP_MANAGE } from "../settings/globalConst";
 
 const GroupManage = () => {
@@ -35,6 +35,7 @@ const GroupManage = () => {
     const [desc, setDesc] = useState<string>("");
     const [selectGroup, setSelectGroup] = useState<string>("");
     const [groupImg, setGroupImg] = useState("");
+    const uploaderParam:uploadParam = {type: 'group'};
     const user = useSelector<reducerType, User>(state => state.user);
     const init = () => {
         if (user.manage_group != ADMIN_GROUP_MANAGE) {
@@ -143,15 +144,15 @@ const GroupManage = () => {
                 }
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="visual">ビジュアルダイアグラム</label>
-                    <Uploader setImgId={(id) => setImgId(id, 0)} className="form-control" id="visual" ref={visualRef} refChange={() => visualChange()} />
+                    <Uploader setImgId={(id) => setImgId(id, 0)} className="form-control" id="visual" ref={visualRef} refChange={() => visualChange()} param={uploaderParam}/>
                 </div>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">背景</label>
-                    <Uploader setImgId={(id) => setImgId(id, 1)} className="form-control" id="keyBackground" ref={backgroundRef} refChange={() => backgroundChange()} />
+                    <Uploader setImgId={(id) => setImgId(id, 1)} className="form-control" id="keyBackground" ref={backgroundRef} refChange={() => backgroundChange()} param={uploaderParam}/>
                 </div>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyCharacter">キャラ画像</label>
-                    <Uploader setImgId={(id) => setImgId(id, 2)} className="form-control" id="keyCharacter" ref={characterRef} refChange={() => characterChange()} />
+                    <Uploader setImgId={(id) => setImgId(id, 2)} className="form-control" id="keyCharacter" ref={characterRef} refChange={() => characterChange()} param={uploaderParam}/>
                 </div>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="desc">紹介文</label>

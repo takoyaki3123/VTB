@@ -19,7 +19,7 @@ class EventController extends Controller
             $query->select(['id','name as imgName']);
         }])
             ->where([['status', '=', true]])
-            ->get(['id', 'title', 'group_id', 'promotion_img_id'])
+            ->get(['id', 'title', 'group_id', 'img_id'])
             ->map(function ($event) {
                 $event['imgName'] = $event->promotionPic['imgName'];
                 unset($event->promotionPic);
@@ -79,7 +79,7 @@ class EventController extends Controller
             $query->select(['id','name as groupName']);
         }])
             ->where([['id', '=', $request->post()['body']['id']], ['status', '=', '1']])
-            ->get(['id', 'title', 'desc', 'link', 'start', 'end', 'group_id', 'promotion_img_id'])
+            ->get(['id', 'title', 'desc', 'link', 'start', 'end', 'group_id', 'img_id'])
             ->map(function ($eventData) {
                 $eventData['imgName'] = $eventData->promotionPic ? $eventData->promotionPic->imgName : null;
                 unset($eventData->promotionPic);
@@ -98,7 +98,7 @@ class EventController extends Controller
             $query->select(['id','name as imgName']);
         }])
             ->where([['status', '=', true], ['group_id', '=', $post['group_id']]])
-            ->get(['id', 'title', 'group_id', 'promotion_img_id'])
+            ->get(['id', 'title', 'group_id', 'img_id'])
             ->map(function ($event) {
                 $event['imgName'] = $event->promotionPic['imgName'];
                 unset($event->promotionPic);
@@ -131,7 +131,7 @@ class EventController extends Controller
             'end' => ['required'],
             'link' => ['required'],
             'desc' => ['required'],
-            'promotion_img_id' => ['required']
+            'img_id' => ['required']
         ]);
 
         if ($validate->failed()) {
@@ -160,7 +160,7 @@ class EventController extends Controller
             $event->title = $eventData['title'];
             $event->desc = $eventData['desc'];
             $event->link = $eventData['link'];
-            $event->promotion_img_id = $eventData['promotion_img_id'];
+            $event->img_id = $eventData['img_id'];
             $event->save();
             return new Response(200, [], '');
         } catch (\Throwable $th) {
@@ -185,7 +185,7 @@ class EventController extends Controller
                 $query->select(['id','name as groupName']);
             }])
             ->where([['id', '!=', '0'], ['status', '=', '0']])
-            ->get(['id', 'title', 'desc', 'link', 'ctime', 'start', 'end', 'group_id', 'promotion_img_id'])
+            ->get(['id', 'title', 'desc', 'link', 'ctime', 'start', 'end', 'group_id', 'img_id'])
             ->map(function ($event) {
                 $event['imgName'] = $event->promotionPic ? $event->promotionPic->imgName : null;
                 unset($event->thumbnail);
@@ -207,7 +207,7 @@ class EventController extends Controller
             'end' => ['required'],
             'link' => ['required'],
             'desc' => ['required'],
-            'promotion_img_id' => ['required']
+            'img_id' => ['required']
         ]);
 
         if ($validate->failed()) {
@@ -234,7 +234,7 @@ class EventController extends Controller
                 $event->title = $eventData['title'];
                 $event->desc = $eventData['desc'];
                 $event->link = $eventData['link'];
-                $event->promotion_img_id = $eventData['promotion_img_id'];
+                $event->img_id = $eventData['img_id'];
                 $event->save();
                 return new Response(200, [], '');
             } else {
@@ -247,7 +247,7 @@ class EventController extends Controller
                 $event->title = $eventData['title'];
                 $event->desc = $eventData['desc'];
                 $event->link = $eventData['link'];
-                $event->promotion_img_id = $eventData['promotion_img_id'];
+                $event->img_id = $eventData['img_id'];
                 $event->apply_user = $request->user()['id'];
                 $event->save();
                 return new Response(200, [], '');

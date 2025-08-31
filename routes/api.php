@@ -45,6 +45,7 @@ Route::middleware(['auth:sanctum', CheckAdmin::class])->group(function () {
 
 Route::middleware(['auth:sanctum', CheckManage::class])->group(function () {
     Route::post('/updateMember', [MemberController::class, 'update']);
+    Route::post('/updateEvent', [EventController::class, 'update']);
     Route::post('/updateGroup', [GroupController::class, 'update']);
 });
 

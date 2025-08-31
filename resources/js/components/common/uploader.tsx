@@ -3,19 +3,20 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { uploadApi, uploadRes } from "@/lib/api";
+import { uploadParam } from "@/types";
 
-function Uploader({ className, id, ref, setImgId, refChange }: {className:string, id:string, ref:React.RefObject<HTMLInputElement | null>, setImgId:(id:number) => void, refChange:(ref: React.RefObject<HTMLInputElement | null>)=>void}) {
+function Uploader({ className, id, ref, setImgId, refChange, param, setPath }: {className:string, id:string, ref:React.RefObject<HTMLInputElement | null>, setImgId:(id:number) => void, refChange:(ref: React.RefObject<HTMLInputElement | null>)=>void, param: uploadParam, setPath?:(path:string) => void}) {
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         refChange(ref);
         if(e.target!.files![0]) {
-            uploadApi("uploadImg",{'image': e.target.files![0]})
+            uploadApi("uploadImg",{'image': e.target.files![0], ...param})
             .then((res: uploadRes) => {
                 if(res.data.msg){
                     alert("upload fail!");
                 }
-                console.log(res.data);
-                console.log(res.data.id);
-                
+                if (setPath) {
+                    setPath(res.data.path);
+                }
                 setImgId(res.data.id);
             });
         }

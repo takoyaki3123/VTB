@@ -13,13 +13,13 @@ import { shuffle } from '@/lib/utils';
 import '../../css/common.scss';
 import '../../css/home.scss';
 
-import { Event, Group } from '@/types';
+import { EventListType, Group } from '@/types';
 
 export default function Home() {
     const [bg,setBg] = useState("");
     const [character,setCharacter] = useState("");
     const [groups, setGroups] = useState<Array<Group>>([]);
-    const [event, setEvent] = useState<Array<Event>>([]);
+    const [event, setEvent] = useState<Array<EventListType>>([]);
     // データーをとる
     // 1.キービジョン
     // 2.グループ関連

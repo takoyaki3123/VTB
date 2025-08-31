@@ -59,8 +59,9 @@ export interface mutationOption {
 }
 
 export interface carouselType {
-    name: string;
     imgName: string;
+    title?: string;
+    name?: string;
     link?: string;
 };
 
@@ -70,11 +71,30 @@ export type Group = {
     [key: string]: any,
 };
 
-export type Event = {
+export type EventListType = {
     id: number,
     group_id: number,
     imgName: string,
-    name: string,
+    title: string,
 };
 
+export type Event = {
+    id: number,
+    title: string,
+    desc: string,
+    link: string,
+    start: string,
+    end: string,
+    group_id: number,
+    groupName: string,
+    img_id: number,
+    imgName: string,
+    rejectReason: string,
+    status: number,
+};
+
+export type uploadParam = {
+    type: string,
+    group?: number,
+}
 // todo: use type to process all variable

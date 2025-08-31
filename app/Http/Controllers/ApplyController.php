@@ -59,7 +59,7 @@ class ApplyController extends Controller
                 $query->select(['id','name as groupName']);
             }])
                 ->where([['status', '!=', '1'], ['apply_user', '=', $request->user()['id']]])
-                ->get(['id', 'title', 'desc', 'link', 'start', 'end', 'reject_reason', 'ctime', 'status', 'group_id', 'promotion_img_id'])
+                ->get(['id', 'title', 'desc', 'link', 'start', 'end', 'reject_reason', 'ctime', 'status', 'group_id', 'img_id'])
                 ->map(function ($event) {
                     $event['imgName'] = $event->promotionPic ? $event->promotionPic->imgName : null;
                     unset($event->promotionPic);

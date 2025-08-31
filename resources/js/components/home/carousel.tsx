@@ -22,13 +22,13 @@ const Carousel = <T extends carouselType>({ items = [] }: { items: Array<T> }) =
                             <a href={item.link}>
                                 <div className="carousel-item-container d-flex justify-content-center flex-wrap">
                                     <img src={"/storage/image/" + item.imgName} className="d-block w-100" alt="..." />
-                                    <h4 className="mx-auto my-0">{item.name}</h4>
+                                    <h4 className="mx-auto my-0">{item.title ? item.title : item.name}</h4>
                                 </div>
                             </a>
                             :
                             <div className="carousel-item-container d-flex justify-content-center flex-wrap">
                                 <img src={"/storage/image/" + item.imgName} className="d-block w-100" alt="..." />
-                                <h4 className="mx-auto my-0">{item.name}</h4>
+                                <h4 className="mx-auto my-0">{item.title ? item.title : item.name}</h4>
                             </div>
                             }
                         </div>

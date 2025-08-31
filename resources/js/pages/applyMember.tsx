@@ -16,6 +16,7 @@ import { memberVO } from "./vo";
 import { baseApi } from "@/lib/api";
 // scss
 import '../../css/common.scss'
+import { uploadParam } from "@/types";
 
 //グループメンバー増加の申請、管理者が許可と修正をする
 const ApplyMember = () => {
@@ -24,6 +25,7 @@ const ApplyMember = () => {
     const [groupOpen, setGroupOpen] = useState(false);
     const [groupList, setGroupList] = useState<any[]>([]);
     const [selectGroup, setSelectGroup] = useState<string>("");
+    const [uploaderParam, setUploaderParam] = useState<uploadParam>({type: 'member'});
     const [close, setClose] = useState(false);
     const avatarImgRef = useRef<HTMLInputElement>(null);
     const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
@@ -91,6 +93,11 @@ const ApplyMember = () => {
         }
     }
 
+    const groupChange = (groupId: string) => {
+        updateVo(groupId, 'group_id');
+        setSelectGroup(groupId);
+        setUploaderParam({...uploaderParam, group: parseInt(groupId)});
+    }
     useEffect(() => {
         init();
     }, [])
@@ -101,7 +108,7 @@ const ApplyMember = () => {
                 <h1 className="h3 mb-3 fw-normal text-center">メンバー増加申請</h1>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">所属グループ</label>
-                    <Select onValueChange={(v) => {updateVo(v, 'group_id');setSelectGroup(v)}} open={groupOpen} onOpenChange={setGroupOpen} value={selectGroup}>
+                    <Select onValueChange={(v) => {groupChange(v);}} open={groupOpen} onOpenChange={setGroupOpen} value={selectGroup}>
                         <SelectTrigger onClick={() => setGroupOpen(!groupOpen)}>
                             <SelectValue placeholder="Select an option..." />
                         </SelectTrigger>
@@ -129,7 +136,7 @@ const ApplyMember = () => {
                     <label htmlFor="socialUrl">SNS</label>
                 </div>
                 <div className="input-group mb-3">
-                    <Uploader setImgId={(id) => setImgId(id)} className="form-control" id="keyCharacter" ref={avatarImgRef} refChange={() => setImgVo()} />
+                    <Uploader setImgId={(id) => setImgId(id)} className="form-control" id="keyCharacter" ref={avatarImgRef} refChange={() => setImgVo()} param={uploaderParam}/>
                     <label className="input-group-text" htmlFor="keyCharacter">宣伝画像</label>
                 </div>
                 <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>申請</button>

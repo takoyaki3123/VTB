@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Aws\S3\S3Controller;
 use App\Http\Exception\Response;
 use App\Models\ImgCollectModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ImgCollectController extends Controller
 {
@@ -22,17 +24,30 @@ class ImgCollectController extends Controller
      */
     public function store(Request $request)
     {
+        $postData = $request->post()['body'];
         // todo: upload file
-        $fileName = $request->file('image')->getClientOriginalName();
-        $fileType = $request->file('image')->getClientOriginalExtension();
-        $size = $request->file('image')->getSize();
-        $exists = Storage::exists('app/public/image'.$fileName);
-        if (!$exists) {
-          Storage::disk('image')->put($fileName, $request->file('image')->get());
-        }
-        // todo: create file data
-        $result = ImgCollectModel::firstOrCreate(['name'=>$fileName,'type'=>$fileType,'size'=>$size])->toArray();
+        $request->validate(['image' => 'required|image|mimes:png, jpg, jpeg, webp']);
+        $img = $request->file('image');
+        $fileType = $img->getClientOriginalExtension();
+        // $fileName = $request->file('image')->getClientOriginalName();
+        $fileName = time() . '.' . $fileType;
+        $size = $img->getSize();
 
+        $exists = Storage::exists('app/public/image/' . $fileName);
+        if (!$exists) {
+          Storage::disk('image')->put($fileName, $img->get());
+        }
+
+        // todo: create file data
+        $result = ImgCollectModel::firstOrCreate(['name' => $fileName, 'type' => $fileType, 'size' => $size])->toArray();
+
+        // todo: upload file to aws s3
+        $uploadResult = (new S3Controller())->uploadFile($img->get(), $fileName, $postData['type'], $postData);
+        if ($uploadResult) {
+            $result->delete();
+            Storage::disk('image')->delete($fileName);
+            return new Response('400', '', 'アップロード中にエラーが発生しました。');
+        }
         return new Response('200', $result, '');
     }
 

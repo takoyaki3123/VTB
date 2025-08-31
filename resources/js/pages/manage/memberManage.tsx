@@ -17,6 +17,7 @@ import { baseApi, uploadRes } from '@/lib/api';
 // scss
 import '../../../css/common.scss';
 import '../../../css/member.scss';
+import { uploadParam } from '@/types';
 
 const MemberManage = (props: {id: number}) => {
     const avatarImgRef = useRef<HTMLInputElement>(null);
@@ -30,6 +31,7 @@ const MemberManage = (props: {id: number}) => {
     const [vo, setVo] = useState<typeof memberVO>({...memberVO});
     const [originVo, setOriginVo] = useState<typeof memberVO>({...memberVO});
     const [msg, setMsg] = useState("");
+    const [uploaderParam, setUploaderParam] = useState<uploadParam>({type: 'member'});
     // init
     const init = () => {
         getMember();
@@ -43,8 +45,9 @@ const MemberManage = (props: {id: number}) => {
             setName(res.data.name);
             setScoialUrl(res.data.socialUrl);
             setStreamUrl(res.data.streamUrl);
-            setVo({...vo, id: res.data.id, desc: res.data.desc, name: res.data.name, socialUrl: res.data.socialUrl, streamUrl: res.data.streamUrl, avatar: {...vo.avatar, id: res.data.img_id, name: res.data.imgName}});
-            setOriginVo({...vo, id: res.data.id, desc: res.data.desc, name: res.data.name, socialUrl: res.data.socialUrl, streamUrl: res.data.streamUrl, avatar: {...vo.avatar, id: res.data.img_id, name: res.data.imgName}});
+            setVo({...vo, id: res.data.id, group_id: res.data.group_id, desc: res.data.desc, name: res.data.name, socialUrl: res.data.socialUrl, streamUrl: res.data.streamUrl, avatar: {...vo.avatar, id: res.data.img_id, name: res.data.imgName}});
+            setOriginVo({...vo, id: res.data.id, group_id: res.data.group_id, desc: res.data.desc, name: res.data.name, socialUrl: res.data.socialUrl, streamUrl: res.data.streamUrl, avatar: {...vo.avatar, id: res.data.img_id, name: res.data.imgName}});
+            setUploaderParam({...uploaderParam, group: res.data.group_id});
         });
     }
 
@@ -129,7 +132,7 @@ const MemberManage = (props: {id: number}) => {
                         <label htmlFor="socialUrl">SNS</label>
                     </div>
                     <div className="input-group mb-3">
-                        <Uploader setImgId={(id) => setImgId(id)} className="form-control" id="keyCharacter" ref={avatarImgRef} refChange={(ref: RefObject<HTMLInputElement | null>) => setImgVo(ref)} />
+                        <Uploader setImgId={(id) => setImgId(id)} className="form-control" id="keyCharacter" ref={avatarImgRef} refChange={(ref: RefObject<HTMLInputElement | null>) => setImgVo(ref)} param={uploaderParam}/>
                         <label className="input-group-text" htmlFor="keyCharacter">宣伝画像</label>
                     </div>
                     <img src={'/storage/image/' + vo.avatar?.name} alt="no img" className='thumbnail'/>

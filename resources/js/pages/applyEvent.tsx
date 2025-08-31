@@ -15,6 +15,7 @@ import '../../css/common.scss'
 import { eventVO } from "./vo";
 import { renderTimeViewClock } from "@mui/x-date-pickers";
 import moment from "moment";
+import { uploadParam } from "@/types";
 const ApplyEvent = () => {
     const [vo, setVo] = useState<typeof eventVO>({...eventVO});
     const [close, setClose] = useState(false);
@@ -22,6 +23,7 @@ const ApplyEvent = () => {
     const [msg, setMsg] = useState("");
     const [groupList, setGroupList] = useState<any[]>([]);
     const [selectGroup, setSelectGroup] = useState<string>("");
+    const [uploaderParam, setUploaderParam] = useState<uploadParam>({type: 'event'});
     const promotionImgRef = useRef<HTMLInputElement>(null);
     const footerChild = <DialogCloseButton text="閉じる"></DialogCloseButton>;
 
@@ -72,12 +74,18 @@ const ApplyEvent = () => {
         });
     }
 
+    const groupChange = (groupId: string) => {
+        updateVo(groupId, 'group_id');
+        setSelectGroup(groupId);
+        setUploaderParam({...uploaderParam, group: parseInt(groupId)});
+    }
+
     const checkVo = () => {
         if (vo.title == '' || vo.link == '' || vo.desc == '' || vo.start == null || vo.end == null) {
             setMsg("入力していない資料があります");
             return false;
-        } else if (vo.promotion_img_id != null) {
-            if (vo.promotion_img_id! <= 0 || vo.promotion_img_id == null) {
+        } else if (vo.img_id != null) {
+            if (vo.img_id! <= 0 || vo.img_id == null) {
                 setMsg("宣伝画像に問題を生じました");
                 return false;
             }
@@ -100,7 +108,7 @@ const ApplyEvent = () => {
                 <h1 className="h3 mb-3 fw-normal text-center">イベント増加申請</h1>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">開催グループ</label>
-                    <Select onValueChange={(v) => {updateVo(v, 'group_id');setSelectGroup(v)}} open={groupOpen} onOpenChange={setGroupOpen} value={selectGroup}>
+                    <Select onValueChange={(v) => {groupChange(v);}} open={groupOpen} onOpenChange={setGroupOpen} value={selectGroup}>
                         <SelectTrigger onClick={() => setGroupOpen(!groupOpen)}>
                             <SelectValue placeholder="Select an option..." />
                         </SelectTrigger>
@@ -124,7 +132,14 @@ const ApplyEvent = () => {
                     <label htmlFor="streamUrl">関連リンク</label>
                 </div>
                 <div className="input-group mb-3">
-                    <Uploader setImgId={(id) => updateVo(id, 'promotion_img_id')} className="form-control" id="keyCharacter" ref={promotionImgRef} refChange={() => setImgVo()} />
+                    <Uploader
+                        setImgId={(id) => updateVo(id, 'img_id')}
+                        className="form-control"
+                        id="keyCharacter"
+                        ref={promotionImgRef}
+                        refChange={() => setImgVo()}
+                        param={uploaderParam}
+                    />
                     <label className="input-group-text" htmlFor="keyCharacter">宣伝画像</label>
                 </div>
                 <div className="input-group mb-3">

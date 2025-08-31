@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { HomeVO } from '../vo';
 import { Uploader } from '@/components/common/uploader';
 import AppLayout from '@/layouts/app-layout';
-import { Event, Group } from '@/types';
+import { Event, Group, uploadParam } from '@/types';
 
 //function
 import { shuffle } from '@/lib/utils';
@@ -21,6 +21,7 @@ import '../../../css/home.scss';
 // 輪播是所有group都播
 // 輪播的圖由group頁面修改
 const HomeManage = () => {
+    const uploaderParam:uploadParam = {type: 'home'};
     const [vo, setVo] = useState<typeof HomeVO>({ ...HomeVO });
     const backgroundRef = useRef<HTMLInputElement>(null);
     const characterRef = useRef<HTMLInputElement>(null);
@@ -77,11 +78,11 @@ const HomeManage = () => {
             <div className='manageContainer'>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyBackground">背景</label>
-                    <Uploader setImgId={(id) => setImgId(id, 0)} className="form-control" id="keyBackground" ref={backgroundRef} refChange={() => backgroundChange()} />
+                    <Uploader setImgId={(id) => setImgId(id, 0)} className="form-control" id="keyBackground" ref={backgroundRef} refChange={() => backgroundChange()} param={uploaderParam}/>
                 </div>
                 <div className="input-group mb-3">
                     <label className="input-group-text" htmlFor="keyCharacter">キャラ画像</label>
-                    <Uploader setImgId={(id) => setImgId(id, 1)} className="form-control" id="keyCharacter" ref={characterRef} refChange={() => characterChange()} />
+                    <Uploader setImgId={(id) => setImgId(id, 1)} className="form-control" id="keyCharacter" ref={characterRef} refChange={() => characterChange()} param={uploaderParam}/>
                 </div>
                 <Button type="button" className="btn btn-primary" onClick={() => upload()}>確認</Button>
             </div>

@@ -20,7 +20,7 @@ return new class extends Migration
         Schema::table('events', function (Blueprint $table) {
             //$table->foreignId('column name')->constrained('target table name', 'target column name');
             $table->foreignId('group_id')->constrained('Group', 'id', 'event_group_id_foreign');
-            $table->foreignId('promotion_img_id')->constrained('ImgCollect', 'id', 'event_promotion_img_id_foreign');
+            $table->foreignId('img_id')->constrained('ImgCollect', 'id', 'event_img_id_foreign');
             $table->foreignId('apply_user')->nullable()->constrained('users', 'id', 'event_apply_user_foreign');
         });
         Schema::table('Group', function (Blueprint $table) {
@@ -53,7 +53,7 @@ return new class extends Migration
         Schema::table('events', function (Blueprint $table) {
             // {tablename}_{foreign key name}_foreign
             $table->dropForeign('event_group_id_foreign');
-            $table->dropForeign('event_promotion_img_id_foreign');
+            $table->dropForeign('event_img_id_foreign');
             $table->dropForeign('event_apply_user_foreign');
         });
         Schema::table('Group', function (Blueprint $table) {

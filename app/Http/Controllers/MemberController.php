@@ -43,7 +43,7 @@ class MemberController extends Controller
         $member = MemberModel::with(['thumbnail' => function ($query) {
             $query->select(['id','name as imgName']);
         }])->where([['id', '=', $request->post()['body']['id']], ['status', '=', '1']])
-            ->get(['id', 'name', 'socialUrl', 'streamUrl', 'desc', 'img_id'])
+            ->get(['id', 'group_id', 'name', 'socialUrl', 'streamUrl', 'desc', 'img_id'])
             ->map(function ($memberData) {
                 $memberData['imgName'] = $memberData->thumbnail ? $memberData->thumbnail->imgName : null;
                 unset($memberData->thumbnail);

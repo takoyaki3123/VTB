@@ -1,3 +1,5 @@
+import { Event } from "@/types";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface HomeVO {
     id: number;
@@ -87,14 +89,21 @@ type EventVO = {
     reject_Reason: string,
     start?: string,
     end?: string,
-    promotion_img_id?: number,
+    img_id?: number,
     imgName?: string,
     group_id?: number,
 }
-export const eventVO: EventVO = {
+export const eventVO: Event = {
+    id: 0,
+    title: '',
     desc: '',
     link: '',
-    title: '',
     status: 0,
-    reject_Reason: '',
+    rejectReason: '',
+    start: "",
+    end: "",
+    group_id: 0,
+    groupName: "",
+    img_id: 0,
+    imgName: ""
 }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Editor from "@/components/common/editor";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // component
 import { Uploader } from "@/components/common/uploader";
@@ -16,6 +16,7 @@ import { baseApi } from "@/lib/api";
 
 // scss
 import '../../css/common.scss'
+import { uploadParam } from "@/types";
 
 //グループ増加の申請、管理者が許可と修正をする
 const ApplyGroup = () => {
@@ -25,6 +26,7 @@ const ApplyGroup = () => {
     const kvBgRef = useRef<HTMLInputElement>(null);
     const kvChRef = useRef<HTMLInputElement>(null);
     const groupImgRef = useRef<HTMLInputElement>(null);
+    const uploaderParam:uploadParam = {type: 'group'};
     const updateVo = (value: string|{[key:string]:any}, key: string) => {
         setVo({...vo, [key]:value})
     }
@@ -92,15 +94,15 @@ const ApplyGroup = () => {
                     <Editor value={vo.desc} show={true} setValue={(val?: string) => {updateVo(val!, 'desc')}} />
                 </div>
                 <div className="input-group mb-3">
-                    <Uploader setImgId={(id) => setImgId(id, 'visual')} className="form-control" id="keyVisual" ref={groupImgRef} refChange={() => setImgVo()} />
+                    <Uploader setImgId={(id) => setImgId(id, 'visual')} className="form-control" id="keyVisual" ref={groupImgRef} refChange={() => setImgVo()} param={uploaderParam}/>
                     <label className="input-group-text" htmlFor="keyVisual">宣伝画像</label>
                 </div>
                 <div className="input-group mb-3">
-                    <Uploader setImgId={(id) => setImgId(id, 'background')} className="form-control" id="keyBackground" ref={kvBgRef} refChange={() => setImgVo()} />
+                    <Uploader setImgId={(id) => setImgId(id, 'background')} className="form-control" id="keyBackground" ref={kvBgRef} refChange={() => setImgVo()} param={uploaderParam}/>
                     <label className="input-group-text" htmlFor="keyBackground">背景画像</label>
                 </div>
                 <div className="input-group mb-3">
-                    <Uploader setImgId={(id) => setImgId(id, 'character')} className="form-control" id="keyCharacter" ref={kvChRef} refChange={() => setImgVo()} />
+                    <Uploader setImgId={(id) => setImgId(id, 'character')} className="form-control" id="keyCharacter" ref={kvChRef} refChange={() => setImgVo()} param={uploaderParam}/>
                     <label className="input-group-text" htmlFor="keyCharacter">キャラ画像</label>
                 </div>
                 <button className="w-100 btn btn-lg btn-primary" onClick={() => apply()}>申請</button>

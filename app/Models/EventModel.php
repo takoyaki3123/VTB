@@ -10,7 +10,7 @@ class EventModel extends Model
 {
     //
     protected $fillable = [
-        'promotion_img_id',
+        'img_id',
         'group_id',
         'title',
         'desc',
@@ -29,7 +29,7 @@ class EventModel extends Model
     protected $table = 'Events';
 
     public function promotionPic(): HasOne{
-        return $this->hasOne(ImgCollectModel::class, 'id', 'promotion_img_id');
+        return $this->hasOne(ImgCollectModel::class, 'id', 'img_id');
     }
     
     public function host(): BelongsTo{
